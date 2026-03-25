@@ -70,9 +70,27 @@
     .spec-text { color: var(--muted); }
     
     .empty-state { text-align: center; color: var(--muted); font-family: var(--font-mono); margin: auto; padding: 4rem 0; }
+    
+    .resistor-calc { margin-top: 1.5rem; background: rgba(255,255,255,0.6); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
+    .calc-title { font-family: var(--font-mono); font-size: .85rem; font-weight: 700; color: var(--text); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: .05em; }
+    .band-controls { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem; margin-bottom: 1rem; }
+    .band-group { display: flex; flex-direction: column; gap: 0.25rem; }
+    .band-label { font-size: 0.7rem; color: var(--muted); font-family: var(--font-mono); font-weight: 600; text-transform: uppercase; }
+    .band-select { font-family: var(--font-body); padding: 0.4rem; border-radius: 6px; border: 1px solid var(--border-dark); font-size: 0.8rem; background: #fff; cursor: pointer; outline: none; }
+    .calc-result { background: var(--surface); padding: 1rem; border-radius: 8px; border: 1px dashed var(--border-dark); text-align: center; font-family: var(--font-mono); display: flex; flex-direction: column; gap: 0.25rem; }
+    .calc-value { font-size: 1.5rem; font-weight: 700; color: var(--blue); }
+    .calc-range { font-size: 0.8rem; color: var(--muted); }
 
     @media(max-width:900px){ .lab-grid{grid-template-columns:1fr;} .insp-body{grid-template-columns:1fr;} .nav-links{display:none;} }
-  </style>
+  
+    .dropdown { position: relative; display: flex; align-items: center; }
+    .dropdown-content { visibility: hidden; opacity: 0; position: absolute; top: 100%; left: 50%; transform: translate(-50%, 10px); padding-top: 24px; min-width: 240px; z-index: 101; transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s; }
+    .dropdown-content.show { visibility: visible; opacity: 1; transform: translate(-50%, 0); }
+    .dropdown-menu { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 16px; padding: 8px 0; box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column; }
+    .nav-links .dropdown-menu a { padding: 10px 22px; color: #333; font-size: 14px; font-weight: 500; transition: background 0.2s, color 0.2s; white-space: nowrap; display: block; border-radius: 0; }
+    .nav-links .dropdown-menu a:hover { background: rgba(0, 0, 0, 0.04); color: #000; }
+
+</style>
 </head>
 <body>
 
@@ -84,7 +102,20 @@
     LogicFlow
   </a>
   <ul class="nav-links">
-    <li><a href="exp1_components.html" class="active">Experiments</a></li>
+    <li class="dropdown">
+        <a href="#" id="experimentDropdownBtn">Experiments ▼</a>
+        <div class="dropdown-content" id="experimentDropdown">
+          <div class="dropdown-menu">
+            <a href="exp1_components.html">1. Component Familiarization</a>
+            <a href="exp2_equipments.html">2. Measurement Equipment</a>
+            <a href="exp3_diode.html">3. PN Junction Diode</a>
+            <a href="exp4_zener.html">4. Zener Diode</a>
+            <a href="exp5_rectifier.html">5. Rectifiers</a>
+            <a href="exp6_flipflops.html">6. Flip-Flops</a>
+            <a href="exp7_bcd_decoder.html">7. BCD Decoder</a>
+          </div>
+        </div>
+      </li>
     <li><a href="sandbox.html">Logic Gates</a></li>
     <li><a href="coa.html">COA</a></li>
     <li><a href="curriculum.html">Curriculum</a></li>
@@ -99,7 +130,7 @@
         <span>›</span><span>Components & Equipment</span>
       </div>
       <h1>Electronic Components Inspector</h1>
-      <p>Familiarize yourself with the fundamental building blocks of electronic circuits. Select a component to view its physical appearance, schematic symbol, and operational details.</p>
+      <p>To familiarize with electronics components (resistor, capacitor, inductor, diode, LED, transistor, Multimeter, Breadboard etc.).</p>
     </div>
   </div>
 
@@ -118,6 +149,17 @@
 </div>
 
 <script>
+
+  // ── Dropdown Logic ──────────────────────────────────────────
+  document.addEventListener('DOMContentLoaded', () => {
+    const expBtn = document.getElementById('experimentDropdownBtn');
+    const expDropdown = document.getElementById('experimentDropdown');
+    if (expBtn && expDropdown) {
+      expBtn.addEventListener('click', (e) => { e.preventDefault(); expDropdown.classList.toggle('show'); });
+      document.addEventListener('click', (e) => { if (!e.target.closest('.dropdown')) expDropdown.classList.remove('show'); });
+    }
+  });
+
   // ── Animated Background ──────────────────────────────────────────
   (function () {
       const canvas = document.getElementById('bgCanvas');
@@ -166,7 +208,7 @@
       desc: 'A passive two-terminal electrical component that implements electrical resistance as a circuit element. Used to reduce current flow, adjust signal levels, and divide voltages.',
       specs: [
         'Color bands denote resistance value and tolerance (e.g. 1kΩ ±5%).',
-        'Follows Ohm\\'s Law: V = I × R.',
+        "Follows Ohm's Law: V = I × R.",
         'Power rating (typically ¼W, ½W) dictates maximum heat dissipation.'
       ],
       symbol: `<svg viewBox="0 0 100 40" width="80%"><line x1="10" y1="20" x2="30" y2="20" stroke="#111" stroke-width="2"/><polyline points="30,20 35,10 45,30 55,10 65,30 70,20" fill="none" stroke="#111" stroke-width="2" stroke-linejoin="round"/><line x1="70" y1="20" x2="90" y2="20" stroke="#111" stroke-width="2"/></svg>`,
@@ -356,6 +398,51 @@
 
     const c = COMPONENTS.find(x => x.id === id);
     
+    let extraHTML = '';
+    if (id === 'resistor') {
+      extraHTML = `
+        <div class="resistor-calc">
+          <div class="calc-title">5-Band Resistor Calculator</div>
+          <div class="band-controls">
+            <div class="band-group">
+              <span class="band-label">1st Digit</span>
+              <select class="band-select" id="band1" onchange="calcResistor()">
+                <option value="0">Black(0)</option><option value="1" selected>Brown(1)</option><option value="2">Red(2)</option><option value="3">Orange(3)</option><option value="4">Yellow(4)</option><option value="5">Green(5)</option><option value="6">Blue(6)</option><option value="7">Violet(7)</option><option value="8">Gray(8)</option><option value="9">White(9)</option>
+              </select>
+            </div>
+            <div class="band-group">
+              <span class="band-label">2nd Digit</span>
+              <select class="band-select" id="band2" onchange="calcResistor()">
+                <option value="0" selected>Black(0)</option><option value="1">Brown(1)</option><option value="2">Red(2)</option><option value="3">Orange(3)</option><option value="4">Yellow(4)</option><option value="5">Green(5)</option><option value="6">Blue(6)</option><option value="7">Violet(7)</option><option value="8">Gray(8)</option><option value="9">White(9)</option>
+              </select>
+            </div>
+            <div class="band-group">
+              <span class="band-label">3rd Digit</span>
+              <select class="band-select" id="band3" onchange="calcResistor()">
+                <option value="0" selected>Black(0)</option><option value="1">Brown(1)</option><option value="2">Red(2)</option><option value="3">Orange(3)</option><option value="4">Yellow(4)</option><option value="5">Green(5)</option><option value="6">Blue(6)</option><option value="7">Violet(7)</option><option value="8">Gray(8)</option><option value="9">White(9)</option>
+              </select>
+            </div>
+            <div class="band-group">
+              <span class="band-label">Multiplier</span>
+              <select class="band-select" id="band4" onchange="calcResistor()">
+                <option value="1">Black(x1)</option><option value="10" selected>Brown(x10)</option><option value="100">Red(x100)</option><option value="1000">Orange(x1k)</option><option value="10000">Yellow(x10k)</option><option value="100000">Green(x100k)</option><option value="1000000">Blue(x1M)</option><option value="10000000">Violet(x10M)</option><option value="100000000">Gray(x100M)</option><option value="1000000000">White(x1G)</option><option value="0.1">Gold(x0.1)</option><option value="0.01">Silver(x0.01)</option>
+              </select>
+            </div>
+            <div class="band-group">
+              <span class="band-label">Tolerance</span>
+              <select class="band-select" id="band5" onchange="calcResistor()">
+                <option value="1">Brown(±1%)</option><option value="2">Red(±2%)</option><option value="0.5">Green(±0.5%)</option><option value="0.25">Blue(±0.25%)</option><option value="0.1">Violet(±0.1%)</option><option value="0.05">Gray(±0.05%)</option><option value="5" selected>Gold(±5%)</option><option value="10">Silver(±10%)</option>
+              </select>
+            </div>
+          </div>
+          <div class="calc-result">
+            <div class="calc-value" id="resValue">1000 Ω ±5%</div>
+            <div class="calc-range" id="resRange">Range: 950 Ω - 1050 Ω</div>
+          </div>
+        </div>
+      `;
+    }
+
     inspEl.innerHTML = `
       <div class="insp-header">
         <div>
@@ -387,7 +474,39 @@
           `).join('')}
         </div>
       </div>
+      ${extraHTML}
     `;
+    
+    if (id === 'resistor') {
+      calcResistor();
+    }
+  }
+
+  window.calcResistor = function() {
+    const b1 = parseInt(document.getElementById('band1').value);
+    const b2 = parseInt(document.getElementById('band2').value);
+    const b3 = parseInt(document.getElementById('band3').value);
+    const multiplier = parseFloat(document.getElementById('band4').value);
+    const tolerance = parseFloat(document.getElementById('band5').value);
+
+    let baseVal = (b1 * 100) + (b2 * 10) + b3;
+    let resistance = baseVal * multiplier;
+    
+    function formatUnit(val) {
+      if (val >= 1e9) return parseFloat((val/1e9).toFixed(2)) + 'GΩ';
+      if (val >= 1e6) return parseFloat((val/1e6).toFixed(2)) + 'MΩ';
+      if (val >= 1e3) return parseFloat((val/1e3).toFixed(2)) + 'kΩ';
+      return parseFloat(val.toFixed(2)) + 'Ω';
+    }
+
+    const resResult = formatUnit(resistance) + ' ±' + tolerance + '%';
+    document.getElementById('resValue').innerText = resResult;
+
+    const error = resistance * (tolerance / 100);
+    const minRes = resistance - error;
+    const maxRes = resistance + error;
+
+    document.getElementById('resRange').innerText = 'Range: ' + formatUnit(minRes) + ' - ' + formatUnit(maxRes);
   }
 </script>
 </body>
