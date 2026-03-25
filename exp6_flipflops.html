@@ -169,14 +169,28 @@
         <div style="padding:1rem 1.5rem;border-bottom:1px solid #334155;background:#1e293b;display:flex;justify-content:space-between">
           <span class="panel-label" style="color:#94a3b8;margin:0">Live Timing Diagram</span>
         </div>
-        <div class="timing-wrap" style="border:none;border-radius:0;box-shadow:none;padding:0">
-          <div class="timing-labels" id="tLabels">
+        
+        <!-- Graph for D -->
+        <div class="timing-wrap" id="wrap-D" style="border:none;border-radius:0;box-shadow:none;padding:0;position:relative;">
+          <div class="timing-labels" style="position:absolute;top:0;left:1.5rem;display:flex;flex-direction:column;height:100%;pointer-events:none;justify-content:space-around;">
             <div class="t-label">CLK</div>
-            <div class="t-label" id="tLab1">D</div>
-            <div class="t-label" id="tLab2" style="display:none">K</div>
+            <div class="t-label">D</div>
             <div class="t-label" style="color:#F59E0B">Q</div>
+            <div class="t-label" style="color:#F43F5E">Q̅</div>
           </div>
-          <canvas id="timingCanvas" class="timing-canvas"></canvas>
+          <canvas id="timingCanvasD" class="timing-canvas"></canvas>
+        </div>
+
+        <!-- Graph for JK -->
+        <div class="timing-wrap" id="wrap-JK" style="border:none;border-radius:0;box-shadow:none;padding:0;position:relative;display:none;">
+          <div class="timing-labels" style="position:absolute;top:0;left:1.5rem;display:flex;flex-direction:column;height:100%;pointer-events:none;justify-content:space-around;">
+            <div class="t-label">CLK</div>
+            <div class="t-label">J</div>
+            <div class="t-label">K</div>
+            <div class="t-label" style="color:#F59E0B">Q</div>
+            <div class="t-label" style="color:#F43F5E">Q̅</div>
+          </div>
+          <canvas id="timingCanvasJK" class="timing-canvas"></canvas>
         </div>
       </div>
     </div>
@@ -245,16 +259,17 @@
         <div class="logic-switch" id="sw-D" onclick="toggle('D')"><span class="sw-label">D (Data)</span><div class="sw-track"><div class="sw-thumb"></div></div></div>
         <div class="logic-switch" style="opacity:0;pointer-events:none"></div>
       `;
-      document.getElementById('tLab1').textContent = 'D';
-      document.getElementById('tLab2').style.display = 'none';
+      document.getElementById('wrap-D').style.display = 'block';
+      document.getElementById('wrap-JK').style.display = 'none';
+      if(typeof resizeTiming === 'function') resizeTiming();
     } else {
       grid.innerHTML = `
         <div class="logic-switch" id="sw-J" onclick="toggle('J')"><span class="sw-label">J</span><div class="sw-track"><div class="sw-thumb"></div></div></div>
         <div class="logic-switch" id="sw-K" onclick="toggle('K')"><span class="sw-label">K</span><div class="sw-track"><div class="sw-thumb"></div></div></div>
       `;
-      document.getElementById('tLab1').textContent = 'J';
-      document.getElementById('tLab2').textContent = 'K';
-      document.getElementById('tLab2').style.display = 'block';
+      document.getElementById('wrap-D').style.display = 'none';
+      document.getElementById('wrap-JK').style.display = 'block';
+      if(typeof resizeTiming === 'function') resizeTiming();
     }
     state = { CLK:0, D:0, J:0, K:0, PRE:0, CLR:0, Q:0 };
     updateLEDs();
@@ -305,70 +320,83 @@
   }
 
   // ── Timing Diagram Canvas ──────────────────────────────────────────
-  const tCav = document.getElementById('timingCanvas');
-  const tCtx = tCav.getContext('2d');
-  function resizeTiming() { tCav.width = tCav.offsetWidth; tCav.height = tCav.offsetHeight; }
+  const tCavD = document.getElementById('timingCanvasD');
+  const tCtxD = tCavD.getContext('2d');
+  const tCavJK = document.getElementById('timingCanvasJK');
+  const tCtxJK = tCavJK.getContext('2d');
+  
+  function resizeTiming() { 
+    tCavD.width = tCavD.offsetWidth; tCavD.height = tCavD.offsetHeight; 
+    tCavJK.width = tCavJK.offsetWidth; tCavJK.height = tCavJK.offsetHeight;
+  }
   window.addEventListener('resize', resizeTiming);
 
-  // History buffer
-  const hist = [];
+  // History buffers
+  const histD = [];
+  const histJK = [];
   const maxHist = 200;
 
   function renderTiming() {
     // Poll state
-    hist.push({
-      clk: state.CLK,
-      in1: ffType === 'D' ? state.D : state.J,
-      in2: ffType === 'D' ? 0 : state.K, // 0 for D mode
-      q: state.Q
-    });
-    if (hist.length > maxHist) hist.shift();
+    if (ffType === 'D') {
+      histD.push({ clk: state.CLK, d: state.D, q: state.Q, qn: 1 - state.Q });
+      if (histD.length > maxHist) histD.shift();
+      
+      tCtxD.clearRect(0,0,tCavD.width,tCavD.height);
+      tCtxD.strokeStyle = '#334155'; tCtxD.lineWidth = 1; tCtxD.beginPath();
+      for(let i=1;i<=3;i++) { tCtxD.moveTo(0, i*(tCavD.height/4)); tCtxD.lineTo(tCavD.width, i*(tCavD.height/4)); }
+      tCtxD.stroke();
 
-    tCtx.clearRect(0,0,tCav.width,tCav.height);
-    
-    // Draw Grid lines
-    tCtx.strokeStyle = '#334155'; tCtx.lineWidth = 1; tCtx.beginPath();
-    for(let i=1;i<=3;i++) { tCtx.moveTo(0, i*(tCav.height/4)); tCtx.lineTo(tCav.width, i*(tCav.height/4)); }
-    tCtx.stroke();
+      const dx = tCavD.width / maxHist;
+      const h = tCavD.height;
+      drawWave(tCtxD, histD.map(x=>x.clk), 0, h/4, '#1A56DB', dx); // CLK
+      drawWave(tCtxD, histD.map(x=>x.d), h/4, h/4, '#10B981', dx); // D
+      drawWave(tCtxD, histD.map(x=>x.q), 2*(h/4), h/4, '#F59E0B', dx); // Q
+      drawWave(tCtxD, histD.map(x=>x.qn), 3*(h/4), h/4, '#F43F5E', dx); // Qn
+    } else {
+      histJK.push({ clk: state.CLK, j: state.J, k: state.K, q: state.Q, qn: 1 - state.Q });
+      if (histJK.length > maxHist) histJK.shift();
+      
+      tCtxJK.clearRect(0,0,tCavJK.width,tCavJK.height);
+      tCtxJK.strokeStyle = '#334155'; tCtxJK.lineWidth = 1; tCtxJK.beginPath();
+      for(let i=1;i<=4;i++) { tCtxJK.moveTo(0, i*(tCavJK.height/5)); tCtxJK.lineTo(tCavJK.width, i*(tCavJK.height/5)); }
+      tCtxJK.stroke();
 
-    const dx = tCav.width / maxHist;
-    const h = tCav.height;
-    
-    // Draw waves
-    drawWave(hist.map(x=>x.clk), 0, h/4, '#1A56DB', dx); // CLK Blue
-    drawWave(hist.map(x=>x.in1), h/4, h/4, '#10B981', dx); // D or J Green
-    if (ffType === 'JK') {
-      drawWave(hist.map(x=>x.in2), 2*(h/4), h/4, '#10B981', dx); // K Green
+      const dx = tCavJK.width / maxHist;
+      const h = tCavJK.height;
+      drawWave(tCtxJK, histJK.map(x=>x.clk), 0, h/5, '#1A56DB', dx); // CLK
+      drawWave(tCtxJK, histJK.map(x=>x.j), h/5, h/5, '#10B981', dx); // J
+      drawWave(tCtxJK, histJK.map(x=>x.k), 2*(h/5), h/5, '#10B981', dx); // K
+      drawWave(tCtxJK, histJK.map(x=>x.q), 3*(h/5), h/5, '#F59E0B', dx); // Q
+      drawWave(tCtxJK, histJK.map(x=>x.qn), 4*(h/5), h/5, '#F43F5E', dx); // Qn
     }
-    drawWave(hist.map(x=>x.q),   (ffType==='D'?2:3)*(h/4), h/4, '#F59E0B', dx); // Q Amber
 
     requestAnimationFrame(renderTiming);
   }
 
-  function drawWave(data, yOffset, laneHeight, color, dx) {
+  function drawWave(ctx, data, yOffset, laneHeight, color, dx) {
     if(!data.length) return;
-    tCtx.strokeStyle = color; tCtx.lineWidth = 2; tCtx.lineJoin = 'round';
-    tCtx.beginPath();
+    ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.lineJoin = 'round';
+    ctx.beginPath();
     const padY = 15;
     const yHigh = yOffset + padY;
     const yLow = yOffset + laneHeight - padY;
 
     // Start
-    tCtx.moveTo(0, data[0] ? yHigh : yLow);
+    ctx.moveTo(0, data[0] ? yHigh : yLow);
     for(let i=1; i<data.length; i++) {
       const prevV = data[i-1];
       const curV = data[i];
       const x = i * dx;
       
-      // Vertical transition
       if (prevV !== curV) {
-        tCtx.lineTo(x, prevV ? yHigh : yLow);
-        tCtx.lineTo(x, curV  ? yHigh : yLow);
+        ctx.lineTo(x, prevV ? yHigh : yLow);
+        ctx.lineTo(x, curV  ? yHigh : yLow);
       } else {
-        tCtx.lineTo(x, curV ? yHigh : yLow);
+        ctx.lineTo(x, curV ? yHigh : yLow);
       }
     }
-    tCtx.stroke();
+    ctx.stroke();
   }
 
   // Init
