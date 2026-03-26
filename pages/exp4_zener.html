@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" href="../Logo.png" type="image/png">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Zener Diode Lab — LogicFlow</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="../css/exp4_zener.css">
+</head>
+<body>
+
+<canvas id="bgCanvas" style="position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;"></canvas>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="../Logo.png" alt="LogicFlow Logo" class="logo-img">
+    LogicFlow
+  </a>
+  <ul class="nav-links">
+    <li class="dropdown">
+        <a href="#" id="experimentDropdownBtn">Experiments ▼</a>
+        <div class="dropdown-content" id="experimentDropdown">
+          <div class="dropdown-menu">
+            <a href="exp1_components.html">1. Component Familiarization</a>
+            <a href="exp2_equipments.html">2. Measurement Equipment</a>
+            <a href="exp3_diode.html">3. PN Junction Diode</a>
+            <a href="exp4_zener.html">4. Zener Diode</a>
+            <a href="exp5_rectifier.html">5. Rectifiers</a>
+            <a href="exp6_flipflops.html">6. Flip-Flops</a>
+            <a href="exp7_bcd_decoder.html">7. BCD Decoder</a>
+          </div>
+        </div>
+      </li>
+    <li><a href="sandbox.html">Logic Gates</a></li>
+    <li><a href="coa.html">COA</a></li>
+    <li><a href="curriculum.html">Curriculum</a></li>
+  </ul>
+</nav>
+
+<div class="page">
+  <div class="page-header">
+    <div>
+      <div class="breadcrumb">
+        <span class="badge">Experiment 04</span>
+        <span>›</span><span>Diode Applications</span>
+      </div>
+      <h1>Zener Diode Voltage Regulator</h1>
+      <p>Analyze how a Zener diode maintains a constant output voltage despite variations in input voltage (Line Regulation) and load resistance (Load Regulation).</p>
+    </div>
+  </div>
+
+  <div class="lab-grid">
+    <div style="display:flex;flex-direction:column;gap:1.5rem">
+      <div class="panel">
+        <div class="panel-label">Circuit Parameters</div>
+        
+        <div class="slider-wrap">
+          <div class="slider-head"><span class="slider-title">Input Voltage (Vin)</span><span class="slider-val" id="lbl-vin">0.0 V</span></div>
+          <input type="range" id="sid-vin" min="0" max="15" step="0.1" value="0" oninput="updateLab()">
+          <div class="slider-range"><span>0V</span><span>15V</span></div>
+        </div>
+
+        <div class="slider-wrap">
+          <div class="slider-head"><span class="slider-title">Series Resistance (Rs)</span><span class="slider-val" id="lbl-rs" style="color:var(--amber)">220 Ω</span></div>
+          <input type="range" id="sid-rs" min="50" max="1000" step="10" value="220" oninput="updateLab()" style="accent-color:var(--amber)">
+          <div class="slider-range"><span>50Ω</span><span>1kΩ</span></div>
+        </div>
+
+        <div class="slider-wrap">
+          <div class="slider-head"><span class="slider-title">Load Resistance (RL)</span><span class="slider-val" id="lbl-rl" style="color:var(--blue)">1000 Ω</span></div>
+          <input type="range" id="sid-rl" min="100" max="10000" step="100" value="1000" oninput="updateLab()" style="accent-color:var(--blue)">
+          <div class="slider-range"><span>100Ω</span><span>10kΩ</span></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-label">Component Data</div>
+        <div class="param-row"><span class="param-key">Zener Breakdown (Vz)</span><span class="param-val">5.1 V</span></div>
+        <div class="param-row"><span class="param-key">Max Power Dissipation</span><span class="param-val">500 mW</span></div>
+        <div class="param-row"><span class="param-key">Knee Current (Iz_min)</span><span class="param-val">1 mA</span></div>
+      </div>
+    </div>
+
+    <div class="chart-panel">
+      <!-- CIRCUIT METERS -->
+      <div class="panel" style="padding:1.25rem">
+        <div class="meter-grid">
+          <div class="meter-card">
+            <div class="meter-key">LOAD VOLTAGE (Vout)</div>
+            <div class="meter-val" id="m-vout" style="color:var(--green)">0.00 V</div>
+          </div>
+          <div class="meter-card">
+            <div class="meter-key">ZENER CURRENT (Iz)</div>
+            <div class="meter-val" id="m-iz" style="color:var(--purple)">0.00 mA</div>
+          </div>
+          <div class="meter-card">
+            <div class="meter-key">LOAD CURRENT (IL)</div>
+            <div class="meter-val" id="m-il" style="color:var(--blue)">0.00 mA</div>
+          </div>
+          <div class="meter-card">
+            <div class="meter-key">POWER DISSIPATION (Pz)</div>
+            <div class="meter-val" id="m-power" style="color:var(--amber)">0.00 mW</div>
+          </div>
+        </div>
+
+        <div class="status-card" id="statusCard">
+            <!-- Dynamic State -->
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
+        <!-- CIRCUIT DIAGRAM -->
+        <div class="circuit-box">
+          <svg viewBox="0 0 300 160" width="100%">
+            <!-- Input Vin -->
+            <circle cx="20" cy="40" r="3" fill="#F43F5E"/><circle cx="20" cy="120" r="3" fill="#111"/>
+            <text x="10" y="85" fill="#F43F5E" font-family="JetBrains Mono" font-size="12" font-weight="bold">Vin</text>
+            <text x="5" y="44" fill="#F43F5E" font-family="JetBrains Mono" font-size="14">+</text>
+            <text x="5" y="124" fill="#111" font-family="JetBrains Mono" font-size="14">-</text>
+
+            <!-- Wiring -->
+            <line x1="20" y1="40" x2="80" y2="40" stroke="#111" stroke-width="2"/>
+            <line x1="20" y1="120" x2="260" y2="120" stroke="#111" stroke-width="2"/>
+            
+            <!-- Rs -->
+            <rect x="80" y="32" width="40" height="16" rx="2" fill="#fff" stroke="#F59E0B" stroke-width="2"/>
+            <text x="100" y="44" fill="#F59E0B" font-family="JetBrains Mono" font-size="10" font-weight="bold" text-anchor="middle">Rs</text>
+            <line x1="120" y1="40" x2="180" y2="40" stroke="#111" stroke-width="2"/>
+            
+            <!-- Zener Branch -->
+            <line x1="180" y1="40" x2="180" y2="60" stroke="#111" stroke-width="2"/>
+            <line x1="180" y1="100" x2="180" y2="120" stroke="#111" stroke-width="2"/>
+            <!-- Zener Symbol -->
+            <polygon points="180,100 170,80 190,80" fill="#7C3AED"/>
+            <line x1="165" y1="75" x2="170" y2="80" stroke="#7C3AED" stroke-width="2"/>
+            <line x1="170" y1="80" x2="190" y2="80" stroke="#7C3AED" stroke-width="2"/>
+            <line x1="190" y1="80" x2="195" y2="85" stroke="#7C3AED" stroke-width="2"/>
+            <text x="160" y="93" fill="#7C3AED" font-family="JetBrains Mono" font-size="10" font-weight="bold">Dz</text>
+
+            <line x1="180" y1="40" x2="260" y2="40" stroke="#111" stroke-width="2"/>
+            
+            <!-- RL -->
+            <line x1="260" y1="40" x2="260" y2="60" stroke="#111" stroke-width="2"/>
+            <line x1="260" y1="100" x2="260" y2="120" stroke="#111" stroke-width="2"/>
+            <rect x="252" y="60" width="16" height="40" rx="2" fill="#fff" stroke="#1A56DB" stroke-width="2"/>
+            <text x="275" y="84" fill="#1A56DB" font-family="JetBrains Mono" font-size="10" font-weight="bold">RL</text>
+
+            <!-- Vout -->
+            <text x="280" y="44" fill="#10B981" font-family="JetBrains Mono" font-size="12" font-weight="bold">+</text>
+            <text x="285" y="84" fill="#10B981" font-family="JetBrains Mono" font-size="10" font-weight="bold" text-anchor="middle">Vout</text>
+            <text x="280" y="124" fill="#111" font-family="JetBrains Mono" font-size="14">-</text>
+          </svg>
+        </div>
+
+        <!-- GRAPH -->
+        <div class="chart-box">
+          <div class="panel-label" style="position:absolute;top:15px;left:15px;z-index:10">Voltage Transfer Curve</div>
+          <canvas id="regChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../js/exp4_zener.js"></script>
+</body>
+</html>

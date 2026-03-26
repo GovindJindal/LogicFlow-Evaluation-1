@@ -1,0 +1,379 @@
+* {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-color: #0d1222;
+      /* Dark indigo base */
+    }
+
+    /* MESH GRADIENT BACKGROUND */
+    .bg-mesh {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.9;
+      animation: drift 15s infinite alternate ease-in-out;
+    }
+
+    .blob-1 {
+      width: 80vw;
+      height: 80vh;
+      background: #7dd3fc;
+      /* Cyan */
+      top: -10vh;
+      left: 10vw;
+      animation-delay: 0s;
+    }
+
+    .blob-2 {
+      width: 60vw;
+      height: 60vw;
+      background: #2563eb;
+      /* Blue */
+      top: -20vh;
+      left: -20vw;
+      animation-delay: -5s;
+      animation-duration: 20s;
+      opacity: 0.7;
+    }
+
+    .blob-3 {
+      width: 70vw;
+      height: 55vh;
+      background: #4338ca;
+      /* Purple/Blue */
+      bottom: -15vh;
+      right: -10vw;
+      animation-delay: -10s;
+      animation-duration: 22s;
+    }
+
+    .blob-4 {
+      width: 40vw;
+      height: 40vh;
+      background: #ffffff;
+      /* Bright core */
+      top: 30vh;
+      left: 30vw;
+      filter: blur(100px);
+      opacity: 0.8;
+      animation-duration: 18s;
+    }
+
+    @keyframes drift {
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      50% {
+        transform: translate(2vw, 3vh) scale(1.05);
+      }
+
+      100% {
+        transform: translate(-2vw, -2vh) scale(0.95);
+      }
+    }
+
+    /* NAV - Matching Image Gradient Pill */
+    nav {
+      position: fixed;
+      top: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      width: 85%;
+      max-width: 1000px;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.05) 100%);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-right: 1px solid rgba(255, 255, 255, 0.05);
+      /* Fade out border on right */
+      border-radius: 50px;
+      padding: 8px 8px 8px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-logo {
+      font-family: 'Times New Roman', Times, serif;
+      font-weight: 700;
+      font-size: 22px;
+      color: #111;
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+      align-items: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links a {
+      color: #111;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: #000;
+      opacity: 0.7;
+    }
+
+    .dropdown {
+      position: relative;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .dropdown-content {
+      visibility: hidden;
+      opacity: 0;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translate(-50%, 10px);
+      padding-top: 24px;
+      min-width: 240px;
+      z-index: 101;
+      transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+    }
+
+    .dropdown-content.show {
+      visibility: visible;
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    .dropdown-menu {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 16px;
+      padding: 8px 0;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .nav-links .dropdown-menu a {
+      padding: 10px 22px;
+      color: #333;
+      font-size: 14px;
+      font-weight: 500;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+      display: block;
+    }
+
+    .nav-links .dropdown-menu a:hover {
+      background: rgba(0, 0, 0, 0.04);
+      color: #000;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+    }
+
+    .btn-enter {
+      background: #111628;
+      /* Deep dark navy */
+      color: #fff;
+      text-decoration: none;
+      font-size: 13.5px;
+      font-weight: 500;
+      padding: 14px 34px;
+      border-radius: 50px;
+      transition: background 0.2s, transform 0.15s;
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1), 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-enter:hover {
+      background: #1d2540;
+      transform: scale(1.02);
+    }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .hero-content {
+      text-align: center;
+      z-index: 10;
+      pointer-events: none;
+      max-width: 950px;
+      padding: 0 20px;
+      /* Adjust vertical centering */
+      margin-top: -5vh;
+    }
+
+    .hero-head h1 {
+      /* Massive sizing for LogicFlow */
+      font-size: clamp(54px, 17vw, 100px);
+      font-family: "OpenAI Sans", sans-serif;
+      font-weight: 500;
+      letter-spacing: -0.06em;
+      line-height: 1;
+      user-select: none;
+      margin-bottom: 8px;
+      color: #000000;
+      /* Logic is explicitly completely black */
+    }
+
+    .highlight-text {
+      /* Updated gradient to match the vibrant blue/purple in your image */
+      background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      padding-right: 0.09em;
+    }
+
+    .hero-content .base-head {
+      font-size: 18px;
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+      font-weight: 400;
+      color: #444;
+      margin-top: 10px;
+      margin-bottom: 28px;
+      letter-spacing: -0.01em;
+    }
+
+    .btn-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      /* Subtle, high-end gradient from the palette's dark teal to deepest blue */
+      background: linear-gradient(180deg, #005f73 0%, #001219 100%);
+      color: #fff;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 16px 38px;
+      border-radius: 50px;
+      pointer-events: all;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15), 0 8px 24px rgba(0, 0, 0, 0.2);
+      letter-spacing: -0.01em;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      /* Gives it a slight physical pill edge */
+    }
+
+    .btn-cta:hover {
+      transform: scale(1.03);
+      background: linear-gradient(180deg, #0a9396 0%, #001219 100%);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2), 0 12px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    /* FLOATING ICONS */
+    .icons-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .app-icon {
+      position: absolute;
+      border-radius: 22.37%;
+      will-change: transform;
+      animation: float var(--duration, 8s) var(--delay, 0s) ease-in-out infinite alternate;
+      opacity: 0;
+      animation-fill-mode: forwards;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      pointer-events: all;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    .app-icon:hover {
+      transform: scale(1.12) !important;
+      z-index: 50;
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    .icon-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 42%;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -0.02em;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .icon-inner svg {
+      width: 65%;
+      height: 65%;
+      display: block;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translate(0px, 0px) rotate(0deg);
+        opacity: 1;
+      }
+
+      25% {
+        transform: translate(var(--tx1), var(--ty1)) rotate(var(--r1));
+      }
+
+      50% {
+        transform: translate(var(--tx2), var(--ty2)) rotate(var(--r2));
+      }
+
+      75% {
+        transform: translate(var(--tx3), var(--ty3)) rotate(var(--r3));
+      }
+
+      100% {
+        transform: translate(var(--tx4), var(--ty4)) rotate(var(--r4));
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }

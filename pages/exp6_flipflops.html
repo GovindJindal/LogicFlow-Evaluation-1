@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" href="../Logo.png" type="image/png">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Flip-Flops Lab — LogicFlow</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/exp6_flipflops.css">
+</head>
+<body>
+
+<canvas id="bgCanvas" style="position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;"></canvas>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="../Logo.png" alt="LogicFlow Logo" class="logo-img">
+    LogicFlow
+  </a>
+  <ul class="nav-links">
+    <li class="dropdown">
+        <a href="#" id="experimentDropdownBtn">Experiments ▼</a>
+        <div class="dropdown-content" id="experimentDropdown">
+          <div class="dropdown-menu">
+            <a href="exp1_components.html">1. Component Familiarization</a>
+            <a href="exp2_equipments.html">2. Measurement Equipment</a>
+            <a href="exp3_diode.html">3. PN Junction Diode</a>
+            <a href="exp4_zener.html">4. Zener Diode</a>
+            <a href="exp5_rectifier.html">5. Rectifiers</a>
+            <a href="exp6_flipflops.html">6. Flip-Flops</a>
+            <a href="exp7_bcd_decoder.html">7. BCD Decoder</a>
+          </div>
+        </div>
+      </li>
+    <li><a href="sandbox.html">Logic Gates</a></li>
+    <li><a href="coa.html">COA</a></li>
+    <li><a href="curriculum.html">Curriculum</a></li>
+  </ul>
+</nav>
+
+<div class="page">
+  <div class="page-header">
+    <div>
+      <div class="breadcrumb">
+        <span class="badge" style="background:rgba(124,58,237,.15);border-color:rgba(124,58,237,.3);color:var(--purple)">Experiment 07</span>
+        <span>›</span><span>Sequential Logic</span>
+      </div>
+      <h1>Flip-Flop Architecture</h1>
+      <p>Analyze state retention and transitions in D and J-K flip-flops. Observe edge-triggering characteristics using the live timing diagram.</p>
+    </div>
+  </div>
+
+  <div class="lab-grid">
+    <div class="panel">
+      <div class="panel-label">IC Selection</div>
+      <div class="toggle-group">
+        <button class="toggle-btn active" id="btn-d" onclick="setFF('D')">D Flip-Flop (7474)</button>
+        <button class="toggle-btn" id="btn-jk" onclick="setFF('JK')">J-K Flip-Flop (7476)</button>
+      </div>
+      
+      <div class="panel-label" style="margin-top:1rem">Logic Inputs</div>
+      <div class="switch-grid" id="inputGrid">
+        <!-- Rendered via JS -->
+      </div>
+      
+      <div class="logic-switch clock-btn" id="clockBtn" onmousedown="pulseClock(1)" onmouseup="pulseClock(0)">
+        <span class="sw-label" style="color:var(--blue)">⍐ MANUAL CLOCK PUSH</span>
+        <div style="font-family:var(--font-mono);font-size:.65rem;color:var(--muted)">(Rising-edge Triggered)</div>
+      </div>
+      
+      <div style="font-family:var(--font-mono);font-size:.7rem;color:var(--muted);text-align:center;margin-top:1rem">
+        Note: PR (Preset) and CLR (Clear) are active LOW in these real-world ICs, but simulated active HIGH here for simplicity.
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:1.5rem">
+      <div class="panel" style="padding-bottom:1rem">
+        <div class="panel-label" style="text-align:center">Outputs (Q & Q̅)</div>
+        <div class="led-row">
+          <div class="led-wrap">
+            <div class="led-bulb" id="led-Q"></div>
+            <span class="led-label">Q</span>
+          </div>
+          <div class="led-wrap">
+            <div class="led-bulb on" id="led-Qn"></div>
+            <span class="led-label">Q̅</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="panel" style="padding:0;overflow:hidden;background:#0f172a">
+        <div style="padding:1rem 1.5rem;border-bottom:1px solid #334155;background:#1e293b;display:flex;justify-content:space-between">
+          <span class="panel-label" style="color:#94a3b8;margin:0">Live Timing Diagram</span>
+        </div>
+        
+        <!-- Graph for D -->
+        <div class="timing-wrap" id="wrap-D" style="border:none;border-radius:0;box-shadow:none;padding:0;position:relative;">
+          <div class="timing-labels" style="position:absolute;top:0;left:1.5rem;display:flex;flex-direction:column;height:100%;pointer-events:none;justify-content:space-around;">
+            <div class="t-label">CLK</div>
+            <div class="t-label">D</div>
+            <div class="t-label" style="color:#F59E0B">Q</div>
+            <div class="t-label" style="color:#F43F5E">Q̅</div>
+          </div>
+          <canvas id="timingCanvasD" class="timing-canvas"></canvas>
+        </div>
+
+        <!-- Graph for JK -->
+        <div class="timing-wrap" id="wrap-JK" style="border:none;border-radius:0;box-shadow:none;padding:0;position:relative;display:none;">
+          <div class="timing-labels" style="position:absolute;top:0;left:1.5rem;display:flex;flex-direction:column;height:100%;pointer-events:none;justify-content:space-around;">
+            <div class="t-label">CLK</div>
+            <div class="t-label">J</div>
+            <div class="t-label">K</div>
+            <div class="t-label" style="color:#F59E0B">Q</div>
+            <div class="t-label" style="color:#F43F5E">Q̅</div>
+          </div>
+          <canvas id="timingCanvasJK" class="timing-canvas"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../js/exp6_flipflops.js"></script>
+</body>
+</html>

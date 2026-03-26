@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="icon" href="../Logo.png" type="image/png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Electronic Components Lab — LogicFlow</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="../css/exp1_components.css">
+</head>
+
+<body>
+
+  <canvas id="bgCanvas" style="position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;"></canvas>
+
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <img src="../Logo.png" alt="LogicFlow Logo" class="logo-img">
+      LogicFlow
+    </a>
+    <ul class="nav-links">
+      <li class="dropdown">
+        <a href="#" id="experimentDropdownBtn">Experiments ▼</a>
+        <div class="dropdown-content" id="experimentDropdown">
+          <div class="dropdown-menu">
+            <a href="exp1_components.html">1. Component Familiarization</a>
+            <a href="exp2_equipments.html">2. Measurement Equipment</a>
+            <a href="exp3_diode.html">3. PN Junction Diode</a>
+            <a href="exp4_zener.html">4. Zener Diode</a>
+            <a href="exp5_rectifier.html">5. Rectifiers</a>
+            <a href="exp6_flipflops.html">6. Flip-Flops</a>
+            <a href="exp7_bcd_decoder.html">7. BCD Decoder</a>
+          </div>
+        </div>
+      </li>
+      <li><a href="sandbox.html">Logic Gates</a></li>
+      <li><a href="coa.html">COA</a></li>
+      <li><a href="curriculum.html">Curriculum</a></li>
+    </ul>
+  </nav>
+
+  <div class="page">
+    <div class="page-header">
+      <div>
+        <div class="breadcrumb">
+          <span class="badge">Experiment 01</span>
+          <span>›</span><span>Components & Equipment</span>
+        </div>
+        <h1>Electronic Components Inspector</h1>
+        <p>To familiarize with electronics components (resistor, capacitor, inductor, diode, LED, transistor,
+          Multimeter, Breadboard etc.).</p>
+      </div>
+    </div>
+
+    <div class="lab-grid">
+      <div class="catalog" id="catalog">
+        <!-- Generated via JS -->
+      </div>
+
+      <div class="inspector" id="inspector">
+        <div class="empty-state">
+          <div style="font-size:3rem;margin-bottom:1rem;opacity:0.5">🔍</div>
+          <div>Select a component from the left<br>to inspect its details.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/exp1_components.js"></script>
+</body>
+
+</html>

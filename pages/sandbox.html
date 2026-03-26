@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" href="../Logo.png" type="image/png">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Logic Gate Sandbox — LogicFlow</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/sandbox.css">
+</head>
+<body>
+
+<canvas id="bgCanvas" style="position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;"></canvas>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="../Logo.png" alt="LogicFlow Logo" class="logo-img">
+    LogicFlow
+  </a>
+  <ul class="nav-links">
+    <li class="dropdown">
+        <a href="#" id="experimentDropdownBtn">Experiments ▼</a>
+        <div class="dropdown-content" id="experimentDropdown">
+          <div class="dropdown-menu">
+            <a href="exp1_components.html">1. Component Familiarization</a>
+            <a href="exp2_equipments.html">2. Measurement Equipment</a>
+            <a href="exp3_diode.html">3. PN Junction Diode</a>
+            <a href="exp4_zener.html">4. Zener Diode</a>
+            <a href="exp5_rectifier.html">5. Rectifiers</a>
+            <a href="exp6_flipflops.html">6. Flip-Flops</a>
+            <a href="exp7_bcd_decoder.html">7. BCD Decoder</a>
+          </div>
+        </div>
+      </li>
+    <li><a href="sandbox.html" class="active">Logic Gates</a></li>
+    <li><a href="coa.html">COA</a></li>
+    <li><a href="curriculum.html">Curriculum</a></li>
+  </ul>
+</nav>
+
+<div class="center-wrap">
+  <div class="coming-badge">🔧 In Development</div>
+
+  <div class="sandbox-icon">🔀</div>
+
+  <h1>Logic Gate Sandbox</h1>
+
+  <p class="subtitle">
+    An interactive drag-and-drop circuit builder for AND, OR, NOT, XOR, NAND, NOR gates — 
+    with real-time truth table evaluation and shareable circuit links. Coming soon.
+  </p>
+
+  <div class="gate-preview">
+    <div class="gate-chip">AND</div>
+    <div class="gate-chip">OR</div>
+    <div class="gate-chip">NOT</div>
+    <div class="gate-chip">XOR</div>
+    <div class="gate-chip">NAND</div>
+    <div class="gate-chip">NOR</div>
+    <div class="gate-chip">Half Adder</div>
+    <div class="gate-chip">Full Adder</div>
+    <div class="gate-chip">Flip-Flops</div>
+  </div>
+
+  <div class="progress-hint">
+    Development Progress — 65% Complete
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill"></div>
+    </div>
+  </div>
+
+  <a href="exp3_diode.html" class="btn-back">← Explore Experiments in the meantime</a>
+</div>
+
+<script src="../js/sandbox.js"></script>
+</body>
+</html>

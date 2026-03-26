@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LogicFlow — Interactive Electronics Lab</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="icon" href="../Logo.png" type="image/png">
+
+  <link rel="stylesheet" href="../css/index.css">
+</head>
+
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">
+      LogicFlow
+    </a>
+    <ul class="nav-links">
+      <li><a href="curriculum.html">Curriculum</a></li>
+      <li><a href="sandbox.html">Logic Gates</a></li>
+      <li><a href="coa.html">Computer Architecture</a></li>
+      <li class="dropdown">
+        <a id="experimentDropdownBtn">Experiments</a>
+        <div class="dropdown-content" id="experimentDropdown">
+          <div class="dropdown-menu">
+            <a href="exp1_components.html">1. Component Familiarization</a>
+            <a href="exp2_equipments.html">2. Measurement Equipment</a>
+            <a href="exp3_diode.html">3. PN Junction Diode</a>
+            <a href="exp4_zener.html">4. Zener Diode</a>
+            <a href="exp5_rectifier.html">5. Rectifiers</a>
+            <a href="exp6_flipflops.html">6. Flip-Flops</a>
+            <a href="exp7_bcd_decoder.html">7. BCD Decoder</a>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <div class="nav-actions">
+      <a href="exp3_diode.html" class="btn-enter">Enter Lab ↗</a>
+    </div>
+  </nav>
+
+  <div class="bg-mesh">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="blob blob-4"></div>
+  </div>
+
+  <main class="hero" style="background:transparent;">
+    <div class="icons-layer" id="iconsLayer"></div>
+    <br><br><br><br><br><br>
+    <div class="hero-content">
+      <div class="hero-head">
+        <h1 style="font-family: 'Playfair Display', serif; font-weight: 700;">LogicFlow</h1>
+      </div>
+      <div class="base-head">
+        <p style="font-size: 20px;">The electronics lab that never runs out of equipment.</p>
+      </div>
+      <a href="curriculum.html" class="btn-cta">Start Exploring →</a>
+    </div>
+  </main>
+
+  <script src="../js/index.js"></script>
+</body>
+
+</html>

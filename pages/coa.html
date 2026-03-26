@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" href="../Logo.png" type="image/png">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>COA Pipeline — LogicFlow</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/coa.css">
+</head>
+<body>
+
+<canvas id="bgCanvas" style="position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;"></canvas>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="../Logo.png" alt="LogicFlow Logo" class="logo-img">
+    LogicFlow
+  </a>
+  <ul class="nav-links">
+    <li class="dropdown">
+        <a href="#" id="experimentDropdownBtn">Experiments ▼</a>
+        <div class="dropdown-content" id="experimentDropdown">
+          <div class="dropdown-menu">
+            <a href="exp1_components.html">1. Component Familiarization</a>
+            <a href="exp2_equipments.html">2. Measurement Equipment</a>
+            <a href="exp3_diode.html">3. PN Junction Diode</a>
+            <a href="exp4_zener.html">4. Zener Diode</a>
+            <a href="exp5_rectifier.html">5. Rectifiers</a>
+            <a href="exp6_flipflops.html">6. Flip-Flops</a>
+            <a href="exp7_bcd_decoder.html">7. BCD Decoder</a>
+          </div>
+        </div>
+      </li>
+    <li><a href="sandbox.html">Logic Gates</a></li>
+    <li><a href="coa.html" class="active">COA</a></li>
+    <li><a href="curriculum.html">Curriculum</a></li>
+  </ul>
+</nav>
+
+<div class="page">
+  <div class="page-header">
+    <div>
+      <div class="breadcrumb">
+        <a href="coa.html" style="color:var(--muted);text-decoration:none">COA</a>
+        <span>›</span>
+        <span class="badge badge-blue">Exp 01</span>
+      </div>
+      <h1>Pipeline Stepper</h1>
+      <p>Trace instruction execution through Fetch → Decode → Execute → WriteBack. Watch registers update at each stage.</p>
+    </div>
+    <div class="controls" id="headerControls">
+      <button class="btn" id="playBtn" style="background:rgba(26,86,219,.1);border:1px solid rgba(26,86,219,.3);color:var(--blue)" onclick="togglePlay()">▶ Auto-play</button>
+      <button class="btn" style="background:rgba(0,0,0,.04);border:1px solid rgba(0,0,0,.08);color:var(--muted)" onclick="resetPipeline()">↺ Reset</button>
+    </div>
+  </div>
+
+  <div class="instr-banner" id="instrBanner">
+    <div>
+      <div style="font-family:var(--font-mono);font-size:.65rem;color:var(--muted);margin-bottom:.3rem;font-weight:700" id="instrNum">Instruction 1 / 5</div>
+      <div style="font-family:var(--font-mono);font-size:1rem;font-weight:700;color:var(--text)" id="instrText">LOAD 0x10</div>
+      <div style="font-size:.8rem;color:var(--muted);margin-top:.2rem;font-weight:500" id="instrDesc">Load value from memory address 0x10 into Accumulator</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:.5rem;font-family:var(--font-mono);font-size:.75rem">
+      <span style="color:var(--muted);font-weight:600">Stage:</span>
+      <span style="font-weight:700" id="stageName">FETCH</span>
+    </div>
+  </div>
+
+  <div class="stages-row" id="stagesRow">
+    </div>
+
+  <div class="detail-panel">
+    <div class="detail-label">⚡ <span id="stageLabel">Fetch Stage</span></div>
+    <div class="detail-text" id="detailText"></div>
+  </div>
+
+  <div class="bottom-grid">
+    <div class="panel">
+      <div class="panel-label">🗄 Register Bank</div>
+      <div id="regBank"></div>
+      <div class="flags-row" id="flagsRow"></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-label">💾 Program Memory</div>
+      <div id="progList"></div>
+      <div style="margin-top:1rem;padding-top:.75rem;border-top:1px solid var(--border-dark);display:flex;gap:.75rem">
+        <button class="btn" id="nextBtn" style="flex:1;background:rgba(26,86,219,.1);border:1px solid rgba(26,86,219,.3);color:var(--blue);justify-content:center" onclick="nextStage()">Next Stage ›</button>
+        <a href="curriculum.html" class="btn" style="background:rgba(0,0,0,.04);border:1px solid rgba(0,0,0,.08);color:var(--text);text-decoration:none">Curriculum ›</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="bridge-panel" id="bridgePanel" style="display:none">
+    <div class="bridge-label">⚡ Bridge Feature</div>
+    <div class="bridge-title">The Logic You Built Lives Here</div>
+    <div class="bridge-desc">The <strong style="color:var(--amber)">Execute stage</strong> uses the <strong style="color:var(--green)">ALU</strong>. At its core, the ALU is a chain of <strong style="color:var(--blue)">Half Adders</strong> — the exact XOR + AND circuit you built in the Logic Sandbox. Eight of them chained together form an 8-bit adder.</div>
+    <div class="bridge-diag">
+      <svg viewBox="0 0 480 80" width="100%" style="max-height:70px">
+        <rect x="10" y="15" width="110" height="50" rx="6" fill="rgba(16,185,129,.1)" stroke="rgba(16,185,129,.5)" stroke-width="1.5"/>
+        <text x="65" y="36" text-anchor="middle" font-size="9" font-weight="700" fill="#059669" font-family="JetBrains Mono">HALF ADDER</text>
+        <text x="65" y="48" text-anchor="middle" font-size="8" fill="#475569" font-family="JetBrains Mono">XOR + AND</text>
+        <text x="65" y="58" text-anchor="middle" font-size="8" fill="#475569" font-family="JetBrains Mono">SUM + CARRY</text>
+        <text x="135" y="44" font-size="11" fill="#d97706" font-family="JetBrains Mono">×8</text>
+        <line x1="122" y1="40" x2="155" y2="40" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#arr1)"/>
+        <defs><marker id="arr1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#F59E0B"/></marker>
+        <marker id="arr2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#7C3AED"/></marker></defs>
+        <rect x="160" y="10" width="130" height="60" rx="6" fill="rgba(26,86,219,.1)" stroke="rgba(26,86,219,.5)" stroke-width="1.5"/>
+        <text x="225" y="32" text-anchor="middle" font-size="9" font-weight="700" fill="#1A56DB" font-family="JetBrains Mono">8-BIT ALU</text>
+        <text x="225" y="44" text-anchor="middle" font-size="8" fill="#475569" font-family="JetBrains Mono">ADD / SUB / AND</text>
+        <text x="225" y="56" text-anchor="middle" font-size="8" fill="#475569" font-family="JetBrains Mono">A[7:0] OP B[7:0]</text>
+        <line x1="292" y1="40" x2="325" y2="40" stroke="#7C3AED" stroke-width="1.5" marker-end="url(#arr2)"/>
+        <rect x="328" y="10" width="140" height="60" rx="6" fill="rgba(124,58,237,.1)" stroke="rgba(124,58,237,.5)" stroke-width="1.5"/>
+        <text x="398" y="32" text-anchor="middle" font-size="9" font-weight="700" fill="#6d28d9" font-family="JetBrains Mono">EXECUTE STAGE</text>
+        <text x="398" y="44" text-anchor="middle" font-size="8" fill="#475569" font-family="JetBrains Mono">IR decoded → ALU</text>
+        <text x="398" y="56" text-anchor="middle" font-size="8" fill="#475569" font-family="JetBrains Mono">ACC ← result</text>
+      </svg>
+    </div>
+    <div style="display:flex;gap:.6rem;margin-top:.75rem;flex-wrap:wrap">
+      <a href="sandbox.html" class="btn" style="background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3);color:#059669;font-size:.75rem;text-decoration:none">⚡ Revisit Half Adder</a>
+      <a href="sandbox.html" class="btn" style="background:rgba(26,86,219,.1);border:1px solid rgba(26,86,219,.25);color:var(--blue);font-size:.75rem;text-decoration:none">Build More Gates ›</a>
+    </div>
+  </div>
+</div>
+
+<script src="../js/coa.js"></script>
+</body>
+</html>

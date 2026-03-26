@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" href="../Logo.png" type="image/png">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Continuous Evaluation 1.2 — LogicFlow</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/eval2.css">
+</head>
+<body>
+
+<canvas id="bgCanvas" style="position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;"></canvas>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="../Logo.png" alt="LogicFlow Logo" class="logo-img">
+    LogicFlow
+  </a>
+  <ul class="nav-links">
+    <li class="dropdown">
+        <a href="#" id="experimentDropdownBtn">Experiments ▼</a>
+        <div class="dropdown-content" id="experimentDropdown">
+          <div class="dropdown-menu">
+            <a href="exp1_components.html">1. Component Familiarization</a>
+            <a href="exp2_equipments.html">2. Measurement Equipment</a>
+            <a href="exp3_diode.html">3. PN Junction Diode</a>
+            <a href="exp4_zener.html">4. Zener Diode</a>
+            <a href="exp5_rectifier.html">5. Rectifiers</a>
+            <a href="exp6_flipflops.html">6. Flip-Flops</a>
+            <a href="exp7_bcd_decoder.html">7. BCD Decoder</a>
+          </div>
+        </div>
+      </li>
+    <li><a href="sandbox.html">Logic Gates</a></li>
+    <li><a href="coa.html">COA</a></li>
+    <li><a href="curriculum.html" class="active">Curriculum</a></li>
+  </ul>
+</nav>
+
+<div class="page">
+  <div class="page-header">
+    <span class="badge">Experiment 12</span>
+    <h1>Continuous Evaluation 1.2</h1>
+    <p>Test your understanding of rectifiers, sequential logic (flip-flops), and BCD decoders covered in Experiments 6 through 8.</p>
+  </div>
+
+  <div class="p1">📝</div>
+  <div class="p2">🎯</div>
+
+  <div class="quiz-card" id="quizCard">
+    <div id="qView">
+      <div class="q-progress">
+        <span id="qNum">Q 1</span>
+        <div class="progress-bar"><div class="progress-fill" id="pFill"></div></div>
+        <span>5 pts</span>
+      </div>
+
+      <div class="question-text" id="qText">Loading question...</div>
+      
+      <div class="options-grid" id="optGrid">
+        <!-- JS rendered -->
+      </div>
+    </div>
+
+    <div class="score-screen" id="sView">
+      <h2 style="font-family:var(--font-display);font-size:2.4rem;margin-bottom:.5rem" id="sTitle">Evaluation Complete</h2>
+      <p style="color:var(--muted);margin-bottom:2.5rem">You have successfully completed the Continuous Evaluation 1.2</p>
+      
+      <div class="score-circle" id="sCirc" style="--pct:0%">
+        <div class="sc-val" id="sVal">0</div>
+        <div class="sc-max">/ 5</div>
+      </div>
+
+      <button class="btn-action" onclick="window.location.href='curriculum.html'">
+        Return to Curriculum <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="../js/eval2.js"></script>
+</body>
+</html>

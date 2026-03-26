@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="icon" href="../Logo.png" type="image/png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Curriculum — LogicFlow</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="../css/curriculum.css">
+</head>
+
+<body>
+
+  <canvas id="bgCanvas" style="position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;"></canvas>
+
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <img src="../Logo.png" alt="LogicFlow Logo" class="logo-img">
+      LogicFlow
+    </a>
+    <ul class="nav-links">
+      <li class="dropdown">
+        <a href="#" id="experimentDropdownBtn">Experiments ▼</a>
+        <div class="dropdown-content" id="experimentDropdown">
+          <div class="dropdown-menu">
+            <a href="exp1_components.html">1. Component Familiarization</a>
+            <a href="exp2_equipments.html">2. Measurement Equipment</a>
+            <a href="exp3_diode.html">3. PN Junction Diode</a>
+            <a href="exp4_zener.html">4. Zener Diode</a>
+            <a href="exp5_rectifier.html">5. Rectifiers</a>
+            <a href="exp6_flipflops.html">6. Flip-Flops</a>
+            <a href="exp7_bcd_decoder.html">7. BCD Decoder</a>
+          </div>
+        </div>
+      </li>
+      <li><a href="sandbox.html">Logic Gates</a></li>
+      <li><a href="coa.html">COA</a></li>
+      <li><a href="curriculum.html" class="active">Curriculum</a></li>
+    </ul>
+  </nav>
+
+  <div class="page">
+    <div class="page-header">
+      <div class="header-badge">🎓 Curriculum Mapping</div>
+      <h1>Course Alignment</h1>
+      <p>Every LogicFlow experiment maps directly to your university syllabus. Select your university below to see the
+        exact paper code, semester, and course outcome each experiment covers.</p>
+      <div class="stats-row">
+        <div>
+          <div class="stat-val" style="color:var(--green)">12</div>
+          <div class="stat-label">Experiments</div>
+        </div>
+        <div>
+          <div class="stat-val" style="color:var(--blue)">12</div>
+          <div class="stat-label">Complete</div>
+        </div>
+        <div>
+          <div class="stat-val" style="color:#d97706">4</div>
+          <div class="stat-label">Universities</div>
+        </div>
+        <div>
+          <div class="stat-val" style="color:var(--purple)">4 / 4</div>
+          <div class="stat-label">Lab-record ready</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="uni-tabs">
+      <button class="uni-tab active" onclick="setUni('aktu',this)">AKTU</button>
+      <button class="uni-tab" onclick="setUni('vtu',this)">VTU</button>
+      <button class="uni-tab" onclick="setUni('anna',this)">Anna Univ.</button>
+      <button class="uni-tab" onclick="setUni('mumbai',this)">Mumbai Univ.</button>
+    </div>
+    <div class="uni-full" id="uniFullName">Dr. APJ Abdul Kalam Technical University</div>
+
+    <div id="expList"></div>
+
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-icon">🎯</div>
+        <div class="legend-name">Aim</div>
+        <div class="legend-count">12/12</div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-icon">⚡</div>
+        <div class="legend-name">Circuit</div>
+        <div class="legend-count">8/12</div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-icon">📊</div>
+        <div class="legend-name">Observations</div>
+        <div class="legend-count">12/12</div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-icon">✅</div>
+        <div class="legend-name">Conclusion</div>
+        <div class="legend-count">12/12</div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-icon">💬</div>
+        <div class="legend-name">Viva Q&A</div>
+        <div class="legend-count">4/12</div>
+      </div>
+    </div>
+
+    <div class="bottom-cta">
+      <div style="display:flex;align-items:center;gap:.75rem">
+        <div
+          style="width:38px;height:38px;border-radius:10px;background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);display:flex;align-items:center;justify-content:center;font-size:18px">
+          📄</div>
+        <div>
+          <div style="font-weight:700;color:var(--text);margin-bottom:.15rem;font-size:.9rem">Export Lab Report PDF
+          </div>
+          <div style="font-size:.78rem;color:var(--muted);font-weight:500">After completing a DiodeLab experiment, click
+            "Export Lab Report" to generate a submission-ready PDF.</div>
+        </div>
+      </div>
+      <a href="exp3_diode.html" class="btn-amber">Open Diode Lab ›</a>
+    </div>
+  </div>
+
+  <script src="../js/curriculum.js"></script>
+</body>
+
+</html>
