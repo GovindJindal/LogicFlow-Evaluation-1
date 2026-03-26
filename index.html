@@ -22,66 +22,147 @@
       font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
       min-height: 100vh;
       overflow-x: hidden;
-      background-color: #eceeff;
+      background-color: #0d1222;
+      /* Dark indigo base */
     }
 
-    /* NAV - Glassy to contrast with the colorful background */
+    /* MESH GRADIENT BACKGROUND */
+    .bg-mesh {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.9;
+      animation: drift 15s infinite alternate ease-in-out;
+    }
+
+    .blob-1 {
+      width: 80vw;
+      height: 80vh;
+      background: #7dd3fc;
+      /* Cyan */
+      top: -10vh;
+      left: 10vw;
+      animation-delay: 0s;
+    }
+
+    .blob-2 {
+      width: 60vw;
+      height: 60vw;
+      background: #2563eb;
+      /* Blue */
+      top: -20vh;
+      left: -20vw;
+      animation-delay: -5s;
+      animation-duration: 20s;
+      opacity: 0.7;
+    }
+
+    .blob-3 {
+      width: 70vw;
+      height: 55vh;
+      background: #4338ca;
+      /* Purple/Blue */
+      bottom: -15vh;
+      right: -10vw;
+      animation-delay: -10s;
+      animation-duration: 22s;
+    }
+
+    .blob-4 {
+      width: 40vw;
+      height: 40vh;
+      background: #ffffff;
+      /* Bright core */
+      top: 30vh;
+      left: 30vw;
+      filter: blur(100px);
+      opacity: 0.8;
+      animation-duration: 18s;
+    }
+
+    @keyframes drift {
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      50% {
+        transform: translate(2vw, 3vh) scale(1.05);
+      }
+
+      100% {
+        transform: translate(-2vw, -2vh) scale(0.95);
+      }
+    }
+
+    /* NAV - Matching Image Gradient Pill */
     nav {
       position: fixed;
-      top: 24px;
+      top: 32px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 100;
-      background: rgba(255, 255, 255, 0.4);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.4);
+      width: 85%;
+      max-width: 1000px;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.05) 100%);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-right: 1px solid rgba(255, 255, 255, 0.05);
+      /* Fade out border on right */
       border-radius: 50px;
-      padding: 10px 20px;
+      padding: 8px 8px 8px 32px;
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 32px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
     }
 
     .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      font-family: 'Times New Roman', Times, serif;
       font-weight: 700;
-      font-size: 17px;
+      font-size: 22px;
       color: #111;
       text-decoration: none;
-    }
-
-    .logo-img {
-      width: 28px;
-      height: 28px;
-      object-fit: contain;
+      letter-spacing: -0.02em;
     }
 
     .nav-links {
       display: flex;
-      gap: 28px;
+      gap: 36px;
       list-style: none;
+      align-items: center;
+      margin: 0;
+      padding: 0;
     }
 
     .nav-links a {
-      color: #222;
+      color: #111;
       text-decoration: none;
-      font-size: 14.5px;
-      font-weight: 500;
+      font-size: 14px;
+      font-weight: 600;
       transition: color 0.2s;
     }
 
     .nav-links a:hover {
       color: #000;
+      opacity: 0.7;
     }
 
     .dropdown {
       position: relative;
       display: flex;
       align-items: center;
+      cursor: pointer;
     }
 
     .dropdown-content {
@@ -133,24 +214,24 @@
     .nav-actions {
       display: flex;
       align-items: center;
-      gap: 16px;
     }
 
     .btn-enter {
-      background: #111;
+      background: #111628;
+      /* Deep dark navy */
       color: #fff;
       text-decoration: none;
-      font-size: 14px;
-      font-weight: 600;
-      padding: 9px 22px;
+      font-size: 13.5px;
+      font-weight: 500;
+      padding: 14px 34px;
       border-radius: 50px;
       transition: background 0.2s, transform 0.15s;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1), 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
     .btn-enter:hover {
-      background: #333;
-      transform: scale(1.03);
+      background: #1d2540;
+      transform: scale(1.02);
     }
 
     /* HERO */
@@ -211,23 +292,27 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%);
+      /* Subtle, high-end gradient from the palette's dark teal to deepest blue */
+      background: linear-gradient(180deg, #005f73 0%, #001219 100%);
       color: #fff;
       text-decoration: none;
       font-size: 16px;
-      font-weight: 650;
-      padding: 14px 34px;
+      font-weight: 600;
+      padding: 16px 38px;
       border-radius: 50px;
       pointer-events: all;
       cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 8px 28px rgba(99, 102, 241, 0.45);
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15), 0 8px 24px rgba(0, 0, 0, 0.2);
       letter-spacing: -0.01em;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      /* Gives it a slight physical pill edge */
     }
 
     .btn-cta:hover {
-      transform: scale(1.05);
-      box-shadow: 0 12px 36px rgba(99, 102, 241, 0.6);
+      transform: scale(1.03);
+      background: linear-gradient(180deg, #0a9396 0%, #001219 100%);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2), 0 12px 32px rgba(0, 0, 0, 0.3);
     }
 
     /* FLOATING ICONS */
@@ -313,12 +398,14 @@
 
   <nav>
     <a href="index.html" class="nav-logo">
-      <img src="Logo.png" alt="LogicFlow Logo" class="logo-img">
       LogicFlow
     </a>
     <ul class="nav-links">
+      <li><a href="curriculum.html">Curriculum</a></li>
+      <li><a href="sandbox.html">Logic Gates</a></li>
+      <li><a href="coa.html">Computer Architecture</a></li>
       <li class="dropdown">
-        <a href="#" id="experimentDropdownBtn">Experiments ▼</a>
+        <a id="experimentDropdownBtn">Experiments</a>
         <div class="dropdown-content" id="experimentDropdown">
           <div class="dropdown-menu">
             <a href="exp1_components.html">1. Component Familiarization</a>
@@ -331,26 +418,28 @@
           </div>
         </div>
       </li>
-      <li><a href="sandbox.html">Logic Gates</a></li>
-      <li><a href="coa.html">COA</a></li>
-      <li><a href="curriculum.html">Curriculum</a></li>
     </ul>
     <div class="nav-actions">
-      <a href="exp3_diode.html" class="btn-enter">Enter Lab →</a>
+      <a href="exp3_diode.html" class="btn-enter">Enter Lab ↗</a>
     </div>
   </nav>
 
-  <canvas id="bgCanvas" style="position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
+  <div class="bg-mesh">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="blob blob-4"></div>
+  </div>
 
   <main class="hero" style="background:transparent;">
     <div class="icons-layer" id="iconsLayer"></div>
     <br><br><br><br><br><br>
     <div class="hero-content">
       <div class="hero-head">
-        <h1>Logic<span class="highlight-text"><em>Flow</em></span></h1>
+        <h1 style="font-family: 'Playfair Display', serif; font-weight: 700;">LogicFlow</h1>
       </div>
       <div class="base-head">
-        <p>The interactive electronics lab that never runs out of equipment.</p>
+        <p style="font-size: 20px;">The electronics lab that never runs out of equipment.</p>
       </div>
       <a href="curriculum.html" class="btn-cta">Start Exploring →</a>
     </div>
@@ -377,79 +466,35 @@
       }
     });
 
-    // ── Animated blob background (Codex-style) ───────────────────────────────────
-    (function () {
-      const canvas = document.getElementById('bgCanvas');
-      const ctx = canvas.getContext('2d');
-      let W, H;
-      const blobs = [
-        { xf: .15, yf: .15, rf: .45, color: [120, 100, 255], speed: 0.00018, phase: 0 },
-        { xf: .78, yf: .10, rf: .40, color: [90, 140, 255], speed: 0.00013, phase: 1.2 },
-        { xf: .50, yf: .55, rf: .38, color: [160, 80, 240], speed: 0.00021, phase: 2.4 },
-        { xf: .08, yf: .68, rf: .33, color: [200, 160, 255], speed: 0.00016, phase: 0.7 },
-        { xf: .88, yf: .72, rf: .32, color: [100, 120, 255], speed: 0.00019, phase: 3.1 },
-        { xf: .42, yf: .85, rf: .28, color: [130, 90, 255], speed: 0.00014, phase: 4.5 },
-      ];
-      function resize() {
-        W = canvas.width = window.innerWidth;
-        H = canvas.height = window.innerHeight;
-      }
-      function draw(ts) {
-        ctx.clearRect(0, 0, W, H);
-        ctx.fillStyle = '#eceeff'; ctx.fillRect(0, 0, W, H);
-        for (const b of blobs) {
-          const angle = ts * b.speed + b.phase;
-          const cx = (b.xf + Math.sin(angle * 1.3) * 0.12) * W;
-          const cy = (b.yf + Math.cos(angle * 0.9) * 0.10) * H;
-          const r = b.rf * Math.min(W, H) * (0.9 + 0.1 * Math.sin(angle * 2.1));
-          const [R, G, B] = b.color;
-          const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
-          g.addColorStop(0, `rgba(${R},${G},${B},0.58)`);
-          g.addColorStop(0.5, `rgba(${R},${G},${B},0.20)`);
-          g.addColorStop(1, `rgba(${R},${G},${B},0)`);
-          ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2);
-          ctx.fillStyle = g; ctx.fill();
-        }
-        // subtle white vignette at edges
-        const vx = ctx.createRadialGradient(W / 2, H / 2, Math.min(W, H) * 0.3, W / 2, H / 2, Math.min(W, H) * 0.9);
-        vx.addColorStop(0, 'rgba(255,255,255,0)');
-        vx.addColorStop(1, 'rgba(255,255,255,0.30)');
-        ctx.fillStyle = vx; ctx.fillRect(0, 0, W, H);
-        requestAnimationFrame(draw);
-      }
-      resize();
-      window.addEventListener('resize', resize);
-      requestAnimationFrame(draw);
-    })();
-    // ─────────────────────────────────────────────────────────────────────────────
+    // ── Background changed to CSS Mesh Gradient ──────────────────────────────────
 
     const apps = [
       // { label, bg, textColor, shape, size, initX%, initY%, r (border-radius) }
-      { label: 'CRE\nME', bg: '#111', textColor: '#fff', size: 80, x: 16, y: 24, r: '22%' },
-      { label: 'DB', bg: '#0061FF', textColor: '#fff', size: 72, x: 34, y: 30, r: '22.37%' },
-      { label: 'GPT', bg: '#10a37f', textColor: '#fff', size: 68, x: 57, y: 22, r: '22.37%' },
-      { label: '●●●', bg: '#f0f0f0', textColor: '#888', size: 74, x: 65, y: 37, r: '22.37%' },
-      { label: 'MC', bg: '#FFD800', textColor: '#222', size: 76, x: 22, y: 52, r: '22.37%' },
-      { label: 'AIR', bg: '#FF385C', textColor: '#fff', size: 78, x: 74, y: 54, r: '22.37%' },
-      { label: 'P', bg: 'linear-gradient(135deg,#fa3b5e,#fc914e)', textColor: '#fff', size: 72, x: 5, y: 66, r: '22.37%' },
-      { label: '▶️', bg: '#111', textColor: '#fff', size: 78, x: 93, y: 66, r: '18%' },
-      { label: 'TW', bg: '#9146FF', textColor: '#fff', size: 68, x: 27, y: 80, r: '22.37%' },
-      { label: '47', bg: '#2ECC40', textColor: '#fff', size: 70, x: 50, y: 82, r: '22.37%' },
-      { label: 'NIKE', bg: '#fff', textColor: '#111', size: 64, x: 73, y: 83, r: '12px', border: true },
+      { label: 'CRE\nME', bg: '#001219', textColor: '#fff', size: 80, x: 16, y: 24, r: '22%' },
+      { label: 'DB', bg: '#005f73', textColor: '#fff', size: 72, x: 34, y: 30, r: '22.37%' },
+      { label: 'GPT', bg: '#0a9396', textColor: '#fff', size: 68, x: 57, y: 22, r: '22.37%' },
+      { label: '●●●', bg: '#94d2bd', textColor: '#111', size: 74, x: 65, y: 37, r: '22.37%' },
+      { label: 'MC', bg: '#e9d8a6', textColor: '#111', size: 76, x: 22, y: 52, r: '22.37%' },
+      { label: 'AIR', bg: '#ee9b00', textColor: '#111', size: 78, x: 74, y: 54, r: '22.37%' },
+      { label: 'P', bg: '#ca6702', textColor: '#fff', size: 72, x: 5, y: 66, r: '22.37%' },
+      { label: '▶️', bg: '#bb3e03', textColor: '#fff', size: 78, x: 93, y: 66, r: '18%' },
+      { label: 'TW', bg: '#ae2012', textColor: '#fff', size: 68, x: 27, y: 80, r: '22.37%' },
+      { label: '47', bg: '#9b2226', textColor: '#fff', size: 70, x: 50, y: 82, r: '22.37%' },
+      { label: 'NIKE', bg: '#001219', textColor: '#fff', size: 64, x: 73, y: 83, r: '12px', border: true },
 
       // Transistor Icon
-      { label: '◆', bg: '#F58A2B', textColor: '#fff', size: 64, x: 88, y: 27, r: '22.37%' },
+      { label: '◆', bg: '#005f73', textColor: '#fff', size: 64, x: 88, y: 27, r: '22.37%' },
 
-      { label: 'SL', bg: '#4A154B', textColor: '#fff', size: 66, x: 82, y: 43, r: '22.37%' },
-      { label: 'YT', bg: '#FF0000', textColor: '#fff', size: 70, x: 10, y: 40, r: '22.37%' },
+      { label: 'SL', bg: '#0a9396', textColor: '#fff', size: 66, x: 82, y: 43, r: '22.37%' },
+      { label: 'YT', bg: '#94d2bd', textColor: '#111', size: 70, x: 10, y: 40, r: '22.37%' },
 
       // Adjusted positions to fix overlaps
-      { label: 'SP', bg: '#1DB954', textColor: '#fff', size: 62, x: 38, y: 75, r: '22.37%' },
-      { label: 'NOT', bg: '#fff', textColor: '#111', size: 58, x: 48, y: 18, r: '14px', border: true },
+      { label: 'SP', bg: '#e9d8a6', textColor: '#111', size: 62, x: 38, y: 75, r: '22.37%' },
+      { label: 'NOT', bg: '#ee9b00', textColor: '#111', size: 58, x: 48, y: 18, r: '14px', border: true },
 
-      { label: 'FB', bg: '#1877F2', textColor: '#fff', size: 68, x: 60, y: 70, r: '22.37%' },
-      { label: 'IG', bg: 'linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)', textColor: '#fff', size: 66, x: 38, y: 14, r: '22.37%' },
-      { label: 'FIG', bg: '#1E1E1E', textColor: '#fff', size: 60, x: 78, y: 15, r: '22.37%' },
+      { label: 'FB', bg: '#ca6702', textColor: '#fff', size: 68, x: 60, y: 70, r: '22.37%' },
+      { label: 'IG', bg: '#bb3e03', textColor: '#fff', size: 66, x: 38, y: 14, r: '22.37%' },
+      { label: 'FIG', bg: '#ae2012', textColor: '#fff', size: 60, x: 78, y: 15, r: '22.37%' },
     ];
 
     const electronicIcons = {
