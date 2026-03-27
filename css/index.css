@@ -8,8 +8,8 @@
       font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
       min-height: 100vh;
       overflow-x: hidden;
-      background-color: #0d1222;
-      /* Dark indigo base */
+      background-color: #b89cc5;
+      /* Deepened lavender base — sits behind the blobs for depth */
     }
 
     /* BINARY PARTICLE CANVAS */
@@ -43,48 +43,62 @@
     }
 
     .blob-1 {
-      width: 80vw;
+      width: 85vw;
       height: 80vh;
-      background: #7dd3fc;
-      /* Cyan */
-      top: -10vh;
-      left: 10vw;
+      background: #A2D2FF;
+      /* Light Sky Blue — cool wash across the top */
+      top: -15vh;
+      left: 5vw;
       animation-delay: 0s;
+      opacity: 0.85;
     }
 
     .blob-2 {
-      width: 60vw;
+      width: 65vw;
       height: 60vw;
-      background: #2563eb;
-      /* Blue */
-      top: -20vh;
-      left: -20vw;
+      background: #BDE0FE;
+      /* Baby Blue — softer layer top-left, blends with blob-1 */
+      top: -25vh;
+      left: -15vw;
       animation-delay: -5s;
       animation-duration: 20s;
-      opacity: 0.7;
+      opacity: 0.75;
     }
 
     .blob-3 {
-      width: 70vw;
-      height: 55vh;
-      background: #4338ca;
-      /* Purple/Blue */
+      width: 75vw;
+      height: 60vh;
+      background: #FFAFCC;
+      /* Deep Pastel Pink — warm anchor at bottom-right */
       bottom: -15vh;
       right: -10vw;
       animation-delay: -10s;
       animation-duration: 22s;
+      opacity: 0.8;
     }
 
     .blob-4 {
-      width: 40vw;
-      height: 40vh;
-      background: #ffffff;
-      /* Bright core */
-      top: 30vh;
-      left: 30vw;
+      width: 50vw;
+      height: 45vh;
+      background: #FFC8DD;
+      /* Light Pink — luminous warm core center */
+      top: 28vh;
+      left: 25vw;
       filter: blur(100px);
-      opacity: 0.8;
+      opacity: 0.9;
       animation-duration: 18s;
+    }
+
+    .blob-5 {
+      width: 55vw;
+      height: 50vh;
+      background: #CDB4DB;
+      /* Lavender / Lilac — transitional bridge between blues and pinks */
+      top: 10vh;
+      right: 5vw;
+      animation-delay: -7s;
+      animation-duration: 24s;
+      opacity: 0.7;
     }
 
     @keyframes drift {
@@ -110,7 +124,7 @@
       z-index: 100;
       width: 85%;
       max-width: 1000px;
-      background: linear-gradient(90deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.05) 100%);
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.15) 100%);
       backdrop-filter: blur(28px);
       -webkit-backdrop-filter: blur(28px);
       border: 1px solid rgba(255, 255, 255, 0.3);
@@ -214,8 +228,8 @@
     }
 
     .btn-enter {
-      background: #111628;
-      /* Deep dark navy */
+      background: #4a2d5e;
+      /* Rich plum — complements the lavender palette */
       color: #fff;
       text-decoration: none;
       font-size: 13.5px;
@@ -227,7 +241,7 @@
     }
 
     .btn-enter:hover {
-      background: #1d2540;
+      background: #5c3a73;
       transform: scale(1.02);
     }
 
@@ -262,13 +276,13 @@
       line-height: 1;
       user-select: none;
       margin-bottom: 8px;
-      color: #000000;
-      /* Logic is explicitly completely black */
+      color: #2d1b3d;
+      /* Deep plum-black — legible yet harmonizes with palette */
     }
 
     .highlight-text {
       /* Updated gradient to match the vibrant blue/purple in your image */
-      background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%);
+      background: linear-gradient(135deg, #9b59b6 0%, #6c88c4 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -290,7 +304,7 @@
       align-items: center;
       gap: 8px;
       /* Subtle, high-end gradient from the palette's dark teal to deepest blue */
-      background: linear-gradient(180deg, #005f73 0%, #001219 100%);
+      background: linear-gradient(180deg, #7b4f9e 0%, #3d1f56 100%);
       color: #fff;
       text-decoration: none;
       font-size: 16px;
@@ -308,7 +322,7 @@
 
     .btn-cta:hover {
       transform: scale(1.03);
-      background: linear-gradient(180deg, #0a9396 0%, #001219 100%);
+      background: linear-gradient(180deg, #9b6fbf 0%, #3d1f56 100%);
       box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2), 0 12px 32px rgba(0, 0, 0, 0.3);
     }
 

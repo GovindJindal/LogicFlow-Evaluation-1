@@ -21,32 +21,33 @@
     // ── Background changed to CSS Mesh Gradient ──────────────────────────────────
 
     const apps = [
-      // { label, bg, textColor, shape, size, initX%, initY%, r (border-radius) }
-      { label: 'CRE\nME', bg: '#001219', textColor: '#fff', size: 80, x: 16, y: 24, r: '22%' },
-      { label: 'DB', bg: '#005f73', textColor: '#fff', size: 72, x: 34, y: 30, r: '22.37%' },
-      { label: 'GPT', bg: '#0a9396', textColor: '#fff', size: 68, x: 57, y: 22, r: '22.37%' },
-      { label: '●●●', bg: '#94d2bd', textColor: '#111', size: 74, x: 65, y: 37, r: '22.37%' },
-      { label: 'MC', bg: '#e9d8a6', textColor: '#111', size: 76, x: 22, y: 52, r: '22.37%' },
-      { label: 'AIR', bg: '#ee9b00', textColor: '#111', size: 78, x: 74, y: 54, r: '22.37%' },
-      { label: 'P', bg: '#ca6702', textColor: '#fff', size: 72, x: 5, y: 66, r: '22.37%' },
-      { label: '▶️', bg: '#bb3e03', textColor: '#fff', size: 78, x: 93, y: 66, r: '18%' },
-      { label: 'TW', bg: '#ae2012', textColor: '#fff', size: 68, x: 27, y: 80, r: '22.37%' },
-      { label: '47', bg: '#9b2226', textColor: '#fff', size: 70, x: 50, y: 82, r: '22.37%' },
-      { label: 'NIKE', bg: '#001219', textColor: '#fff', size: 64, x: 73, y: 83, r: '12px', border: true },
+      // Palette: Cherry Blossom #edafb8, Powder Petal #f7e1d7, Dust Grey #dedbd2, Ash Grey #b0c4b1, Iron Grey #4a5759
+      // Distributed spatially — no two adjacent icons share a color, dark anchors spread evenly
+      { label: 'CRE\nME', bg: '#b0c4b1', textColor: '#4a5759', size: 80, x: 16, y: 24, r: '22%' },
+      { label: 'DB', bg: '#edafb8', textColor: '#4a5759', size: 72, x: 34, y: 30, r: '22.37%' },
+      { label: 'GPT', bg: '#f7e1d7', textColor: '#4a5759', size: 68, x: 57, y: 22, r: '22.37%' },
+      { label: '●●●', bg: '#dedbd2', textColor: '#4a5759', size: 74, x: 65, y: 37, r: '22.37%' },
+      { label: 'MC', bg: '#f7e1d7', textColor: '#4a5759', size: 76, x: 22, y: 52, r: '22.37%' },
+      { label: 'AIR', bg: '#edafb8', textColor: '#4a5759', size: 78, x: 74, y: 54, r: '22.37%' },
+      { label: 'P', bg: '#dedbd2', textColor: '#4a5759', size: 72, x: 5, y: 66, r: '22.37%' },
+      { label: '▶️', bg: '#f7e1d7', textColor: '#4a5759', size: 78, x: 93, y: 66, r: '18%' },
+      { label: 'TW', bg: '#edafb8', textColor: '#4a5759', size: 68, x: 27, y: 80, r: '22.37%' },
+      { label: '47', bg: '#dedbd2', textColor: '#4a5759', size: 70, x: 50, y: 82, r: '22.37%' },
+      { label: 'NIKE', bg: '#b0c4b1', textColor: '#4a5759', size: 64, x: 73, y: 83, r: '12px', border: true },
 
       // Transistor Icon
-      { label: '◆', bg: '#005f73', textColor: '#fff', size: 64, x: 88, y: 27, r: '22.37%' },
+      { label: '◆', bg: '#4a5759', textColor: '#f7e1d7', size: 64, x: 88, y: 27, r: '22.37%' },
 
-      { label: 'SL', bg: '#0a9396', textColor: '#fff', size: 66, x: 82, y: 43, r: '22.37%' },
-      { label: 'YT', bg: '#94d2bd', textColor: '#111', size: 70, x: 10, y: 40, r: '22.37%' },
+      { label: 'SL', bg: '#b0c4b1', textColor: '#4a5759', size: 66, x: 82, y: 43, r: '22.37%' },
+      { label: 'YT', bg: '#4a5759', textColor: '#f7e1d7', size: 70, x: 10, y: 40, r: '22.37%' },
 
       // Adjusted positions to fix overlaps
-      { label: 'SP', bg: '#e9d8a6', textColor: '#111', size: 62, x: 38, y: 75, r: '22.37%' },
-      { label: 'NOT', bg: '#ee9b00', textColor: '#111', size: 58, x: 48, y: 18, r: '14px', border: true },
+      { label: 'SP', bg: '#b0c4b1', textColor: '#4a5759', size: 62, x: 38, y: 75, r: '22.37%' },
+      { label: 'NOT', bg: '#4a5759', textColor: '#f7e1d7', size: 58, x: 48, y: 18, r: '14px', border: true },
 
-      { label: 'FB', bg: '#ca6702', textColor: '#fff', size: 68, x: 60, y: 70, r: '22.37%' },
-      { label: 'IG', bg: '#bb3e03', textColor: '#fff', size: 66, x: 38, y: 14, r: '22.37%' },
-      { label: 'FIG', bg: '#ae2012', textColor: '#fff', size: 60, x: 78, y: 15, r: '22.37%' },
+      { label: 'FB', bg: '#4a5759', textColor: '#f7e1d7', size: 68, x: 60, y: 70, r: '22.37%' },
+      { label: 'IG', bg: '#dedbd2', textColor: '#4a5759', size: 66, x: 38, y: 14, r: '22.37%' },
+      { label: 'FIG', bg: '#edafb8', textColor: '#4a5759', size: 60, x: 78, y: 15, r: '22.37%' },
     ];
 
     const electronicIcons = {
@@ -211,7 +212,7 @@
 
         draw() {
           if (this.alpha > 0.01) {
-            ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+            ctx.fillStyle = `rgba(77, 42, 90, ${this.alpha * 0.6})`;
             ctx.font = `${this.fontSize}px monospace`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
