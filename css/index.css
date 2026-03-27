@@ -12,6 +12,17 @@
       /* Dark indigo base */
     }
 
+    /* BINARY PARTICLE CANVAS */
+    #particleCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
     /* MESH GRADIENT BACKGROUND */
     .bg-mesh {
       position: fixed;

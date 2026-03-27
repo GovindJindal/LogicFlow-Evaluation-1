@@ -166,3 +166,110 @@
         icon.style.marginTop = py + 'px';
       });
     });
+
+    // ── Binary Hover Canvas Effect ──────────────────────────────────────────────
+    (function() {
+      const canvas = document.getElementById('particleCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      let particlesArray = [];
+
+      const mouse = {
+        x: null,
+        y: null,
+        radius: 180
+      };
+
+      window.addEventListener('mousemove', function(event) {
+        mouse.x = event.x;
+        mouse.y = event.y;
+      });
+
+      window.addEventListener('mouseout', function() {
+        mouse.x = null;
+        mouse.y = null;
+      });
+
+      class Particle {
+        constructor(x, y) {
+          this.x = x;
+          this.y = y;
+          this.baseX = x;
+          this.baseY = y;
+          this.binary = Math.random() > 0.5 ? '1' : '0';
+          this.fontSize = 14;
+          this.friction = 0.85;
+          this.ease = 0.05;
+          this.vx = 0;
+          this.vy = 0;
+          this.alpha = 0;
+        }
+
+        draw() {
+          if (this.alpha > 0.01) {
+            ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+            ctx.font = `${this.fontSize}px monospace`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(this.binary, this.x, this.y);
+          }
+        }
+
+        update() {
+          let dx = mouse.x - this.x;
+          let dy = mouse.y - this.y;
+          let distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (mouse.x != null && distance < mouse.radius) {
+            this.alpha = 1 - (distance / mouse.radius);
+            let force = (mouse.radius - distance) / mouse.radius;
+            let forceDirectionX = dx / distance;
+            let forceDirectionY = dy / distance;
+            this.vx -= forceDirectionX * force * 5;
+            this.vy -= forceDirectionY * force * 5;
+          } else {
+            this.alpha -= 0.05;
+            if (this.alpha < 0) this.alpha = 0;
+          }
+
+          this.vx += (this.baseX - this.x) * this.ease;
+          this.vy += (this.baseY - this.y) * this.ease;
+          this.vx *= this.friction;
+          this.vy *= this.friction;
+          this.x += this.vx;
+          this.y += this.vy;
+        }
+      }
+
+      function init() {
+        particlesArray = [];
+        const spacing = 30;
+        for (let y = 0; y < canvas.height; y += spacing) {
+          for (let x = 0; x < canvas.width; x += spacing) {
+            particlesArray.push(new Particle(x, y));
+          }
+        }
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < particlesArray.length; i++) {
+          particlesArray[i].update();
+          particlesArray[i].draw();
+        }
+        requestAnimationFrame(animate);
+      }
+
+      window.addEventListener('resize', function() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        init();
+      });
+
+      init();
+      animate();
+    })();
