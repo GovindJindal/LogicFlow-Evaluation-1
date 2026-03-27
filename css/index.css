@@ -1,404 +1,315 @@
 * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
-      min-height: 100vh;
-      overflow-x: hidden;
-      background-color: #b89cc5;
-      /* Deepened lavender base — sits behind the blobs for depth */
-    }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-color: #eceeff;
+}
 
-    /* BINARY PARTICLE CANVAS */
-    #particleCanvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      pointer-events: none;
-    }
+/* BINARY PARTICLE CANVAS */
+#particleCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
 
-    /* MESH GRADIENT BACKGROUND */
-    .bg-mesh {
-      position: fixed;
-      inset: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: -1;
-      overflow: hidden;
-      pointer-events: none;
-    }
+/* ANIMATED BLOB BACKGROUND CANVAS */
+#bgCanvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
 
-    .blob {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(120px);
-      opacity: 0.9;
-      animation: drift 15s infinite alternate ease-in-out;
-    }
 
-    .blob-1 {
-      width: 85vw;
-      height: 80vh;
-      background: #A2D2FF;
-      /* Light Sky Blue — cool wash across the top */
-      top: -15vh;
-      left: 5vw;
-      animation-delay: 0s;
-      opacity: 0.85;
-    }
+/* NAV - Matching Image Gradient Pill */
+nav {
+  position: fixed;
+  top: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  width: 85%;
+  max-width: 1000px;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50px;
+  padding: 8px 8px 8px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+}
 
-    .blob-2 {
-      width: 65vw;
-      height: 60vw;
-      background: #BDE0FE;
-      /* Baby Blue — softer layer top-left, blends with blob-1 */
-      top: -25vh;
-      left: -15vw;
-      animation-delay: -5s;
-      animation-duration: 20s;
-      opacity: 0.75;
-    }
+.nav-logo {
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: 700;
+  font-size: 22px;
+  color: #111;
+  text-decoration: none;
+  letter-spacing: -0.02em;
+}
 
-    .blob-3 {
-      width: 75vw;
-      height: 60vh;
-      background: #FFAFCC;
-      /* Deep Pastel Pink — warm anchor at bottom-right */
-      bottom: -15vh;
-      right: -10vw;
-      animation-delay: -10s;
-      animation-duration: 22s;
-      opacity: 0.8;
-    }
+.nav-links {
+  display: flex;
+  gap: 36px;
+  list-style: none;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
 
-    .blob-4 {
-      width: 50vw;
-      height: 45vh;
-      background: #FFC8DD;
-      /* Light Pink — luminous warm core center */
-      top: 28vh;
-      left: 25vw;
-      filter: blur(100px);
-      opacity: 0.9;
-      animation-duration: 18s;
-    }
+.nav-links a {
+  color: #111;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: color 0.2s;
+}
 
-    .blob-5 {
-      width: 55vw;
-      height: 50vh;
-      background: #CDB4DB;
-      /* Lavender / Lilac — transitional bridge between blues and pinks */
-      top: 10vh;
-      right: 5vw;
-      animation-delay: -7s;
-      animation-duration: 24s;
-      opacity: 0.7;
-    }
+.nav-links a:hover {
+  color: #000;
+  opacity: 0.7;
+}
 
-    @keyframes drift {
-      0% {
-        transform: translate(0, 0) scale(1);
-      }
+.dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
 
-      50% {
-        transform: translate(2vw, 3vh) scale(1.05);
-      }
+.dropdown-content {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, 10px);
+  padding-top: 24px;
+  min-width: 240px;
+  z-index: 101;
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+}
 
-      100% {
-        transform: translate(-2vw, -2vh) scale(0.95);
-      }
-    }
+.dropdown-content.show {
+  visibility: visible;
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
 
-    /* NAV - Matching Image Gradient Pill */
-    nav {
-      position: fixed;
-      top: 32px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 100;
-      width: 85%;
-      max-width: 1000px;
-      background: linear-gradient(90deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.15) 100%);
-      backdrop-filter: blur(28px);
-      -webkit-backdrop-filter: blur(28px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-right: 1px solid rgba(255, 255, 255, 0.05);
-      /* Fade out border on right */
-      border-radius: 50px;
-      padding: 8px 8px 8px 32px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
-    }
+.dropdown-menu {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 16px;
+  padding: 8px 0;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
 
-    .nav-logo {
-      font-family: 'Times New Roman', Times, serif;
-      font-weight: 700;
-      font-size: 22px;
-      color: #111;
-      text-decoration: none;
-      letter-spacing: -0.02em;
-    }
+.nav-links .dropdown-menu a {
+  padding: 10px 22px;
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+  white-space: nowrap;
+  display: block;
+}
 
-    .nav-links {
-      display: flex;
-      gap: 36px;
-      list-style: none;
-      align-items: center;
-      margin: 0;
-      padding: 0;
-    }
+.nav-links .dropdown-menu a:hover {
+  background: rgba(0, 0, 0, 0.04);
+  color: #000;
+}
 
-    .nav-links a {
-      color: #111;
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 600;
-      transition: color 0.2s;
-    }
+.nav-actions {
+  display: flex;
+  align-items: center;
+}
 
-    .nav-links a:hover {
-      color: #000;
-      opacity: 0.7;
-    }
+.btn-enter {
+  background: #111;
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 9px 20px;
+  border-radius: 50px;
+  transition: background 0.2s, transform 0.15s;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
 
-    .dropdown {
-      position: relative;
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-    }
+.btn-enter:hover {
+  background: #333;
+  transform: scale(1.03);
+}
 
-    .dropdown-content {
-      visibility: hidden;
-      opacity: 0;
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      transform: translate(-50%, 10px);
-      padding-top: 24px;
-      min-width: 240px;
-      z-index: 101;
-      transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
-    }
+/* HERO */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
 
-    .dropdown-content.show {
-      visibility: visible;
-      opacity: 1;
-      transform: translate(-50%, 0);
-    }
+.hero-content {
+  text-align: center;
+  z-index: 10;
+  pointer-events: none;
+  max-width: 950px;
+  padding: 0 20px;
+  /* Adjust vertical centering */
+  margin-top: -5vh;
+}
 
-    .dropdown-menu {
-      background: rgba(255, 255, 255, 0.7);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid rgba(255, 255, 255, 0.5);
-      border-radius: 16px;
-      padding: 8px 0;
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
-      display: flex;
-      flex-direction: column;
-    }
+.hero-head h1 {
+  /* Massive sizing for LogicFlow */
+  font-size: clamp(54px, 17vw, 100px);
+  font-family: "OpenAI Sans", sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.06em;
+  line-height: 1;
+  user-select: none;
+  margin-bottom: 8px;
+  color: #0f0f1a;
+}
 
-    .nav-links .dropdown-menu a {
-      padding: 10px 22px;
-      color: #333;
-      font-size: 14px;
-      font-weight: 500;
-      transition: background 0.2s, color 0.2s;
-      white-space: nowrap;
-      display: block;
-    }
+.highlight-text {
+  /* Updated gradient to match the vibrant blue/purple in your image */
+  background: linear-gradient(135deg, #9b59b6 0%, #6c88c4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  padding-right: 0.09em;
+}
 
-    .nav-links .dropdown-menu a:hover {
-      background: rgba(0, 0, 0, 0.04);
-      color: #000;
-    }
+.hero-content .base-head {
+  font-size: 18px;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+  font-weight: 400;
+  color: #444;
+  margin-top: 10px;
+  margin-bottom: 28px;
+  letter-spacing: -0.01em;
+}
 
-    .nav-actions {
-      display: flex;
-      align-items: center;
-    }
+.btn-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #111;
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 16px 38px;
+  border-radius: 50px;
+  pointer-events: all;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  letter-spacing: -0.01em;
+}
 
-    .btn-enter {
-      background: #4a2d5e;
-      /* Rich plum — complements the lavender palette */
-      color: #fff;
-      text-decoration: none;
-      font-size: 13.5px;
-      font-weight: 500;
-      padding: 14px 34px;
-      border-radius: 50px;
-      transition: background 0.2s, transform 0.15s;
-      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1), 0 4px 12px rgba(0, 0, 0, 0.2);
-    }
+.btn-cta:hover {
+  transform: scale(1.03);
+  background: #333;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+}
 
-    .btn-enter:hover {
-      background: #5c3a73;
-      transform: scale(1.02);
-    }
+/* FLOATING ICONS */
+.icons-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
 
-    /* HERO */
-    .hero {
-      position: relative;
-      width: 100%;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
+.app-icon {
+  position: absolute;
+  border-radius: 22.37%;
+  will-change: transform;
+  animation: float var(--duration, 8s) var(--delay, 0s) ease-in-out infinite alternate;
+  opacity: 0;
+  animation-fill-mode: forwards;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  pointer-events: all;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
 
-    .hero-content {
-      text-align: center;
-      z-index: 10;
-      pointer-events: none;
-      max-width: 950px;
-      padding: 0 20px;
-      /* Adjust vertical centering */
-      margin-top: -5vh;
-    }
+.app-icon:hover {
+  transform: scale(1.12) !important;
+  z-index: 50;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+}
 
-    .hero-head h1 {
-      /* Massive sizing for LogicFlow */
-      font-size: clamp(54px, 17vw, 100px);
-      font-family: "OpenAI Sans", sans-serif;
-      font-weight: 500;
-      letter-spacing: -0.06em;
-      line-height: 1;
-      user-select: none;
-      margin-bottom: 8px;
-      color: #2d1b3d;
-      /* Deep plum-black — legible yet harmonizes with palette */
-    }
+.icon-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 42%;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -0.02em;
+  overflow: hidden;
+  position: relative;
+}
 
-    .highlight-text {
-      /* Updated gradient to match the vibrant blue/purple in your image */
-      background: linear-gradient(135deg, #9b59b6 0%, #6c88c4 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      padding-right: 0.09em;
-    }
+.icon-inner svg {
+  width: 65%;
+  height: 65%;
+  display: block;
+}
 
-    .hero-content .base-head {
-      font-size: 18px;
-      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
-      font-weight: 400;
-      color: #444;
-      margin-top: 10px;
-      margin-bottom: 28px;
-      letter-spacing: -0.01em;
-    }
+@keyframes float {
+  0% {
+    transform: translate(0px, 0px) rotate(0deg);
+    opacity: 1;
+  }
 
-    .btn-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      /* Subtle, high-end gradient from the palette's dark teal to deepest blue */
-      background: linear-gradient(180deg, #7b4f9e 0%, #3d1f56 100%);
-      color: #fff;
-      text-decoration: none;
-      font-size: 16px;
-      font-weight: 600;
-      padding: 16px 38px;
-      border-radius: 50px;
-      pointer-events: all;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
-      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15), 0 8px 24px rgba(0, 0, 0, 0.2);
-      letter-spacing: -0.01em;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      /* Gives it a slight physical pill edge */
-    }
+  25% {
+    transform: translate(var(--tx1), var(--ty1)) rotate(var(--r1));
+  }
 
-    .btn-cta:hover {
-      transform: scale(1.03);
-      background: linear-gradient(180deg, #9b6fbf 0%, #3d1f56 100%);
-      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2), 0 12px 32px rgba(0, 0, 0, 0.3);
-    }
+  50% {
+    transform: translate(var(--tx2), var(--ty2)) rotate(var(--r2));
+  }
 
-    /* FLOATING ICONS */
-    .icons-layer {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-    }
+  75% {
+    transform: translate(var(--tx3), var(--ty3)) rotate(var(--r3));
+  }
 
-    .app-icon {
-      position: absolute;
-      border-radius: 22.37%;
-      will-change: transform;
-      animation: float var(--duration, 8s) var(--delay, 0s) ease-in-out infinite alternate;
-      opacity: 0;
-      animation-fill-mode: forwards;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      pointer-events: all;
-      cursor: pointer;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-    }
+  100% {
+    transform: translate(var(--tx4), var(--ty4)) rotate(var(--r4));
+    opacity: 1;
+  }
+}
 
-    .app-icon:hover {
-      transform: scale(1.12) !important;
-      z-index: 50;
-      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
-    }
-
-    .icon-inner {
-      width: 100%;
-      height: 100%;
-      border-radius: inherit;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 42%;
-      font-weight: 900;
-      color: #fff;
-      letter-spacing: -0.02em;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .icon-inner svg {
-      width: 65%;
-      height: 65%;
-      display: block;
-    }
-
-    @keyframes float {
-      0% {
-        transform: translate(0px, 0px) rotate(0deg);
-        opacity: 1;
-      }
-
-      25% {
-        transform: translate(var(--tx1), var(--ty1)) rotate(var(--r1));
-      }
-
-      50% {
-        transform: translate(var(--tx2), var(--ty2)) rotate(var(--r2));
-      }
-
-      75% {
-        transform: translate(var(--tx3), var(--ty3)) rotate(var(--r3));
-      }
-
-      100% {
-        transform: translate(var(--tx4), var(--ty4)) rotate(var(--r4));
-        opacity: 1;
-      }
-    }
-
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-      }
-    }
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}

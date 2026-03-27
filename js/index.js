@@ -18,7 +18,53 @@
       }
     });
 
-    // ── Background changed to CSS Mesh Gradient ──────────────────────────────────
+    // ── Animated blob background (Codex-style) ───────────────────────────────────
+    (function() {
+      const canvas = document.getElementById('bgCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let W, H;
+      const blobs = [
+        { xf:.15, yf:.15, rf:.45, color:[120,100,255], speed:0.00018, phase:0    },
+        { xf:.78, yf:.10, rf:.40, color:[90,140,255],  speed:0.00013, phase:1.2  },
+        { xf:.50, yf:.55, rf:.38, color:[160,80,240],  speed:0.00021, phase:2.4  },
+        { xf:.08, yf:.68, rf:.33, color:[200,160,255], speed:0.00016, phase:0.7  },
+        { xf:.88, yf:.72, rf:.32, color:[100,120,255], speed:0.00019, phase:3.1  },
+        { xf:.42, yf:.85, rf:.28, color:[130,90,255],  speed:0.00014, phase:4.5  },
+      ];
+      function resize() {
+        W = canvas.width  = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+      function draw(ts) {
+        ctx.clearRect(0,0,W,H);
+        ctx.fillStyle='#eceeff'; ctx.fillRect(0,0,W,H);
+        for(const b of blobs){
+          const angle=ts*b.speed+b.phase;
+          const cx=(b.xf+Math.sin(angle*1.3)*0.12)*W;
+          const cy=(b.yf+Math.cos(angle*0.9)*0.10)*H;
+          const r=b.rf*Math.min(W,H)*(0.9+0.1*Math.sin(angle*2.1));
+          const [R,G,B]=b.color;
+          const g=ctx.createRadialGradient(cx,cy,0,cx,cy,r);
+          g.addColorStop(0,  `rgba(${R},${G},${B},0.58)`);
+          g.addColorStop(0.5,`rgba(${R},${G},${B},0.20)`);
+          g.addColorStop(1,  `rgba(${R},${G},${B},0)`);
+          ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2);
+          ctx.fillStyle=g; ctx.fill();
+        }
+        // subtle white vignette at edges
+        const vx=ctx.createRadialGradient(W/2,H/2,Math.min(W,H)*0.3,W/2,H/2,Math.min(W,H)*0.9);
+        vx.addColorStop(0,'rgba(255,255,255,0)');
+        vx.addColorStop(1,'rgba(255,255,255,0.30)');
+        ctx.fillStyle=vx; ctx.fillRect(0,0,W,H);
+        requestAnimationFrame(draw);
+      }
+      resize();
+      window.addEventListener('resize',resize);
+      requestAnimationFrame(draw);
+    })();
+    // ─────────────────────────────────────────────────────────────────────────────
+
 
     const apps = [
       // Palette: Cherry Blossom #edafb8, Powder Petal #f7e1d7, Dust Grey #dedbd2, Ash Grey #b0c4b1, Iron Grey #4a5759
@@ -212,7 +258,7 @@
 
         draw() {
           if (this.alpha > 0.01) {
-            ctx.fillStyle = `rgba(77, 42, 90, ${this.alpha * 0.6})`;
+            ctx.fillStyle = `rgba(80, 60, 180, ${this.alpha * 0.5})`;
             ctx.font = `${this.fontSize}px monospace`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
