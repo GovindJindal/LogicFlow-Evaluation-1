@@ -197,91 +197,157 @@
       layer.appendChild(el);
     });
 
-    // Subtle parallax on mousemove
-    document.addEventListener('mousemove', (e) => {
+    // ── Unified pointer: parallax icons + CSS glow + binary field (code-editor style) ──
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const pointer = {
+      x: null,
+      y: null,
+      vx: 0,
+      vy: 0,
+      lastX: 0,
+      lastY: 0,
+      inWindow: true,
+    };
+
+    function onPointerMove(e) {
+      pointer.inWindow = true;
+      pointer.x = e.clientX;
+      pointer.y = e.clientY;
+
+      if (!pointer._initialized) {
+        pointer._initialized = true;
+        pointer.lastX = e.clientX;
+        pointer.lastY = e.clientY;
+      } else {
+        pointer.vx = (e.clientX - pointer.lastX) * 0.45 + pointer.vx * 0.55;
+        pointer.vy = (e.clientY - pointer.lastY) * 0.45 + pointer.vy * 0.55;
+        pointer.lastX = e.clientX;
+        pointer.lastY = e.clientY;
+      }
+
+      document.body.style.setProperty('--mouse-x', `${(e.clientX / window.innerWidth) * 100}%`);
+      document.body.style.setProperty('--mouse-y', `${(e.clientY / window.innerHeight) * 100}%`);
+
+      if (prefersReducedMotion) return;
+
       const cx = window.innerWidth / 2;
       const cy = window.innerHeight / 2;
       const dx = (e.clientX - cx) / cx;
       const dy = (e.clientY - cy) / cy;
-
-      const icons = document.querySelectorAll('.app-icon');
-      icons.forEach((icon, i) => {
+      document.querySelectorAll('.app-icon').forEach((icon, i) => {
         const depth = 0.5 + (i % 5) * 0.2;
-        const px = dx * depth * 8;
-        const py = dy * depth * 8;
-        icon.style.marginLeft = px + 'px';
-        icon.style.marginTop = py + 'px';
+        icon.style.marginLeft = `${dx * depth * 8}px`;
+        icon.style.marginTop = `${dy * depth * 8}px`;
       });
-    });
+    }
 
-    // ── Binary Hover Canvas Effect ──────────────────────────────────────────────
-    (function() {
+    function onPointerLeave() {
+      pointer.inWindow = false;
+      pointer._initialized = false;
+      pointer.x = null;
+      pointer.y = null;
+      pointer.vx = 0;
+      pointer.vy = 0;
+      pointer.lastX = 0;
+      pointer.lastY = 0;
+    }
+
+    document.addEventListener('mousemove', onPointerMove);
+    document.addEventListener('mouseleave', onPointerLeave);
+    window.addEventListener('blur', onPointerLeave);
+
+    // ── Binary field canvas (ChatGPT / code-editor inspired: muted slate grid + indigo spotlight) ──
+    (function binaryField() {
       const canvas = document.getElementById('particleCanvas');
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
 
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const RADIUS = 280;
+      const IDLE = { r: 15, g: 23, b: 42, a: 0.038 };
+      const ACCENT = { r: 79, g: 70, b: 229 };
+
+      function hashBit(gx, gy) {
+        let h = (gx * 374761393 + gy * 668265263 + 981293) >>> 0;
+        h = Math.imul(h ^ (h >>> 13), 1274126177) >>> 0;
+        return (h & 1) ? '1' : '0';
+      }
+
+      function spacingFor(w, h) {
+        const est = (w / 28) * (h / 28);
+        if (est > 5200) return 34;
+        if (est > 4000) return 30;
+        return 26;
+      }
 
       let particlesArray = [];
-
-      const mouse = {
-        x: null,
-        y: null,
-        radius: 180
-      };
-
-      window.addEventListener('mousemove', function(event) {
-        mouse.x = event.x;
-        mouse.y = event.y;
-      });
-
-      window.addEventListener('mouseout', function() {
-        mouse.x = null;
-        mouse.y = null;
-      });
+      let gridStep = 26;
 
       class Particle {
-        constructor(x, y) {
-          this.x = x;
-          this.y = y;
+        constructor(x, y, step) {
           this.baseX = x;
           this.baseY = y;
-          this.binary = Math.random() > 0.5 ? '1' : '0';
-          this.fontSize = 14;
-          this.friction = 0.85;
-          this.ease = 0.05;
+          this.x = x;
+          this.y = y;
+          const gx = Math.round(x / step);
+          const gy = Math.round(y / step);
+          this.binary = hashBit(gx, gy);
+          this.friction = 0.88;
+          this.ease = 0.065;
           this.vx = 0;
           this.vy = 0;
-          this.alpha = 0;
+          this.phase = ((gx * 17 + gy * 31) % 1000) * 0.01;
         }
 
-        draw() {
-          if (this.alpha > 0.01) {
-            ctx.fillStyle = `rgba(80, 60, 180, ${this.alpha * 0.5})`;
-            ctx.font = `${this.fontSize}px monospace`;
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText(this.binary, this.x, this.y);
+        draw(spot, time) {
+          const t = spot * spot;
+          const fs = 10.5 + t * 5.5;
+          const aIdle = IDLE.a * (0.85 + 0.15 * Math.sin(time + this.phase));
+          const a = aIdle + t * 0.52;
+          if (a < 0.012 && pointer.x === null) return;
+
+          const r = Math.round(IDLE.r + (ACCENT.r - IDLE.r) * t);
+          const g = Math.round(IDLE.g + (ACCENT.g - IDLE.g) * t);
+          const b = Math.round(IDLE.b + (ACCENT.b - IDLE.b) * t);
+
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.font = `${fs}px "JetBrains Mono", ui-monospace, monospace`;
+
+          if (t > 0.25) {
+            ctx.shadowColor = `rgba(${ACCENT.r}, ${ACCENT.g}, ${ACCENT.b}, ${0.22 * t})`;
+            ctx.shadowBlur = 8 * t;
+          } else {
+            ctx.shadowBlur = 0;
           }
+
+          ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${Math.min(0.95, a)})`;
+          ctx.fillText(this.binary, this.x, this.y);
+          ctx.shadowBlur = 0;
         }
 
         update() {
-          let dx = mouse.x - this.x;
-          let dy = mouse.y - this.y;
-          let distance = Math.sqrt(dx * dx + dy * dy);
+          let spotlight = 0;
 
-          if (mouse.x != null && distance < mouse.radius) {
-            this.alpha = 1 - (distance / mouse.radius);
-            let force = (mouse.radius - distance) / mouse.radius;
-            let forceDirectionX = dx / distance;
-            let forceDirectionY = dy / distance;
-            this.vx -= forceDirectionX * force * 5;
-            this.vy -= forceDirectionY * force * 5;
-          } else {
-            this.alpha -= 0.05;
-            if (this.alpha < 0) this.alpha = 0;
+          if (pointer.x != null && pointer.y != null) {
+            const dx = pointer.x - this.x;
+            const dy = pointer.y - this.y;
+            const distance = Math.sqrt(dx * dx + dy * dy) || 0.0001;
+
+            if (distance < RADIUS) {
+              const falloff = Math.pow(Math.max(0, 1 - distance / RADIUS), 1.75);
+              spotlight = falloff;
+              const force = falloff * falloff;
+              const rdx = dx / distance;
+              const rdy = dy / distance;
+              this.vx -= rdx * force * 4.2;
+              this.vy -= rdy * force * 4.2;
+              this.vx += pointer.vx * 0.06 * falloff;
+              this.vy += pointer.vy * 0.06 * falloff;
+            }
           }
+
+          this._spot = spotlight;
 
           this.vx += (this.baseX - this.x) * this.ease;
           this.vy += (this.baseY - this.y) * this.ease;
@@ -293,30 +359,56 @@
       }
 
       function init() {
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        canvas.width = w;
+        canvas.height = h;
+        gridStep = spacingFor(w, h);
         particlesArray = [];
-        const spacing = 30;
-        for (let y = 0; y < canvas.height; y += spacing) {
-          for (let x = 0; x < canvas.width; x += spacing) {
-            particlesArray.push(new Particle(x, y));
+        for (let y = gridStep * 0.5; y < h; y += gridStep) {
+          for (let x = gridStep * 0.5; x < w; x += gridStep) {
+            particlesArray.push(new Particle(x, y, gridStep));
           }
         }
       }
 
+      function drawStatic() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particlesArray.forEach((p) => {
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.font = '11px "JetBrains Mono", ui-monospace, monospace';
+          ctx.fillStyle = `rgba(${IDLE.r}, ${IDLE.g}, ${IDLE.b}, ${IDLE.a * 1.1})`;
+          ctx.fillText(p.binary, p.baseX, p.baseY);
+        });
+      }
+
       function animate() {
+        pointer.vx *= 0.94;
+        pointer.vy *= 0.94;
+
+        const time = performance.now() * 0.0004;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         for (let i = 0; i < particlesArray.length; i++) {
-          particlesArray[i].update();
-          particlesArray[i].draw();
+          const p = particlesArray[i];
+          p.update();
+          p.draw(p._spot || 0, time);
         }
         requestAnimationFrame(animate);
       }
 
-      window.addEventListener('resize', function() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        init();
+      let resizeT;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeT);
+        resizeT = setTimeout(init, 120);
       });
 
       init();
+
+      if (prefersReducedMotion) {
+        drawStatic();
+        return;
+      }
+
       animate();
     })();

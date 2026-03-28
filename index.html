@@ -4,20 +4,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="LogicFlow — interactive virtual electronics lab: experiments, logic gates, and computer architecture. Learn hands-on, anywhere.">
   <title>LogicFlow — Interactive Electronics Lab</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
   <link rel="icon" href="favicon.png" type="image/png">
 
   <link rel="stylesheet" href="css/global.css">
   <link rel="stylesheet" href="css/index.css">
 </head>
 
-<body>
+<body class="landing">
 
-  <canvas id="particleCanvas"></canvas>
+  <canvas id="bgCanvas" aria-hidden="true" role="presentation"></canvas>
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+  <canvas id="particleCanvas" aria-hidden="true" role="presentation"></canvas>
 
   <nav>
     <a href="index.html" class="nav-logo">
@@ -47,21 +50,20 @@
     </div>
   </nav>
 
-  <!-- Animated blob background canvas -->
-  <canvas id="bgCanvas"></canvas>
-
-
-  <main class="hero" style="background:transparent;">
+  <main class="hero">
     <div class="icons-layer" id="iconsLayer"></div>
-    <br><br><br><br><br><br>
     <div class="hero-content">
+      <p class="hero-eyebrow">Virtual lab · Electronics &amp; digital logic</p>
       <div class="hero-head">
-        <h1 style="font-family: 'Playfair Display', serif; font-weight: 700;">LogicFlow</h1>
+        <h1>LogicFlow</h1>
       </div>
       <div class="base-head">
-        <p style="font-size: 20px;">The electronics lab that never runs out of equipment.</p>
+        <p>The electronics lab that never runs out of equipment.</p>
       </div>
-      <a href="curriculum.html" class="btn-cta">Start Exploring →</a>
+      <div class="hero-actions">
+        <a href="curriculum.html" class="btn-cta">Start exploring</a>
+        <a href="exp3_diode.html" class="btn-cta btn-cta-secondary">Open diode lab</a>
+      </div>
     </div>
   </main>
 

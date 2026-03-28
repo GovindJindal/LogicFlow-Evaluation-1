@@ -4,11 +4,28 @@
   box-sizing: border-box;
 }
 
-body {
+body.landing {
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
   background-color: #eceeff;
+  --mouse-x: 50%;
+  --mouse-y: 45%;
+}
+
+/* Subtle code-editor style ambient glow (follows cursor via JS; sits above blob canvas) */
+.cursor-glow {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(
+    600px circle at var(--mouse-x) var(--mouse-y),
+    rgba(99, 102, 241, 0.09) 0%,
+    rgba(129, 140, 248, 0.04) 35%,
+    transparent 55%
+  );
+  transition: opacity 0.4s ease;
 }
 
 /* BINARY PARTICLE CANVAS */
@@ -18,8 +35,9 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1;
+  z-index: 2;
   pointer-events: none;
+  opacity: 1;
 }
 
 /* ANIMATED BLOB BACKGROUND CANVAS */
@@ -38,34 +56,46 @@ body {
 /* HERO */
 .hero {
   position: relative;
+  z-index: 11;
   width: 100%;
-  height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  padding: clamp(5rem, 12vh, 8rem) 1.25rem 3rem;
+  background: transparent;
 }
 
 .hero-content {
   text-align: center;
   z-index: 10;
   pointer-events: none;
-  max-width: 950px;
+  max-width: 920px;
   padding: 0 20px;
-  /* Adjust vertical centering */
-  margin-top: -5vh;
+  margin-top: clamp(-2rem, -3vh, 0);
+}
+
+.hero-eyebrow {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: clamp(0.65rem, 1.5vw, 0.75rem);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(15, 15, 26, 0.45);
+  margin-bottom: 1.25rem;
+  user-select: none;
 }
 
 .hero-head h1 {
-  /* Massive sizing for LogicFlow */
-  font-size: clamp(54px, 17vw, 100px);
-  font-family: "OpenAI Sans", sans-serif;
-  font-weight: 500;
-  letter-spacing: -0.06em;
-  line-height: 1;
+  font-size: clamp(52px, 14vw, 96px);
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.02;
   user-select: none;
-  margin-bottom: 8px;
+  margin-bottom: 0.35rem;
   color: #0f0f1a;
 }
 
@@ -79,13 +109,26 @@ body {
 }
 
 .hero-content .base-head {
-  font-size: 18px;
+  font-size: clamp(1rem, 2.4vw, 1.25rem);
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
   font-weight: 400;
-  color: #444;
-  margin-top: 10px;
-  margin-bottom: 28px;
-  letter-spacing: -0.01em;
+  color: rgba(15, 15, 26, 0.62);
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+  letter-spacing: -0.02em;
+  line-height: 1.45;
+  max-width: 28rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem 1rem;
+  pointer-events: auto;
 }
 
 .btn-cta {
@@ -95,27 +138,42 @@ body {
   background: #111;
   color: #fff;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
-  padding: 16px 38px;
-  border-radius: 50px;
-  pointer-events: all;
+  padding: 14px 28px;
+  border-radius: 999px;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s, border-color 0.2s;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
   letter-spacing: -0.01em;
+  border: 1px solid transparent;
 }
 
 .btn-cta:hover {
-  transform: scale(1.03);
-  background: #333;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+  transform: translateY(-1px);
+  background: #252525;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.16);
+}
+
+.btn-cta-secondary {
+  background: rgba(255, 255, 255, 0.65);
+  color: #0f0f1a;
+  border: 1px solid rgba(15, 15, 26, 0.12);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.btn-cta-secondary:hover {
+  background: rgba(255, 255, 255, 0.92);
+  border-color: rgba(15, 15, 26, 0.18);
 }
 
 /* FLOATING ICONS */
 .icons-layer {
   position: absolute;
   inset: 0;
+  z-index: 1;
   pointer-events: none;
 }
 
@@ -186,5 +244,25 @@ body {
 @keyframes fadeIn {
   to {
     opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor-glow {
+    opacity: 0.35;
+    background: radial-gradient(
+      ellipse 80% 50% at 50% 40%,
+      rgba(99, 102, 241, 0.06) 0%,
+      transparent 70%
+    );
+  }
+
+  .app-icon {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+
+  .btn-cta:hover {
+    transform: none;
   }
 }
