@@ -413,10 +413,10 @@
       animate();
     })();
 
-    // ── Access dialog (three-way: student / faculty / guest) — frontend only ──
+    // ── Landing: access dialog, dual navbar, scroll reveals — frontend only ──
     document.addEventListener('DOMContentLoaded', () => {
+      const SESSION_KEY = 'logicflow_session';
       const dialog = document.getElementById('accessDialog');
-      const openBtn = document.getElementById('openAccessDialog');
       const closeBtn = document.getElementById('accessDialogClose');
       const steps = {
         pick: document.getElementById('accessStepPick'),
@@ -424,6 +424,31 @@
         faculty: document.getElementById('accessStepFaculty'),
         guest: document.getElementById('accessStepGuest'),
       };
+
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function applyNavMode() {
+        const role = sessionStorage.getItem(SESSION_KEY);
+        const authed = role === 'guest' || role === 'student' || role === 'faculty';
+        document.body.classList.toggle('has-app-nav', authed);
+        const navLanding = document.getElementById('navLinksLanding');
+        const navApp = document.getElementById('navLinksApp');
+        if (navLanding) navLanding.hidden = authed;
+        if (navApp) navApp.hidden = !authed;
+        const btnSignOut = document.getElementById('btnSignOut');
+        if (btnSignOut) btnSignOut.hidden = !authed;
+        document.getElementById('experimentDropdown')?.classList.remove('show');
+      }
+
+      function completeSession(role) {
+        sessionStorage.setItem(SESSION_KEY, role);
+        document.body.classList.add('nav-switching');
+        applyNavMode();
+        dialog?.close();
+        window.setTimeout(() => document.body.classList.remove('nav-switching'), 480);
+      }
+
+      applyNavMode();
 
       function showAccessStep(name) {
         Object.entries(steps).forEach(([key, el]) => {
@@ -448,7 +473,7 @@
         document.getElementById('formFaculty')?.reset();
       }
 
-      openBtn?.addEventListener('click', () => {
+      document.getElementById('btnEnterLab')?.addEventListener('click', () => {
         resetAccessDialog();
         dialog?.showModal();
         closeBtn?.focus();
@@ -475,21 +500,44 @@
 
       document.getElementById('formStudentInst')?.addEventListener('submit', (e) => {
         e.preventDefault();
-        const note = document.getElementById('accessStudentNote');
-        if (note) {
-          note.textContent =
-            'Demo only — nothing was sent to a server. In production, your institution would sign you in and sync lab progress to your class.';
-          note.hidden = false;
-        }
+        completeSession('student');
       });
 
       document.getElementById('formFaculty')?.addEventListener('submit', (e) => {
         e.preventDefault();
-        const note = document.getElementById('accessFacultyNote');
-        if (note) {
-          note.textContent =
-            'Demo only — no data was sent. In production, verified departments would open analytics and student records here.';
-          note.hidden = false;
+        completeSession('faculty');
+      });
+
+      document.getElementById('accessStudentGuestBtn')?.addEventListener('click', () => {
+        completeSession('guest');
+      });
+
+      document.getElementById('accessGuestEnterBtn')?.addEventListener('click', () => {
+        completeSession('guest');
+      });
+
+      document.getElementById('btnSignOut')?.addEventListener('click', () => {
+        sessionStorage.removeItem(SESSION_KEY);
+        applyNavMode();
+        window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+      });
+
+      document.querySelectorAll('.reveal-section').forEach((el) => {
+        if (prefersReducedMotion) {
+          el.classList.add('is-visible');
+          return;
         }
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                io.unobserve(entry.target);
+              }
+            });
+          },
+          { rootMargin: '0px 0px -6% 0px', threshold: 0.08 }
+        );
+        io.observe(el);
       });
     });

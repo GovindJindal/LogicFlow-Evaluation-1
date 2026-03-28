@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="top">
 
 <head>
   <meta charset="UTF-8">
@@ -22,35 +22,45 @@
   <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
   <canvas id="particleCanvas" aria-hidden="true" role="presentation"></canvas>
 
-  <nav>
-    <a href="index.html" class="nav-logo">
-      LogicFlow
-    </a>
-    <ul class="nav-links">
-      <li><a href="curriculum.html">Curriculum</a></li>
-      <li><a href="sandbox.html">Logic Gates</a></li>
-      <li><a href="coa.html">Computer Architecture</a></li>
-      <li class="dropdown">
-        <a id="experimentDropdownBtn">Experiments</a>
-        <div class="dropdown-content" id="experimentDropdown">
-          <div class="dropdown-menu">
-            <a href="exp1_components.html">1. Component Familiarization</a>
-            <a href="exp2_equipments.html">2. Measurement Equipment</a>
-            <a href="exp3_diode.html">3. PN Junction Diode</a>
-            <a href="exp4_zener.html">4. Zener Diode</a>
-            <a href="exp5_rectifier.html">5. Rectifiers</a>
-            <a href="exp6_flipflops.html">6. Flip-Flops</a>
-            <a href="exp7_bcd_decoder.html">7. BCD Decoder</a>
+  <nav class="site-nav" id="siteNav" aria-label="Primary">
+    <a href="#top" class="nav-logo" id="navLogo">LogicFlow</a>
+
+    <div class="nav-mid">
+      <ul class="nav-links nav-links--landing" id="navLinksLanding">
+        <li><a href="#discover">Overview</a></li>
+        <li><a href="#features">What you get</a></li>
+        <li><a href="#innovation">Innovation</a></li>
+        <li><a href="#how-it-works">How it works</a></li>
+        <li><a href="#team">Team</a></li>
+      </ul>
+      <ul class="nav-links nav-links--app" id="navLinksApp" hidden>
+        <li><a href="curriculum.html">Curriculum</a></li>
+        <li><a href="sandbox.html">Logic Gates</a></li>
+        <li><a href="coa.html">Computer Architecture</a></li>
+        <li class="dropdown">
+          <a href="#" id="experimentDropdownBtn">Experiments</a>
+          <div class="dropdown-content" id="experimentDropdown">
+            <div class="dropdown-menu">
+              <a href="exp1_components.html">1. Component Familiarization</a>
+              <a href="exp2_equipments.html">2. Measurement Equipment</a>
+              <a href="exp3_diode.html">3. PN Junction Diode</a>
+              <a href="exp4_zener.html">4. Zener Diode</a>
+              <a href="exp5_rectifier.html">5. Rectifiers</a>
+              <a href="exp6_flipflops.html">6. Flip-Flops</a>
+              <a href="exp7_bcd_decoder.html">7. BCD Decoder</a>
+            </div>
           </div>
-        </div>
-      </li>
-    </ul>
+        </li>
+      </ul>
+    </div>
+
     <div class="nav-actions">
-      <a href="exp3_diode.html" class="btn-enter">Enter Lab ↗</a>
+      <button type="button" class="btn-enter" id="btnEnterLab">Enter Lab ↗</button>
+      <button type="button" class="nav-sign-out" id="btnSignOut" hidden>Sign out</button>
     </div>
   </nav>
 
-  <main class="hero">
+  <main class="hero" id="heroMain">
     <div class="icons-layer" id="iconsLayer"></div>
     <div class="hero-content">
       <p class="hero-eyebrow">Virtual lab · Electronics &amp; digital logic</p>
@@ -61,13 +71,102 @@
         <p>The electronics lab that never runs out of equipment.</p>
       </div>
       <div class="hero-actions">
-        <a href="curriculum.html" class="btn-cta">Start exploring</a>
-        <button type="button" class="btn-cta btn-cta-secondary" id="openAccessDialog">
-          Sign in &amp; access
-        </button>
+        <a href="#discover" class="btn-cta" id="btnStartExplore">Start exploring</a>
       </div>
     </div>
   </main>
+
+  <div class="landing-scroll" id="landingScroll">
+    <section class="reveal-section section-discover" id="discover">
+      <div class="section-inner">
+        <p class="section-kicker">Overview</p>
+        <h2 class="section-title">What is LogicFlow?</h2>
+        <p class="section-lead">
+          LogicFlow is a browser-based electronics and digital-logic learning environment. Run experiments, build intuition with interactive instruments, and follow curriculum-aligned labs—without waiting for a physical bench or risking damaged parts.
+        </p>
+        <div class="section-grid section-grid--2">
+          <div class="info-card">
+            <span class="info-card-icon" aria-hidden="true">◎</span>
+            <h3>Purpose-built for learning</h3>
+            <p>Every screen is designed for clarity: schematics, meters, and graphs update in real time as you change bias, frequency, or logic inputs.</p>
+          </div>
+          <div class="info-card">
+            <span class="info-card-icon" aria-hidden="true">◇</span>
+            <h3>Always available</h3>
+            <p>Open the lab from any modern browser. Practice at your pace, revisit tricky concepts, and prepare for assessments with repeatable experiments.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="reveal-section section-features" id="features">
+      <div class="section-inner">
+        <p class="section-kicker">What you get</p>
+        <h2 class="section-title">Labs, tools, and structure</h2>
+        <ul class="feature-list">
+          <li><strong>Hands-on experiments</strong> — From components and bench equipment to diodes, rectifiers, flip-flops, and decoders.</li>
+          <li><strong>Logic gate sandbox</strong> — Compose and reason about digital building blocks (roadmap; some areas marked in development).</li>
+          <li><strong>Computer architecture visuals</strong> — Step through pipeline-style activities to connect hardware concepts to systems thinking.</li>
+          <li><strong>Curriculum mapping</strong> — See how experiments align with course outcomes and paper codes where institutions provide mappings.</li>
+          <li><strong>Export-friendly workflows</strong> — Structured lab flows that support notes and submissions where enabled.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="reveal-section section-innovation" id="innovation">
+      <div class="section-inner">
+        <p class="section-kicker">What’s innovative</p>
+        <h2 class="section-title">Why LogicFlow feels different</h2>
+        <div class="innovation-strip">
+          <div class="innovation-item">
+            <h3>Interactive fidelity</h3>
+            <p>Controls behave like instruments: ranges, limits, and visual feedback mirror how you’d probe a real circuit—without the fragility of hardware-only labs.</p>
+          </div>
+          <div class="innovation-item">
+            <h3>Unified narrative</h3>
+            <p>Analog electronics, digital logic, and architecture concepts live in one coherent journey instead of scattered PDFs and simulators.</p>
+          </div>
+          <div class="innovation-item">
+            <h3>Institution-ready (optional)</h3>
+            <p>Universities can pair registered access with class rosters; independent learners keep full open access. The product is built to support both models.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="reveal-section section-how" id="how-it-works">
+      <div class="section-inner">
+        <p class="section-kicker">How it works</p>
+        <h2 class="section-title">From landing to lab in minutes</h2>
+        <ol class="steps-list">
+          <li><span class="step-num">1</span> <strong>Explore the site</strong> — Use the overview sections to understand what LogicFlow offers.</li>
+          <li><span class="step-num">2</span> <strong>Enter the lab</strong> — Choose student, faculty, or guest access. Guests and open learners use the full experience without institution login.</li>
+          <li><span class="step-num">3</span> <strong>Pick a path</strong> — Follow curriculum mapping, dive into experiments, or open specialized tools like the gate sandbox or architecture activities.</li>
+          <li><span class="step-num">4</span> <strong>Save progress (when enrolled)</strong> — With institutional sign-in, activity can sync for instructors; guest mode stays private and untracked.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="reveal-section section-team" id="team">
+      <div class="section-inner">
+        <p class="section-kicker">Who built it</p>
+        <h2 class="section-title">Built for the classroom—and beyond</h2>
+        <p class="section-lead section-lead--narrow">
+          LogicFlow is developed as a front-end engineering and learning-design project focused on accessible, high-quality STEM practice. It combines careful UI work, curriculum alignment, and interactive simulations so students can learn by doing, wherever they are.
+        </p>
+        <p class="section-note">
+          This deployment is a <strong>frontend demonstration</strong>. Backend authentication, gradebooks, and analytics would connect here in a production rollout.
+        </p>
+      </div>
+    </section>
+
+    <footer class="landing-footer">
+      <div class="section-inner landing-footer-inner">
+        <span class="footer-brand">LogicFlow</span>
+        <span class="footer-meta">Interactive electronics lab · Demo experience</span>
+      </div>
+    </footer>
+  </div>
 
   <dialog class="access-dialog" id="accessDialog" aria-labelledby="accessDialogTitle" aria-modal="true">
     <div class="access-dialog-shell">
@@ -127,7 +226,9 @@
           <button type="submit" class="access-submit">Sign in with institution</button>
         </form>
         <div class="access-or" role="presentation"><span>or</span></div>
-        <a href="curriculum.html" class="access-guest-cta">Continue as guest — progress won’t be tracked</a>
+        <button type="button" class="access-guest-cta access-guest-cta--btn" id="accessStudentGuestBtn">
+          Continue as guest — progress won’t be tracked
+        </button>
         <p class="access-demo-note" id="accessStudentNote" role="status" hidden></p>
       </div>
 
@@ -161,7 +262,7 @@
         <p class="access-lede access-lede--tight">
           Jump into experiments and tools right away. You can always explore curriculum and labs without an account.
         </p>
-        <a href="curriculum.html" class="access-submit access-submit--link">Enter LogicFlow</a>
+        <button type="button" class="access-submit access-submit--link" id="accessGuestEnterBtn">Enter LogicFlow</button>
         <p class="access-demo-note">No sign-in required for guest mode.</p>
       </div>
     </div>
