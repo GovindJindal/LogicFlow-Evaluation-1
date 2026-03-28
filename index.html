@@ -62,10 +62,110 @@
       </div>
       <div class="hero-actions">
         <a href="curriculum.html" class="btn-cta">Start exploring</a>
-        <a href="exp3_diode.html" class="btn-cta btn-cta-secondary">Open diode lab</a>
+        <button type="button" class="btn-cta btn-cta-secondary" id="openAccessDialog">
+          Sign in &amp; access
+        </button>
       </div>
     </div>
   </main>
+
+  <dialog class="access-dialog" id="accessDialog" aria-labelledby="accessDialogTitle" aria-modal="true">
+    <div class="access-dialog-shell">
+      <button type="button" class="access-dialog-x" id="accessDialogClose" aria-label="Close dialog">
+        <span aria-hidden="true">×</span>
+      </button>
+
+      <div class="access-step" id="accessStepPick" data-access-step="pick">
+        <h2 class="access-title" id="accessDialogTitle">Choose how you’re accessing LogicFlow</h2>
+        <p class="access-lede">
+          Partner universities use registered credentials for class rosters and progress. Everyone can still explore the open lab.
+        </p>
+        <div class="access-cards" role="list">
+          <article class="access-card" data-access-path="student">
+            <span class="access-card-badge access-card-badge--track">Tracked progress</span>
+            <h3 class="access-card-title">University student</h3>
+            <p class="access-card-text">
+              Sign in with your institution account so labs and practice sync with your course. Or continue as a guest without saving progress.
+            </p>
+            <button type="button" class="access-card-btn">Continue</button>
+          </article>
+          <article class="access-card" data-access-path="faculty">
+            <span class="access-card-badge access-card-badge--dept">Institution</span>
+            <h3 class="access-card-title">Faculty &amp; department</h3>
+            <p class="access-card-text">
+              Dashboard access for cohorts, exports, and compliance when your university licenses LogicFlow.
+            </p>
+            <button type="button" class="access-card-btn">Continue</button>
+          </article>
+          <article class="access-card" data-access-path="guest">
+            <span class="access-card-badge access-card-badge--open">Open lab</span>
+            <h3 class="access-card-title">Guest &amp; independent learner</h3>
+            <p class="access-card-text">
+              Not enrolled through a partner university? Use the full virtual lab with open access—no institution login.
+            </p>
+            <button type="button" class="access-card-btn">Continue</button>
+          </article>
+        </div>
+        <p class="access-footnote">Frontend preview — authentication and storage are not connected yet.</p>
+      </div>
+
+      <div class="access-step access-step--detail" id="accessStepStudent" data-access-step="student" hidden>
+        <button type="button" class="access-back" data-access-back>← Back</button>
+        <h2 class="access-title">Institution sign-in</h2>
+        <p class="access-lede access-lede--tight">
+          Use your university email and password so your instructor can see lab completion and practice activity.
+        </p>
+        <form class="access-form" id="formStudentInst">
+          <label class="access-field">
+            <span class="access-label">Institution email</span>
+            <input type="email" name="studentEmail" autocomplete="username" placeholder="you@university.edu" required>
+          </label>
+          <label class="access-field">
+            <span class="access-label">Password</span>
+            <input type="password" name="studentPassword" autocomplete="current-password" placeholder="••••••••" required>
+          </label>
+          <button type="submit" class="access-submit">Sign in with institution</button>
+        </form>
+        <div class="access-or" role="presentation"><span>or</span></div>
+        <a href="curriculum.html" class="access-guest-cta">Continue as guest — progress won’t be tracked</a>
+        <p class="access-demo-note" id="accessStudentNote" role="status" hidden></p>
+      </div>
+
+      <div class="access-step access-step--detail" id="accessStepFaculty" data-access-step="faculty" hidden>
+        <button type="button" class="access-back" data-access-back>← Back</button>
+        <h2 class="access-title">Department access</h2>
+        <p class="access-lede access-lede--tight">
+          For institutions with a LogicFlow license. Verify your organization to open analytics and student records.
+        </p>
+        <form class="access-form" id="formFaculty">
+          <label class="access-field">
+            <span class="access-label">Institution code</span>
+            <input type="text" name="instCode" autocomplete="organization" placeholder="e.g. CHIT-2025" required>
+          </label>
+          <label class="access-field">
+            <span class="access-label">Department email</span>
+            <input type="email" name="facultyEmail" autocomplete="username" placeholder="faculty@university.edu" required>
+          </label>
+          <label class="access-field">
+            <span class="access-label">Password</span>
+            <input type="password" name="facultyPassword" autocomplete="current-password" required>
+          </label>
+          <button type="submit" class="access-submit">Open department dashboard</button>
+        </form>
+        <p class="access-demo-note" id="accessFacultyNote" role="status" hidden></p>
+      </div>
+
+      <div class="access-step access-step--detail" id="accessStepGuest" data-access-step="guest" hidden>
+        <button type="button" class="access-back" data-access-back>← Back</button>
+        <h2 class="access-title">Open access</h2>
+        <p class="access-lede access-lede--tight">
+          Jump into experiments and tools right away. You can always explore curriculum and labs without an account.
+        </p>
+        <a href="curriculum.html" class="access-submit access-submit--link">Enter LogicFlow</a>
+        <p class="access-demo-note">No sign-in required for guest mode.</p>
+      </div>
+    </div>
+  </dialog>
 
   <script src="js/index.js"></script>
 </body>

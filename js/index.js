@@ -412,3 +412,84 @@
 
       animate();
     })();
+
+    // ── Access dialog (three-way: student / faculty / guest) — frontend only ──
+    document.addEventListener('DOMContentLoaded', () => {
+      const dialog = document.getElementById('accessDialog');
+      const openBtn = document.getElementById('openAccessDialog');
+      const closeBtn = document.getElementById('accessDialogClose');
+      const steps = {
+        pick: document.getElementById('accessStepPick'),
+        student: document.getElementById('accessStepStudent'),
+        faculty: document.getElementById('accessStepFaculty'),
+        guest: document.getElementById('accessStepGuest'),
+      };
+
+      function showAccessStep(name) {
+        Object.entries(steps).forEach(([key, el]) => {
+          if (!el) return;
+          el.hidden = key !== name;
+        });
+      }
+
+      function resetAccessDialog() {
+        showAccessStep('pick');
+        const studentNote = document.getElementById('accessStudentNote');
+        const facultyNote = document.getElementById('accessFacultyNote');
+        if (studentNote) {
+          studentNote.hidden = true;
+          studentNote.textContent = '';
+        }
+        if (facultyNote) {
+          facultyNote.hidden = true;
+          facultyNote.textContent = '';
+        }
+        document.getElementById('formStudentInst')?.reset();
+        document.getElementById('formFaculty')?.reset();
+      }
+
+      openBtn?.addEventListener('click', () => {
+        resetAccessDialog();
+        dialog?.showModal();
+        closeBtn?.focus();
+      });
+
+      closeBtn?.addEventListener('click', () => dialog?.close());
+
+      dialog?.addEventListener('click', (e) => {
+        if (e.target === dialog) dialog.close();
+      });
+
+      dialog?.addEventListener('close', resetAccessDialog);
+
+      document.querySelectorAll('.access-card').forEach((card) => {
+        card.querySelector('.access-card-btn')?.addEventListener('click', () => {
+          const path = card.getAttribute('data-access-path');
+          if (path && steps[path]) showAccessStep(path);
+        });
+      });
+
+      document.querySelectorAll('[data-access-back]').forEach((btn) => {
+        btn.addEventListener('click', () => showAccessStep('pick'));
+      });
+
+      document.getElementById('formStudentInst')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const note = document.getElementById('accessStudentNote');
+        if (note) {
+          note.textContent =
+            'Demo only — nothing was sent to a server. In production, your institution would sign you in and sync lab progress to your class.';
+          note.hidden = false;
+        }
+      });
+
+      document.getElementById('formFaculty')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const note = document.getElementById('accessFacultyNote');
+        if (note) {
+          note.textContent =
+            'Demo only — no data was sent. In production, verified departments would open analytics and student records here.';
+          note.hidden = false;
+        }
+      });
+    });
