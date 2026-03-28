@@ -7,11 +7,26 @@
   box-sizing: border-box;
 }
 
+/* Offset for main content below fixed nav (nav uses top: 32px + pill height + breathing room). */
+:root {
+  --lf-nav-fixed-top: 32px;
+  --lf-main-padding-top: calc(var(--lf-nav-fixed-top) + 6.25rem + 2rem);
+  /* Match landing (index): system UI for copy, Playfair for display, JetBrains for mono. */
+  --lf-font-body: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+  --lf-font-display: 'Playfair Display', Georgia, serif;
+  --lf-font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
   background-color: #0d1222;
+}
+
+/* Light app pages use mesh + same body stack as landing marketing sections. */
+body:has(> .bg-mesh) {
+  font-family: var(--lf-font-body);
 }
 
 /* ── MESH GRADIENT BACKGROUND ── */
@@ -88,7 +103,7 @@ body {
   }
 }
 
-/* ── NAVBAR — same glass pill as index.html (landing) ── */
+/* ── NAVBAR — glass pill aligned with landing (hero uses Playfair “LogicFlow”) ── */
 nav {
   position: fixed;
   top: 32px;
@@ -100,22 +115,23 @@ nav {
   background: rgba(255, 255, 255, 0.4);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.45);
   border-radius: 50px;
   padding: 8px 8px 8px 32px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 8px 32px rgba(15, 15, 26, 0.06);
+  font-family: var(--lf-font-body);
 }
 
 .nav-logo {
-  font-family: 'Times New Roman', Times, serif;
+  font-family: var(--lf-font-display);
   font-weight: 700;
-  font-size: 22px;
-  color: #111;
+  font-size: 1.35rem;
+  color: #0f0f1a;
   text-decoration: none;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -137,16 +153,18 @@ nav {
 }
 
 .nav-links a {
-  color: #111;
+  color: rgba(15, 15, 26, 0.82);
   text-decoration: none;
+  font-family: var(--lf-font-body);
   font-size: 14px;
   font-weight: 600;
-  transition: color 0.2s;
+  letter-spacing: -0.01em;
+  transition: color 0.2s, opacity 0.2s;
 }
 
 .nav-links a:hover {
-  color: #000;
-  opacity: 0.7;
+  color: #0f0f1a;
+  opacity: 0.85;
 }
 
 .nav-links a.active {
@@ -157,22 +175,44 @@ nav {
 .nav-actions {
   display: flex;
   align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.nav-sign-out {
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 15, 26, 0.15);
+  background: rgba(255, 255, 255, 0.5);
+  font-family: var(--lf-font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(15, 15, 26, 0.65);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.nav-sign-out:hover {
+  background: rgba(15, 15, 26, 0.06);
+  color: #0f0f1a;
 }
 
 .btn-enter {
   background: #111;
   color: #fff;
   text-decoration: none;
-  font-size: 14px;
+  font-family: var(--lf-font-body);
+  font-size: 15px;
   font-weight: 600;
-  padding: 9px 20px;
+  letter-spacing: -0.01em;
+  padding: 10px 22px;
   border-radius: 50px;
-  transition: background 0.2s, transform 0.15s;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
 .btn-enter:hover {
-  background: #333;
+  background: #222;
   transform: scale(1.03);
 }
 
@@ -217,9 +257,11 @@ nav {
 
 .nav-links .dropdown-menu a {
   padding: 10px 22px;
-  color: #333;
+  color: rgba(15, 15, 26, 0.88);
+  font-family: var(--lf-font-body);
   font-size: 14px;
   font-weight: 500;
+  letter-spacing: -0.01em;
   transition: background 0.2s, color 0.2s;
   white-space: nowrap;
   display: block;
@@ -228,6 +270,17 @@ nav {
 .nav-links .dropdown-menu a:hover {
   background: rgba(0, 0, 0, 0.04);
   color: #000;
+}
+
+.nav-links .dropdown-menu a.active {
+  color: #1a56db;
+  font-weight: 700;
+  background: rgba(26, 86, 219, 0.08);
+}
+
+#experimentDropdownBtn.active {
+  color: #1a56db;
+  font-weight: 700;
 }
 
 /* ── Page content area (shared padding for content below fixed nav) ── */

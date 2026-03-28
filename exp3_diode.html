@@ -5,7 +5,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Diode Lab — LogicFlow</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet"/>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>  <link rel="stylesheet" href="css/global.css">
 
   <link rel="stylesheet" href="css/exp3_diode.css">
@@ -25,10 +25,11 @@
     </a>
     <ul class="nav-links">
       <li><a href="curriculum.html">Curriculum</a></li>
+      <li id="navTasksItem" hidden><a href="student-tasks.html">My tasks</a></li>
       <li><a href="sandbox.html">Logic Gates</a></li>
       <li><a href="coa.html">Computer Architecture</a></li>
       <li class="dropdown">
-        <a id="experimentDropdownBtn">Experiments</a>
+        <a href="#" id="experimentDropdownBtn">Experiments</a>
         <div class="dropdown-content" id="experimentDropdown">
           <div class="dropdown-menu">
             <a href="exp1_components.html">1. Component Familiarization</a>
@@ -44,6 +45,7 @@
     </ul>
     <div class="nav-actions">
       <a href="exp3_diode.html" class="btn-enter">Enter Lab ↗</a>
+      <button type="button" class="nav-sign-out" id="btnSignOut" hidden>Sign out</button>
     </div>
   </nav>
 
@@ -176,7 +178,8 @@
   </div>
 </div>
 
-<script src="js/exp3_diode.js"></script>
+<script defer src="js/nav-shared.js"></script>
+<script defer src="js/exp3_diode.js"></script>
 
 </body>
 </html>

@@ -82,23 +82,6 @@ body.landing button.btn-enter {
   font-family: inherit;
 }
 
-.nav-sign-out {
-  padding: 0.45rem 0.85rem;
-  border-radius: 999px;
-  border: 1px solid rgba(15, 15, 26, 0.15);
-  background: rgba(255, 255, 255, 0.5);
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: rgba(15, 15, 26, 0.65);
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
-}
-
-.nav-sign-out:hover {
-  background: rgba(15, 15, 26, 0.06);
-  color: #0f0f1a;
-}
-
 @media (max-width: 900px) {
   body.landing .nav-mid {
     overflow-x: auto;

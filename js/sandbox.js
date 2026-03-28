@@ -1,13 +1,3 @@
-// ── Dropdown Logic ──────────────────────────────────────────
-  document.addEventListener('DOMContentLoaded', () => {
-    const expBtn = document.getElementById('experimentDropdownBtn');
-    const expDropdown = document.getElementById('experimentDropdown');
-    if (expBtn && expDropdown) {
-      expBtn.addEventListener('click', (e) => { e.preventDefault(); expDropdown.classList.toggle('show'); });
-      document.addEventListener('click', (e) => { if (!e.target.closest('.dropdown')) expDropdown.classList.remove('show'); });
-    }
-  });
-
 (function () {
   const canvas = document.getElementById('bgCanvas');
   if (!canvas) return; // bgCanvas removed, skip old animation

@@ -6,14 +6,14 @@
       --border-dark:rgba(0, 0, 0, 0.08);
       --green:#10B981;--cyan:#06b6d4;--purple:#7C3AED;--amber:#F59E0B;--blue:#1A56DB;--rose:#F43F5E;
       --text:#0f0f1a;--muted:#475569;
-      --font-display:'Syne',sans-serif;
-      --font-body:-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+      --font-display:var(--lf-font-display);
+      --font-body:var(--lf-font-body);
       --font-mono:'JetBrains Mono',monospace;
     }
     body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-height:100vh}
 
     /* LAYOUT */
-    .page{padding-top:100px;max-width:1300px;margin:0 auto;padding-left:2rem;padding-right:2rem;position:relative;z-index:10}
+    .page{padding-top:var(--lf-main-padding-top);max-width:1300px;margin:0 auto;padding-left:2rem;padding-right:2rem;position:relative;z-index:10}
     .page-header{padding:1.75rem 0 1.25rem;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:1rem}
     .breadcrumb{display:flex;align-items:center;gap:.5rem;font-family:var(--font-mono);font-size:.65rem;color:var(--muted);margin-bottom:.6rem}
     .breadcrumb .badge{background:rgba(26,86,219,.15);border:1px solid rgba(26,86,219,.3);color:var(--blue);padding:.15rem .5rem;border-radius:999px;font-weight:700}
