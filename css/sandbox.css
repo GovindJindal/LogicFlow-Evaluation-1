@@ -1,0 +1,149 @@
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#eceeff;
+      --surface:rgba(255, 255, 255, 0.55);
+      --border:rgba(255, 255, 255, 0.6);
+      --border-dark:rgba(0, 0, 0, 0.08);
+      --green:#10B981;--cyan:#06b6d4;--purple:#7C3AED;--amber:#F59E0B;--blue:#1A56DB;
+      --text:#0f0f1a;--muted:#475569;
+      --font-display:var(--lf-font-display);
+      --font-body:var(--lf-font-body);
+      --font-mono:'JetBrains Mono',monospace;
+    }
+    body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-height:100vh;display:flex;flex-direction:column}
+
+    /* CENTER HERO */
+    .center-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      padding: 120px 2rem 4rem;
+      position: relative;
+      z-index: 10;
+      text-align: center;
+    }
+
+    .coming-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .4rem 1.1rem;
+      border-radius: 999px;
+      background: rgba(16,185,129,.12);
+      border: 1px solid rgba(16,185,129,.3);
+      font-family: var(--font-mono);
+      font-size: .68rem;
+      font-weight: 700;
+      color: #059669;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+    }
+
+    .sandbox-icon {
+      width: 96px;
+      height: 96px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(16,185,129,.15), rgba(6,182,212,.15));
+      border: 1px solid rgba(16,185,129,.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.2rem;
+      box-shadow: 0 16px 48px rgba(16,185,129,.12);
+      animation: float 5s ease-in-out infinite alternate;
+    }
+
+    @keyframes float {
+      0%   { transform: translateY(0px); }
+      100% { transform: translateY(-14px); }
+    }
+
+    h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3rem);
+      letter-spacing: -0.04em;
+      color: var(--text);
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 520px;
+      line-height: 1.7;
+    }
+
+    .gate-preview {
+      display: flex;
+      gap: .75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: .5rem;
+    }
+
+    .gate-chip {
+      padding: .45rem 1rem;
+      border-radius: 8px;
+      background: var(--surface);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: .75rem;
+      font-weight: 700;
+      color: var(--muted);
+      transition: all .2s;
+    }
+
+    .gate-chip:hover { color: var(--text); background: rgba(255,255,255,.9); transform: translateY(-2px); }
+
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .65rem 1.4rem;
+      border-radius: 50px;
+      background: rgba(0,0,0,.06);
+      border: 1px solid rgba(0,0,0,.1);
+      color: var(--muted);
+      text-decoration: none;
+      font-size: .85rem;
+      font-weight: 600;
+      transition: all .2s;
+    }
+
+    .btn-back:hover { background: rgba(0,0,0,.1); color: var(--text); transform: translateY(-1px); }
+
+    .progress-hint {
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      color: var(--muted);
+      background: var(--surface);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: .75rem 1.5rem;
+      max-width: 480px;
+    }
+
+    .progress-bar-wrap {
+      height: 6px;
+      background: rgba(0,0,0,.07);
+      border-radius: 3px;
+      margin-top: .5rem;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      background: linear-gradient(90deg, var(--green), var(--cyan));
+      width: 65%;
+      animation: grow 2.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes grow {
+      from { width: 58%; }
+      to   { width: 72%; }
+    }

@@ -1,0 +1,59 @@
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#eceeff;
+      --surface:rgba(255, 255, 255, 0.55);
+      --border:rgba(255, 255, 255, 0.6);
+      --border-dark:rgba(0, 0, 0, 0.08);
+      --green:#10B981;--cyan:#06b6d4;--purple:#7C3AED;--amber:#F59E0B;--blue:#1A56DB;--rose:#F43F5E;
+      --text:#0f0f1a;--muted:#475569;
+      --font-display:var(--lf-font-display);
+      --font-body:var(--lf-font-body);
+      --font-mono:'JetBrains Mono',monospace;
+    }
+    body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-height:100vh}
+    
+    /* LAYOUT */
+    .page{padding-top:var(--lf-main-padding-top);max-width:1300px;margin:0 auto;padding-left:2rem;padding-right:2rem;position:relative;z-index:10}
+    .page-header{padding:1.75rem 0 1.25rem;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .breadcrumb{display:flex;align-items:center;gap:.5rem;font-family:var(--font-mono);font-size:.65rem;color:var(--muted);margin-bottom:.6rem}
+    .breadcrumb .badge{background:rgba(26,86,219,.15);border:1px solid rgba(26,86,219,.3);color:var(--blue);padding:.15rem .5rem;border-radius:999px;font-weight:700}
+    .page-header h1{font-family:var(--font-display);font-size:2.2rem;color:var(--text);margin-bottom:.35rem;letter-spacing:-0.03em}
+    .page-header p{font-size:.9rem;color:var(--muted);max-width:550px;line-height:1.6}
+    
+    .lab-grid{display:grid;grid-template-columns:300px 1fr;gap:1.5rem;padding-bottom:3rem}
+    
+    /* PANELS */
+    .panel{background:var(--surface);backdrop-filter:blur(20px);border:1px solid var(--border);box-shadow:0 8px 32px rgba(0,0,0,0.03);border-radius:16px;padding:1.5rem}
+    .panel-label{font-family:var(--font-mono);font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:1rem;font-weight:700}
+
+    /* TOGGLE TYPE */
+    .toggle-group{display:flex;gap:.5rem;background:rgba(0,0,0,.04);border:1px solid var(--border-dark);border-radius:10px;padding:.3rem;margin-bottom:1.5rem}
+    .toggle-btn{flex:1;padding:.6rem;border-radius:7px;border:none;background:none;color:var(--muted);font-family:var(--font-mono);font-size:.78rem;cursor:pointer;transition:all .2s;font-weight:600}
+    .toggle-btn.active{background:var(--purple);color:#fff;box-shadow:0 4px 12px rgba(124,58,237,.3)}
+
+    /* INPUT SWITCHES */
+    .switch-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+    .logic-switch{display:flex;flex-direction:column;align-items:center;background:rgba(255,255,255,.6);border:1px solid var(--border);border-radius:8px;padding:.75rem}
+    .logic-switch.clock-btn{grid-column:1 / -1;background:rgba(26,86,219,.08);border-color:rgba(26,86,219,.2);cursor:pointer;transition:background .1s}
+    .logic-switch.clock-btn:active{background:rgba(26,86,219,.2)}
+    
+    .sw-label{font-family:var(--font-mono);font-size:.7rem;font-weight:700;color:var(--text);margin-bottom:.5rem}
+    .sw-track{width:36px;height:20px;background:rgba(0,0,0,.2);border-radius:10px;position:relative;cursor:pointer;transition:background .3s}
+    .sw-thumb{width:16px;height:16px;background:#fff;border-radius:50%;position:absolute;top:2px;left:2px;box-shadow:0 2px 4px rgba(0,0,0,.2);transition:transform .3s}
+    .logic-switch.on .sw-track{background:var(--green)}
+    .logic-switch.on .sw-thumb{transform:translateX(16px)}
+
+    /* LEDS */
+    .led-row{display:flex;justify-content:center;gap:2rem;margin-bottom:2rem}
+    .led-wrap{display:flex;flex-direction:column;align-items:center;gap:.5rem}
+    .led-bulb{width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.1);border:2px solid rgba(0,0,0,.2);box-shadow:inset 0 4px 6px rgba(0,0,0,.2);transition:all .1s}
+    .led-bulb.on{background:var(--amber);border-color:#FFF;box-shadow:0 0 24px rgba(245,158,11,.8), inset 0 2px 4px rgba(255,255,255,.8);transform:scale(1.05)}
+    .led-label{font-family:var(--font-mono);font-size:.8rem;font-weight:700;color:var(--text)}
+
+    /* TIMING DIAGRAM */
+    .timing-wrap{background:#1e293b;border-radius:12px;padding:1.5rem;box-shadow:inset 0 8px 32px rgba(0,0,0,0.5);border:4px solid #334155;overflow:hidden;position:relative}
+    .timing-canvas{width:100%;height:220px;display:block}
+    .timing-labels{position:absolute;top:1.5rem;left:1.5rem;display:flex;flex-direction:column;justify-content:space-around;height:220px;pointer-events:none}
+    .t-label{font-family:var(--font-mono);font-size:.7rem;font-weight:700;color:#94a3b8}
+
+    @media(max-width:900px){.lab-grid{grid-template-columns:1fr}}

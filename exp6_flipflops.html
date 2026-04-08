@@ -1,102 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="icon" href="Logo.png" type="image/png">
+  <link rel="icon" href="favicon.png" type="image/png">
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Flip-Flops Lab — LogicFlow</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
-  <style>
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{
-      --bg:#eceeff;
-      --surface:rgba(255, 255, 255, 0.55);
-      --border:rgba(255, 255, 255, 0.6);
-      --border-dark:rgba(0, 0, 0, 0.08);
-      --green:#10B981;--cyan:#06b6d4;--purple:#7C3AED;--amber:#F59E0B;--blue:#1A56DB;--rose:#F43F5E;
-      --text:#0f0f1a;--muted:#475569;
-      --font-display:'Syne',sans-serif;
-      --font-body:-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
-      --font-mono:'JetBrains Mono',monospace;
-    }
-    body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-height:100vh}
-    
-    /* NAV */
-    nav { position: fixed; top: 24px; left: 50%; transform: translateX(-50%); z-index: 100; background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 50px; padding: 10px 20px; display: flex; align-items: center; gap: 32px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05); }
-    .nav-logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 17px; color: #111; text-decoration: none; }
-    .logo-img { width: 28px; height: 28px; object-fit: contain; }
-    .nav-links { display: flex; gap: 28px; list-style: none; }
-    .nav-links a { color: #222; text-decoration: none; font-size: 14.5px; font-weight: 500; transition: color 0.2s; }
-    .nav-links a:hover { color: #000; }
-    .nav-links a.active { color: var(--blue); font-weight: 700; }
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet"/>  <link rel="stylesheet" href="css/global.css">
 
-    /* LAYOUT */
-    .page{padding-top:100px;max-width:1300px;margin:0 auto;padding-left:2rem;padding-right:2rem;position:relative;z-index:10}
-    .page-header{padding:1.75rem 0 1.25rem;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:1rem}
-    .breadcrumb{display:flex;align-items:center;gap:.5rem;font-family:var(--font-mono);font-size:.65rem;color:var(--muted);margin-bottom:.6rem}
-    .breadcrumb .badge{background:rgba(26,86,219,.15);border:1px solid rgba(26,86,219,.3);color:var(--blue);padding:.15rem .5rem;border-radius:999px;font-weight:700}
-    .page-header h1{font-family:var(--font-display);font-size:2.2rem;color:var(--text);margin-bottom:.35rem;letter-spacing:-0.03em}
-    .page-header p{font-size:.9rem;color:var(--muted);max-width:550px;line-height:1.6}
-    
-    .lab-grid{display:grid;grid-template-columns:300px 1fr;gap:1.5rem;padding-bottom:3rem}
-    
-    /* PANELS */
-    .panel{background:var(--surface);backdrop-filter:blur(20px);border:1px solid var(--border);box-shadow:0 8px 32px rgba(0,0,0,0.03);border-radius:16px;padding:1.5rem}
-    .panel-label{font-family:var(--font-mono);font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:1rem;font-weight:700}
-
-    /* TOGGLE TYPE */
-    .toggle-group{display:flex;gap:.5rem;background:rgba(0,0,0,.04);border:1px solid var(--border-dark);border-radius:10px;padding:.3rem;margin-bottom:1.5rem}
-    .toggle-btn{flex:1;padding:.6rem;border-radius:7px;border:none;background:none;color:var(--muted);font-family:var(--font-mono);font-size:.78rem;cursor:pointer;transition:all .2s;font-weight:600}
-    .toggle-btn.active{background:var(--purple);color:#fff;box-shadow:0 4px 12px rgba(124,58,237,.3)}
-
-    /* INPUT SWITCHES */
-    .switch-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
-    .logic-switch{display:flex;flex-direction:column;align-items:center;background:rgba(255,255,255,.6);border:1px solid var(--border);border-radius:8px;padding:.75rem}
-    .logic-switch.clock-btn{grid-column:1 / -1;background:rgba(26,86,219,.08);border-color:rgba(26,86,219,.2);cursor:pointer;transition:background .1s}
-    .logic-switch.clock-btn:active{background:rgba(26,86,219,.2)}
-    
-    .sw-label{font-family:var(--font-mono);font-size:.7rem;font-weight:700;color:var(--text);margin-bottom:.5rem}
-    .sw-track{width:36px;height:20px;background:rgba(0,0,0,.2);border-radius:10px;position:relative;cursor:pointer;transition:background .3s}
-    .sw-thumb{width:16px;height:16px;background:#fff;border-radius:50%;position:absolute;top:2px;left:2px;box-shadow:0 2px 4px rgba(0,0,0,.2);transition:transform .3s}
-    .logic-switch.on .sw-track{background:var(--green)}
-    .logic-switch.on .sw-thumb{transform:translateX(16px)}
-
-    /* LEDS */
-    .led-row{display:flex;justify-content:center;gap:2rem;margin-bottom:2rem}
-    .led-wrap{display:flex;flex-direction:column;align-items:center;gap:.5rem}
-    .led-bulb{width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.1);border:2px solid rgba(0,0,0,.2);box-shadow:inset 0 4px 6px rgba(0,0,0,.2);transition:all .1s}
-    .led-bulb.on{background:var(--amber);border-color:#FFF;box-shadow:0 0 24px rgba(245,158,11,.8), inset 0 2px 4px rgba(255,255,255,.8);transform:scale(1.05)}
-    .led-label{font-family:var(--font-mono);font-size:.8rem;font-weight:700;color:var(--text)}
-
-    /* TIMING DIAGRAM */
-    .timing-wrap{background:#1e293b;border-radius:12px;padding:1.5rem;box-shadow:inset 0 8px 32px rgba(0,0,0,0.5);border:4px solid #334155;overflow:hidden;position:relative}
-    .timing-canvas{width:100%;height:220px;display:block}
-    .timing-labels{position:absolute;top:1.5rem;left:1.5rem;display:flex;flex-direction:column;justify-content:space-around;height:220px;pointer-events:none}
-    .t-label{font-family:var(--font-mono);font-size:.7rem;font-weight:700;color:#94a3b8}
-
-    @media(max-width:900px){.lab-grid{grid-template-columns:1fr}.nav-links{display:none}}
-  
-    .dropdown { position: relative; display: flex; align-items: center; }
-    .dropdown-content { visibility: hidden; opacity: 0; position: absolute; top: 100%; left: 50%; transform: translate(-50%, 10px); padding-top: 24px; min-width: 240px; z-index: 101; transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s; }
-    .dropdown-content.show { visibility: visible; opacity: 1; transform: translate(-50%, 0); }
-    .dropdown-menu { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 16px; padding: 8px 0; box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column; }
-    .nav-links .dropdown-menu a { padding: 10px 22px; color: #333; font-size: 14px; font-weight: 500; transition: background 0.2s, color 0.2s; white-space: nowrap; display: block; border-radius: 0; }
-    .nav-links .dropdown-menu a:hover { background: rgba(0, 0, 0, 0.04); color: #000; }
-
-</style>
+  <link rel="stylesheet" href="css/exp6_flipflops.css">
 </head>
 <body>
 
-<canvas id="bgCanvas" style="position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;"></canvas>
+  <div class="bg-mesh">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="blob blob-4"></div>
+  </div>
 
-<nav>
-  <a href="index.html" class="nav-logo">
-    <img src="Logo.png" alt="LogicFlow Logo" class="logo-img">
-    LogicFlow
-  </a>
-  <ul class="nav-links">
-    <li class="dropdown">
-        <a href="#" id="experimentDropdownBtn">Experiments ▼</a>
+  <nav>
+    <a href="index.html" class="nav-logo">
+      LogicFlow
+    </a>
+    <ul class="nav-links">
+      <li><a href="curriculum.html">Curriculum</a></li>
+      <li id="navTasksItem" hidden><a href="student-tasks.html">My tasks</a></li>
+      <li><a href="sandbox.html">Logic Gates</a></li>
+      <li><a href="coa.html">Computer Architecture</a></li>
+      <li class="dropdown">
+        <a href="#" id="experimentDropdownBtn">Experiments</a>
         <div class="dropdown-content" id="experimentDropdown">
           <div class="dropdown-menu">
             <a href="exp1_components.html">1. Component Familiarization</a>
@@ -109,11 +41,12 @@
           </div>
         </div>
       </li>
-    <li><a href="sandbox.html">Logic Gates</a></li>
-    <li><a href="coa.html">COA</a></li>
-    <li><a href="curriculum.html">Curriculum</a></li>
-  </ul>
-</nav>
+    </ul>
+    <div class="nav-actions">
+      <a href="exp3_diode.html" class="btn-enter">Enter Lab ↗</a>
+      <button type="button" class="nav-sign-out" id="btnSignOut" hidden>Sign out</button>
+    </div>
+  </nav>
 
 <div class="page">
   <div class="page-header">
@@ -197,212 +130,8 @@
   </div>
 </div>
 
-<script>
+<script defer src="js/nav-shared.js"></script>
+<script defer src="js/exp6_flipflops.js"></script>
 
-  // ── Dropdown Logic ──────────────────────────────────────────
-  document.addEventListener('DOMContentLoaded', () => {
-    const expBtn = document.getElementById('experimentDropdownBtn');
-    const expDropdown = document.getElementById('experimentDropdown');
-    if (expBtn && expDropdown) {
-      expBtn.addEventListener('click', (e) => { e.preventDefault(); expDropdown.classList.toggle('show'); });
-      document.addEventListener('click', (e) => { if (!e.target.closest('.dropdown')) expDropdown.classList.remove('show'); });
-    }
-  });
-
-  // ── Animated Background ──────────────────────────────────────────
-  (function () {
-      const canvas = document.getElementById('bgCanvas');
-      const ctx = canvas.getContext('2d');
-      let W, H;
-      const blobs = [
-        { xf: .15, yf: .15, rf: .45, color: [120, 100, 255], speed: 0.00018, phase: 0 },
-        { xf: .78, yf: .10, rf: .40, color: [90, 140, 255], speed: 0.00013, phase: 1.2 },
-        { xf: .50, yf: .55, rf: .38, color: [160, 80, 240], speed: 0.00021, phase: 2.4 },
-        { xf: .08, yf: .68, rf: .33, color: [200, 160, 255], speed: 0.00016, phase: 0.7 }
-      ];
-      function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
-      function draw(ts) {
-        ctx.clearRect(0, 0, W, H);
-        ctx.fillStyle = '#eceeff'; ctx.fillRect(0, 0, W, H);
-        for (const b of blobs) {
-          const angle = ts * b.speed + b.phase;
-          const cx = (b.xf + Math.sin(angle * 1.3) * 0.12) * W;
-          const cy = (b.yf + Math.cos(angle * 0.9) * 0.10) * H;
-          const r = b.rf * Math.min(W, H) * (0.9 + 0.1 * Math.sin(angle * 2.1));
-          const [R, G, B] = b.color;
-          const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
-          g.addColorStop(0, `rgba(${R},${G},${B},0.58)`);
-          g.addColorStop(1, `rgba(${R},${G},${B},0)`);
-          ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2);
-          ctx.fillStyle = g; ctx.fill();
-        }
-        requestAnimationFrame(draw);
-      }
-      resize();
-      window.addEventListener('resize', resize);
-      requestAnimationFrame(draw);
-  })();
-
-  // ── Logic ──────────────────────────────────────────
-  let ffType = 'D';
-  let state = { CLK: 0, D: 0, J: 0, K: 0, PRE: 0, CLR: 0, Q: 0 };
-  
-  function setFF(t) {
-    ffType = t;
-    document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById(`btn-${t.toLowerCase()}`).classList.add('active');
-    
-    // Update inputs
-    const grid = document.getElementById('inputGrid');
-    if (t === 'D') {
-      grid.innerHTML = `
-        <div class="logic-switch" id="sw-D" onclick="toggle('D')"><span class="sw-label">D (Data)</span><div class="sw-track"><div class="sw-thumb"></div></div></div>
-        <div class="logic-switch" style="opacity:0;pointer-events:none"></div>
-      `;
-      document.getElementById('wrap-D').style.display = 'block';
-      document.getElementById('wrap-JK').style.display = 'none';
-      if(typeof resizeTiming === 'function') resizeTiming();
-    } else {
-      grid.innerHTML = `
-        <div class="logic-switch" id="sw-J" onclick="toggle('J')"><span class="sw-label">J</span><div class="sw-track"><div class="sw-thumb"></div></div></div>
-        <div class="logic-switch" id="sw-K" onclick="toggle('K')"><span class="sw-label">K</span><div class="sw-track"><div class="sw-thumb"></div></div></div>
-      `;
-      document.getElementById('wrap-D').style.display = 'none';
-      document.getElementById('wrap-JK').style.display = 'block';
-      if(typeof resizeTiming === 'function') resizeTiming();
-    }
-    state = { CLK:0, D:0, J:0, K:0, PRE:0, CLR:0, Q:0 };
-    updateLEDs();
-  }
-
-  function toggle(pin) {
-    state[pin] = 1 - state[pin];
-    const sw = document.getElementById(`sw-${pin}`);
-    if (state[pin]) sw.classList.add('on'); else sw.classList.remove('on');
-    evalLogic(false); // Evaluate asynchronous inputs
-  }
-
-  function pulseClock(val) {
-    if (state.CLK === val) return;
-    const isRisingEdge = (state.CLK === 0 && val === 1);
-    state.CLK = val;
-    evalLogic(isRisingEdge);
-    if(val) document.getElementById('clockBtn').style.background = 'rgba(26,86,219,0.3)';
-    else document.getElementById('clockBtn').style.background = '';
-  }
-
-  function evalLogic(clockRisingEdge) {
-    // Asynchronous Overrides
-    if (state.CLR) { state.Q = 0; }
-    else if (state.PRE) { state.Q = 1; }
-    // Synchronous clocked actions
-    else if (clockRisingEdge) {
-      if (ffType === 'D') {
-        state.Q = state.D;
-      } else if (ffType === 'JK') {
-        if (state.J === 0 && state.K === 0) { /* No change */ }
-        else if (state.J === 1 && state.K === 0) state.Q = 1;
-        else if (state.J === 0 && state.K === 1) state.Q = 0;
-        else if (state.J === 1 && state.K === 1) state.Q = 1 - state.Q; // Toggle
-      }
-    }
-    updateLEDs();
-  }
-
-  function updateLEDs() {
-    const qLed = document.getElementById('led-Q');
-    const qnLed = document.getElementById('led-Qn');
-    if (state.Q) {
-      qLed.classList.add('on'); qnLed.classList.remove('on');
-    } else {
-      qLed.classList.remove('on'); qnLed.classList.add('on');
-    }
-  }
-
-  // ── Timing Diagram Canvas ──────────────────────────────────────────
-  const tCavD = document.getElementById('timingCanvasD');
-  const tCtxD = tCavD.getContext('2d');
-  const tCavJK = document.getElementById('timingCanvasJK');
-  const tCtxJK = tCavJK.getContext('2d');
-  
-  function resizeTiming() { 
-    tCavD.width = tCavD.offsetWidth; tCavD.height = tCavD.offsetHeight; 
-    tCavJK.width = tCavJK.offsetWidth; tCavJK.height = tCavJK.offsetHeight;
-  }
-  window.addEventListener('resize', resizeTiming);
-
-  // History buffers
-  const histD = [];
-  const histJK = [];
-  const maxHist = 200;
-
-  function renderTiming() {
-    // Poll state
-    if (ffType === 'D') {
-      histD.push({ clk: state.CLK, d: state.D, q: state.Q, qn: 1 - state.Q });
-      if (histD.length > maxHist) histD.shift();
-      
-      tCtxD.clearRect(0,0,tCavD.width,tCavD.height);
-      tCtxD.strokeStyle = '#334155'; tCtxD.lineWidth = 1; tCtxD.beginPath();
-      for(let i=1;i<=3;i++) { tCtxD.moveTo(0, i*(tCavD.height/4)); tCtxD.lineTo(tCavD.width, i*(tCavD.height/4)); }
-      tCtxD.stroke();
-
-      const dx = tCavD.width / maxHist;
-      const h = tCavD.height;
-      drawWave(tCtxD, histD.map(x=>x.clk), 0, h/4, '#1A56DB', dx); // CLK
-      drawWave(tCtxD, histD.map(x=>x.d), h/4, h/4, '#10B981', dx); // D
-      drawWave(tCtxD, histD.map(x=>x.q), 2*(h/4), h/4, '#F59E0B', dx); // Q
-      drawWave(tCtxD, histD.map(x=>x.qn), 3*(h/4), h/4, '#F43F5E', dx); // Qn
-    } else {
-      histJK.push({ clk: state.CLK, j: state.J, k: state.K, q: state.Q, qn: 1 - state.Q });
-      if (histJK.length > maxHist) histJK.shift();
-      
-      tCtxJK.clearRect(0,0,tCavJK.width,tCavJK.height);
-      tCtxJK.strokeStyle = '#334155'; tCtxJK.lineWidth = 1; tCtxJK.beginPath();
-      for(let i=1;i<=4;i++) { tCtxJK.moveTo(0, i*(tCavJK.height/5)); tCtxJK.lineTo(tCavJK.width, i*(tCavJK.height/5)); }
-      tCtxJK.stroke();
-
-      const dx = tCavJK.width / maxHist;
-      const h = tCavJK.height;
-      drawWave(tCtxJK, histJK.map(x=>x.clk), 0, h/5, '#1A56DB', dx); // CLK
-      drawWave(tCtxJK, histJK.map(x=>x.j), h/5, h/5, '#10B981', dx); // J
-      drawWave(tCtxJK, histJK.map(x=>x.k), 2*(h/5), h/5, '#10B981', dx); // K
-      drawWave(tCtxJK, histJK.map(x=>x.q), 3*(h/5), h/5, '#F59E0B', dx); // Q
-      drawWave(tCtxJK, histJK.map(x=>x.qn), 4*(h/5), h/5, '#F43F5E', dx); // Qn
-    }
-
-    requestAnimationFrame(renderTiming);
-  }
-
-  function drawWave(ctx, data, yOffset, laneHeight, color, dx) {
-    if(!data.length) return;
-    ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.lineJoin = 'round';
-    ctx.beginPath();
-    const padY = 15;
-    const yHigh = yOffset + padY;
-    const yLow = yOffset + laneHeight - padY;
-
-    // Start
-    ctx.moveTo(0, data[0] ? yHigh : yLow);
-    for(let i=1; i<data.length; i++) {
-      const prevV = data[i-1];
-      const curV = data[i];
-      const x = i * dx;
-      
-      if (prevV !== curV) {
-        ctx.lineTo(x, prevV ? yHigh : yLow);
-        ctx.lineTo(x, curV  ? yHigh : yLow);
-      } else {
-        ctx.lineTo(x, curV ? yHigh : yLow);
-      }
-    }
-    ctx.stroke();
-  }
-
-  // Init
-  setFF('D'); // Starts with D FF
-  resizeTiming();
-  renderTiming();
-</script>
 </body>
 </html>

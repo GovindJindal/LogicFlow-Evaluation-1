@@ -1,96 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="icon" href="Logo.png" type="image/png">
+  <link rel="icon" href="favicon.png" type="image/png">
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Basic Equipments Lab — LogicFlow</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
-  <style>
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{
-      --bg:#eceeff;
-      --surface:rgba(255, 255, 255, 0.55);
-      --border:rgba(255, 255, 255, 0.6);
-      --border-dark:rgba(0, 0, 0, 0.08);
-      --green:#10B981;--cyan:#06b6d4;--purple:#7C3AED;--amber:#F59E0B;--blue:#1A56DB;--rose:#F43F5E;
-      --text:#0f0f1a;--muted:#475569;
-      --font-display:'Syne',sans-serif;
-      --font-body:-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
-      --font-mono:'JetBrains Mono',monospace;
-    }
-    body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-height:100vh}
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet"/>  <link rel="stylesheet" href="css/global.css">
 
-    /* NAV */
-    nav { position: fixed; top: 24px; left: 50%; transform: translateX(-50%); z-index: 100; background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 50px; padding: 10px 20px; display: flex; align-items: center; gap: 32px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05); }
-    .nav-logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 17px; color: #111; text-decoration: none; }
-    .logo-img { width: 28px; height: 28px; object-fit: contain; }
-    .nav-links { display: flex; gap: 28px; list-style: none; }
-    .nav-links a { color: #222; text-decoration: none; font-size: 14.5px; font-weight: 500; transition: color 0.2s; }
-    .nav-links a:hover { color: #000; }
-    .nav-links a.active { color: var(--blue); font-weight: 700; }
-
-    /* LAYOUT */
-    .page{padding-top:100px;max-width:1300px;margin:0 auto;padding-left:2rem;padding-right:2rem;position:relative;z-index:10}
-    .page-header{padding:1.75rem 0 1.25rem;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:1rem}
-    .breadcrumb{display:flex;align-items:center;gap:.5rem;font-family:var(--font-mono);font-size:.65rem;color:var(--muted);margin-bottom:.6rem}
-    .breadcrumb .badge{background:rgba(26,86,219,.15);border:1px solid rgba(26,86,219,.3);color:var(--blue);padding:.15rem .5rem;border-radius:999px;font-weight:700}
-    .page-header h1{font-family:var(--font-display);font-size:2.2rem;color:var(--text);margin-bottom:.35rem;letter-spacing:-0.03em}
-    .page-header p{font-size:.9rem;color:var(--muted);max-width:580px;line-height:1.6}
-    
-    .lab-grid{display:grid;grid-template-columns:350px 1fr;gap:1.5rem;padding-bottom:3rem}
-
-    /* PANELS */
-    .panel { background: var(--surface); backdrop-filter: blur(20px); border: 1px solid var(--border); box-shadow: 0 8px 32px rgba(0,0,0,0.03); border-radius: 16px; padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem; }
-    .panel-header { display: flex; align-items: center; gap: .75rem; border-bottom: 1px solid var(--border-dark); padding-bottom: 1rem; }
-    .panel-icon { font-size: 1.5rem; }
-    .panel-title { font-family: var(--font-display); font-size: 1.2rem; color: var(--text); }
-    .panel-label { font-family: var(--font-mono); font-size: .65rem; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; font-weight: 700; }
-
-    /* FUNCTION GENERATOR */
-    .wave-btns { display: flex; gap: .5rem; background: rgba(0,0,0,.04); padding: .3rem; border-radius: 10px; border: 1px solid var(--border-dark); }
-    .wave-btn { flex: 1; padding: .6rem; border: none; background: transparent; border-radius: 6px; cursor: pointer; transition: all .2s; font-family: var(--font-mono); font-size: .75rem; font-weight: 700; color: var(--muted); display: flex; flex-direction: column; align-items: center; gap: .3rem; }
-    .wave-btn svg { width: 24px; height: 24px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-    .wave-btn.active { background: var(--blue); color: #fff; box-shadow: 0 4px 12px rgba(26,86,219,.3); }
-
-    .slider-wrap { display: flex; flex-direction: column; gap: .5rem; }
-    .slider-head { display: flex; justify-content: space-between; align-items: center; }
-    .slider-val { font-family: var(--font-mono); font-size: .95rem; font-weight: 700; color: var(--text); background: rgba(255,255,255,.6); padding: .2rem .6rem; border-radius: 6px; border: 1px solid var(--border); }
-    input[type=range] { width: 100%; height: 6px; border-radius: 3px; outline: none; -webkit-appearance: none; background: rgba(0,0,0,.1); }
-    input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 8px rgba(26,86,219,.4); border: 2px solid #fff; cursor: pointer; }
-
-    /* CRO DISPLAY */
-    .cro-screen-wrap { background: #0f172a; padding: 1.5rem; border-radius: 12px; border: 4px solid #334155; position: relative; box-shadow: inset 0 8px 32px rgba(0,0,0,0.5), 0 8px 24px rgba(0,0,0,0.1); }
-    .cro-canvas { width: 100%; height: 320px; background: #020617; border-radius: 4px; box-shadow: inset 0 0 20px rgba(0,0,0,1); cursor: crosshair; }
-    
-    .cro-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; }
-    .knob-row { display: flex; flex-direction: column; gap: .5rem; background: rgba(255,255,255,.5); padding: 1rem; border-radius: 10px; border: 1px solid var(--border); }
-    
-    .status-panel { background: rgba(0,0,0,.8); padding: .5rem 1rem; border-radius: 4px; position: absolute; top: 1.5rem; right: 1.5rem; display: flex; gap: 1rem; font-family: var(--font-mono); font-size: .7rem; color: #10B981; pointer-events: none; border: 1px solid rgba(16,185,129,.3); }
-
-    @media(max-width:900px){ .lab-grid{grid-template-columns:1fr;} .cro-controls{grid-template-columns:1fr;} .nav-links{display:none;} }
-  
-    .dropdown { position: relative; display: flex; align-items: center; }
-    .dropdown-content { visibility: hidden; opacity: 0; position: absolute; top: 100%; left: 50%; transform: translate(-50%, 10px); padding-top: 24px; min-width: 240px; z-index: 101; transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s; }
-    .dropdown-content.show { visibility: visible; opacity: 1; transform: translate(-50%, 0); }
-    .dropdown-menu { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 16px; padding: 8px 0; box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column; }
-    .nav-links .dropdown-menu a { padding: 10px 22px; color: #333; font-size: 14px; font-weight: 500; transition: background 0.2s, color 0.2s; white-space: nowrap; display: block; border-radius: 0; }
-    .nav-links .dropdown-menu a:hover { background: rgba(0, 0, 0, 0.04); color: #000; }
-
-</style>
+  <link rel="stylesheet" href="css/exp2_equipments.css">
 </head>
 <body>
 
-<canvas id="bgCanvas" style="position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;"></canvas>
+  <div class="bg-mesh">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="blob blob-4"></div>
+  </div>
 
-<nav>
-  <a href="index.html" class="nav-logo">
-    <img src="Logo.png" alt="LogicFlow Logo" class="logo-img">
-    LogicFlow
-  </a>
-  <ul class="nav-links">
-    <li class="dropdown">
-        <a href="#" id="experimentDropdownBtn">Experiments ▼</a>
+  <nav>
+    <a href="index.html" class="nav-logo">
+      LogicFlow
+    </a>
+    <ul class="nav-links">
+      <li><a href="curriculum.html">Curriculum</a></li>
+      <li id="navTasksItem" hidden><a href="student-tasks.html">My tasks</a></li>
+      <li><a href="sandbox.html">Logic Gates</a></li>
+      <li><a href="coa.html">Computer Architecture</a></li>
+      <li class="dropdown">
+        <a href="#" id="experimentDropdownBtn">Experiments</a>
         <div class="dropdown-content" id="experimentDropdown">
           <div class="dropdown-menu">
             <a href="exp1_components.html">1. Component Familiarization</a>
@@ -103,11 +41,12 @@
           </div>
         </div>
       </li>
-    <li><a href="sandbox.html">Logic Gates</a></li>
-    <li><a href="coa.html">COA</a></li>
-    <li><a href="curriculum.html">Curriculum</a></li>
-  </ul>
-</nav>
+    </ul>
+    <div class="nav-actions">
+      <a href="exp3_diode.html" class="btn-enter">Enter Lab ↗</a>
+      <button type="button" class="nav-sign-out" id="btnSignOut" hidden>Sign out</button>
+    </div>
+  </nav>
 
 <div class="page">
   <div class="page-header">
@@ -205,190 +144,8 @@
   </div>
 </div>
 
-<script>
+<script defer src="js/nav-shared.js"></script>
+<script defer src="js/exp2_equipments.js"></script>
 
-  // ── Dropdown Logic ──────────────────────────────────────────
-  document.addEventListener('DOMContentLoaded', () => {
-    const expBtn = document.getElementById('experimentDropdownBtn');
-    const expDropdown = document.getElementById('experimentDropdown');
-    if (expBtn && expDropdown) {
-      expBtn.addEventListener('click', (e) => { e.preventDefault(); expDropdown.classList.toggle('show'); });
-      document.addEventListener('click', (e) => { if (!e.target.closest('.dropdown')) expDropdown.classList.remove('show'); });
-    }
-  });
-
-  // ── Animated Background ──────────────────────────────────────────
-  (function () {
-      const canvas = document.getElementById('bgCanvas');
-      const ctx = canvas.getContext('2d');
-      let W, H;
-      const blobs = [
-        { xf: .15, yf: .15, rf: .45, color: [120, 100, 255], speed: 0.00018, phase: 0 },
-        { xf: .78, yf: .10, rf: .40, color: [90, 140, 255], speed: 0.00013, phase: 1.2 },
-        { xf: .50, yf: .55, rf: .38, color: [160, 80, 240], speed: 0.00021, phase: 2.4 },
-        { xf: .08, yf: .68, rf: .33, color: [200, 160, 255], speed: 0.00016, phase: 0.7 }
-      ];
-      function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
-      function draw(ts) {
-        ctx.clearRect(0, 0, W, H);
-        ctx.fillStyle = '#eceeff'; ctx.fillRect(0, 0, W, H);
-        for (const b of blobs) {
-          const angle = ts * b.speed + b.phase;
-          const cx = (b.xf + Math.sin(angle * 1.3) * 0.12) * W;
-          const cy = (b.yf + Math.cos(angle * 0.9) * 0.10) * H;
-          const r = b.rf * Math.min(W, H) * (0.9 + 0.1 * Math.sin(angle * 2.1));
-          const [R, G, B] = b.color;
-          const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
-          g.addColorStop(0, `rgba(${R},${G},${B},0.58)`);
-          g.addColorStop(1, `rgba(${R},${G},${B},0)`);
-          ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2);
-          ctx.fillStyle = g; ctx.fill();
-        }
-        requestAnimationFrame(draw);
-      }
-      resize();
-      window.addEventListener('resize', resize);
-      requestAnimationFrame(draw);
-  })();
-
-  // ── State ────────────────────────────────────────────────────────
-  let waveType = 'sine'; // sine, square, triangle
-  let freq = 1000;       // Hz
-  let amp = 5;           // V peak-to-peak
-  let offset = 0;        // V DC offset
-  
-  let vdiv = 2;          // Volts per division (Vertical)
-  let tdiv = 0.5;        // ms per division (Horizontal)
-
-  function setWave(type) {
-    waveType = type;
-    document.querySelectorAll('.wave-btn').forEach(el => el.classList.remove('active'));
-    document.getElementById('btn-'+type).classList.add('active');
-  }
-
-  function updateGen() {
-    freq = parseFloat(document.getElementById('sid-freq').value);
-    amp = parseFloat(document.getElementById('sid-amp').value);
-    offset = parseFloat(document.getElementById('sid-offset').value);
-    
-    document.getElementById('lbl-freq').textContent = freq + ' Hz';
-    document.getElementById('lbl-amp').textContent = amp.toFixed(1) + ' Vpp';
-    document.getElementById('lbl-offset').textContent = offset.toFixed(1) + ' V';
-  }
-
-  function updateCRO() {
-    vdiv = parseFloat(document.getElementById('sid-vdiv').value);
-    tdiv = parseFloat(document.getElementById('sid-tdiv').value);
-    
-    document.getElementById('lbl-vdiv').textContent = vdiv.toFixed(1) + ' V';
-    document.getElementById('lbl-tdiv').textContent = tdiv.toFixed(1) + ' ms';
-    
-    document.getElementById('cro-ch1').textContent = `CH1: ${vdiv.toFixed(1)} V/DIV`;
-    document.getElementById('cro-time').textContent = `TIME: ${tdiv.toFixed(1)} ms/DIV`;
-  }
-
-  // ── CRO Rendering ──────────────────────────────────────────────────
-  const croCanvas = document.getElementById('croCanvas');
-  const croCtx = croCanvas.getContext('2d');
-  
-  function resizeCRO() {
-    croCanvas.width = croCanvas.offsetWidth;
-    croCanvas.height = croCanvas.offsetHeight;
-  }
-  window.addEventListener('resize', resizeCRO);
-  resizeCRO();
-
-  let timeBase = 0;
-
-  function drawCRO() {
-    const W = croCanvas.width;
-    const H = croCanvas.height;
-    
-    // Grid Setup
-    // 10 horizontal divisions, 8 vertical divisions
-    const divW = W / 10;
-    const divH = H / 8;
-    const midX = W / 2;
-    const midY = H / 2;
-
-    // Background & Glow
-    croCtx.fillStyle = '#020617';
-    croCtx.fillRect(0, 0, W, H);
-    
-    // Draw Grid
-    croCtx.strokeStyle = 'rgba(16, 185, 129, 0.2)';
-    croCtx.lineWidth = 1;
-    croCtx.beginPath();
-    for(let i=1; i<10; i++) { croCtx.moveTo(i*divW, 0); croCtx.lineTo(i*divW, H); }
-    for(let i=1; i<8; i++)  { croCtx.moveTo(0, i*divH); croCtx.lineTo(W, i*divH); }
-    croCtx.stroke();
-    
-    // Draw Axes markers
-    croCtx.strokeStyle = 'rgba(16, 185, 129, 0.4)';
-    croCtx.beginPath();
-    croCtx.moveTo(midX, 0); croCtx.lineTo(midX, H);
-    croCtx.moveTo(0, midY); croCtx.lineTo(W, midY);
-    // Sub-ticks
-    for(let i=0; i<50; i++) {
-        croCtx.moveTo(i*(W/50), midY-3); croCtx.lineTo(i*(W/50), midY+3);
-        croCtx.moveTo(midX-3, i*(H/40)); croCtx.lineTo(midX+3, i*(H/40));
-    }
-    croCtx.stroke();
-
-    // Signal Calculation
-    // Total time across screen = 10 divisions * tdiv (ms)
-    const totalTimeMs = 10 * tdiv;
-    const totalTimeSec = totalTimeMs / 1000;
-    
-    timeBase += 0.016; // Realtime ticking (~60fps)
-
-    croCtx.beginPath();
-    croCtx.strokeStyle = '#34d399';
-    croCtx.lineWidth = 2;
-    croCtx.shadowBlur = 8;
-    croCtx.shadowColor = '#10B981';
-
-    const Vp = amp / 2;
-    const pixelsPerVolt = divH / vdiv;
-
-    // Trigger emulation: find zero-crossing to stabilize wave visually
-    const T = 1 / freq; // Period in seconds
-    const phaseShift = (timeBase % T) * 2 * Math.PI * freq;
-    
-    for (let x = 0; x <= W; x++) {
-      // Time at this pixel relative to screen start
-      const t = (x / W) * totalTimeSec;
-      
-      let v = 0;
-      const omegaT = 2 * Math.PI * freq * t + phaseShift;
-
-      if (waveType === 'sine') {
-        v = Vp * Math.sin(omegaT);
-      } else if (waveType === 'square') {
-        v = Math.sign(Math.sin(omegaT)) * Vp;
-      } else if (waveType === 'triangle') {
-        v = (2 * Vp / Math.PI) * Math.asin(Math.sin(omegaT));
-      }
-
-      v += offset; // apply DC offset
-
-      // Map voltage to pixel Y coordinate
-      // Y goes down positively, so subtract from midY
-      const py = midY - (v * pixelsPerVolt);
-      
-      if (x === 0) croCtx.moveTo(x, py);
-      else croCtx.lineTo(x, py);
-    }
-    croCtx.stroke();
-    croCtx.shadowBlur = 0;
-
-    requestAnimationFrame(drawCRO);
-  }
-
-  // Start
-  updateGen();
-  updateCRO();
-  drawCRO();
-</script>
 </body>
 </html>

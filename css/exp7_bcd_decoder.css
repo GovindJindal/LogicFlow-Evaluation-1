@@ -1,0 +1,64 @@
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#eceeff;
+      --surface:rgba(255, 255, 255, 0.55);
+      --border:rgba(255, 255, 255, 0.6);
+      --border-dark:rgba(0, 0, 0, 0.08);
+      --green:#10B981;--cyan:#06b6d4;--purple:#7C3AED;--amber:#F59E0B;--blue:#1A56DB;--rose:#F43F5E;
+      --text:#0f0f1a;--muted:#475569;
+      --font-display:var(--lf-font-display);
+      --font-body:var(--lf-font-body);
+      --font-mono:'JetBrains Mono',monospace;
+    }
+    body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-height:100vh}
+
+    /* LAYOUT */
+    .page{padding-top:var(--lf-main-padding-top);max-width:1300px;margin:0 auto;padding-left:2rem;padding-right:2rem;position:relative;z-index:10}
+    .page-header{padding:1.75rem 0 1.25rem;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .breadcrumb{display:flex;align-items:center;gap:.5rem;font-family:var(--font-mono);font-size:.65rem;color:var(--muted);margin-bottom:.6rem}
+    .breadcrumb .badge{background:rgba(26,86,219,.15);border:1px solid rgba(26,86,219,.3);color:var(--blue);padding:.15rem .5rem;border-radius:999px;font-weight:700}
+    .page-header h1{font-family:var(--font-display);font-size:2.2rem;color:var(--text);margin-bottom:.35rem;letter-spacing:-0.03em}
+    .page-header p{font-size:.9rem;color:var(--muted);max-width:550px;line-height:1.6}
+    
+    .lab-grid{display:grid;grid-template-columns:300px 1fr;gap:1.5rem;padding-bottom:3rem}
+    
+    /* PANELS */
+    .panel{background:var(--surface);backdrop-filter:blur(20px);border:1px solid var(--border);box-shadow:0 8px 32px rgba(0,0,0,0.03);border-radius:16px;padding:1.5rem;display:flex;flex-direction:column;gap:1.25rem}
+    .panel-label{font-family:var(--font-mono);font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem;font-weight:700}
+
+    /* INPUT SWITCHES */
+    .switch-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    .logic-switch{display:flex;flex-direction:column;align-items:center;background:rgba(255,255,255,.6);border:1px solid var(--border);border-radius:8px;padding:.75rem}
+    .sw-label{font-family:var(--font-mono);font-size:.8rem;font-weight:700;color:var(--text);margin-bottom:.5rem;display:flex;flex-direction:column;align-items:center}
+    .sw-weight{font-size:.6rem;color:var(--muted);font-weight:400}
+    .sw-track{width:36px;height:20px;background:rgba(0,0,0,.2);border-radius:10px;position:relative;cursor:pointer;transition:background .3s}
+    .sw-thumb{width:16px;height:16px;background:#fff;border-radius:50%;position:absolute;top:2px;left:2px;box-shadow:0 2px 4px rgba(0,0,0,.2);transition:transform .3s}
+    .logic-switch.on .sw-track{background:var(--cyan)}
+    .logic-switch.on .sw-thumb{transform:translateX(16px)}
+    
+    .val-display{background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.3);color:#0891b2;padding:1rem;border-radius:8px;text-align:center;font-family:var(--font-mono);font-size:1.5rem;font-weight:700}
+    .dec-val{font-size:3rem;line-height:1}
+
+    /* 7-SEGMENT DISPLAY */
+    .display-scene{background:#0f172a;border-radius:12px;padding:2rem;display:flex;justify-content:center;align-items:center;border:4px solid #334155;box-shadow:inset 0 10px 30px rgba(0,0,0,0.8)}
+    .seg-container{width:120px;height:200px;position:relative}
+    
+    .seg{position:absolute;background:rgba(239,68,68,0.05);border-radius:10px;transition:all .1s}
+    .seg.on{background:#ef4444;box-shadow:0 0 20px #ef4444, 0 0 40px #ef4444, inset 0 0 4px #fff}
+    
+    /* Using CSS shapes for segmented lines */
+    .seg-h{height:16px;width:70px;left:25px;clip-path:polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%)}
+    .seg-v{width:16px;height:70px;clip-path:polygon(50% 0, 100% 10%, 100% 90%, 50% 100%, 0 90%, 0 10%)}
+    
+    .sa{top:5px} .sb{right:5px;top:20px} .sc{right:5px;bottom:20px} 
+    .sd{bottom:5px} .se{left:5px;bottom:20px} .sf{left:5px;top:20px} .sg{top:92px}
+    
+    /* TRUTH TABLE */
+    .table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,.6)}
+    table{width:100%;border-collapse:collapse;font-family:var(--font-mono);font-size:.8rem;text-align:center}
+    th{background:var(--surface);padding:1rem .5rem;color:var(--text);font-weight:700;border-bottom:2px solid var(--border-dark)}
+    td{padding:.6rem .5rem;border-bottom:1px solid var(--border);color:var(--muted)}
+    tr.active{background:rgba(6,182,212,.1);font-weight:700}
+    tr.active td{color:#0891b2}
+
+    @media(max-width:900px){.lab-grid{grid-template-columns:1fr}}
