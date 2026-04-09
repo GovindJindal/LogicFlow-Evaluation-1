@@ -7,9 +7,9 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <title>Electronic Components Lab — LogicFlow</title>
   <link
-    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@600;700&display=swap"
-    rel="stylesheet" />  <link rel="stylesheet" href="css/global.css">
-
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:wght@600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="css/global.css">
   <link rel="stylesheet" href="css/exp1_components.css">
 </head>
 
@@ -23,9 +23,7 @@
   </div>
 
   <nav>
-    <a href="index.html" class="nav-logo">
-      LogicFlow
-    </a>
+    <a href="index.html" class="nav-logo">LogicFlow</a>
     <ul class="nav-links">
       <li><a href="curriculum.html">Curriculum</a></li>
       <li id="navTasksItem" hidden><a href="student-tasks.html">My tasks</a></li>
@@ -35,7 +33,7 @@
         <a href="#" id="experimentDropdownBtn">Experiments</a>
         <div class="dropdown-content" id="experimentDropdown">
           <div class="dropdown-menu">
-            <a href="exp1_components.html">1. Component Familiarization</a>
+            <a href="exp1_components.html" class="active">1. Component Familiarization</a>
             <a href="exp2_equipments.html">2. Measurement Equipment</a>
             <a href="exp3_diode.html">3. PN Junction Diode</a>
             <a href="exp4_zener.html">4. Zener Diode</a>
@@ -57,31 +55,771 @@
       <div>
         <div class="breadcrumb">
           <span class="badge">Experiment 01</span>
-          <span>›</span><span>Components & Equipment</span>
+          <span>›</span>
+          <span>Components &amp; Equipment</span>
         </div>
-        <h1>Electronic Components Inspector</h1>
-        <p>To familiarize with electronics components (resistor, capacitor, inductor, diode, LED, transistor,
-          Multimeter, Breadboard etc.).</p>
+        <h1>Electronic Components Lab</h1>
+        <p>Interactive familiarization with resistors, capacitors, inductors, diodes, LEDs, transistors, multimeters, and breadboards.</p>
       </div>
     </div>
 
-    <div class="lab-grid">
-      <div class="catalog" id="catalog">
-        <!-- Generated via JS -->
-      </div>
+    <!-- ── TAB BAR ── -->
+    <div class="tab-bar" id="tabBar">
+      <button class="tab-btn active" data-tab="resistor">⛓ Resistor</button>
+      <button class="tab-btn" data-tab="capacitor">🔋 Capacitor</button>
+      <button class="tab-btn" data-tab="inductor">🧲 Inductor</button>
+      <button class="tab-btn" data-tab="diode">🔼 Diode</button>
+      <button class="tab-btn" data-tab="led">💡 LED</button>
+      <button class="tab-btn" data-tab="multimeter">📟 Multimeter</button>
+      <button class="tab-btn" data-tab="breadboard">🧮 Breadboard</button>
+    </div>
 
-      <div class="inspector" id="inspector">
-        <div class="empty-state">
-          <div style="font-size:3rem;margin-bottom:1rem;opacity:0.5">🔍</div>
-          <div>Select a component from the left<br>to inspect its details.</div>
+    <!-- ══════════════════════ RESISTOR ══════════════════════ -->
+    <div id="tab-resistor" class="tab-panel active">
+      <div class="two-col">
+
+        <!-- Interactive resistor card -->
+        <div class="glass-card">
+          <div class="card-label">Interactive Resistor — Change bands to calculate value</div>
+
+          <!-- SVG Resistor body -->
+          <div class="res-svg-area">
+            <svg id="resSVG" viewBox="0 0 320 80" width="100%" style="max-width:360px">
+              <line x1="0"   y1="40" x2="65"  y2="40" stroke="#b0b8c8" stroke-width="3" stroke-linecap="round"/>
+              <line x1="255" y1="40" x2="320" y2="40" stroke="#b0b8c8" stroke-width="3" stroke-linecap="round"/>
+              <rect x="65" y="20" width="190" height="40" rx="9" fill="#e8c88a"/>
+              <rect x="65" y="20" width="190" height="40" rx="9" fill="url(#resGrad)" opacity="0.4"/>
+              <rect id="rB1" x="84"  y="20" width="22" height="40" fill="#92400e"/>
+              <rect id="rB2" x="116" y="20" width="22" height="40" fill="#1a1a1a"/>
+              <rect id="rB3" x="148" y="20" width="22" height="40" fill="#1a1a1a"/>
+              <rect id="rB4" x="180" y="20" width="22" height="40" fill="#92400e"/>
+              <rect id="rB5" x="212" y="20" width="14" height="40" fill="#b45309"/>
+              <rect x="65" y="20" width="190" height="40" rx="9" fill="none" stroke="#c9a96e" stroke-width="1.5"/>
+              <rect x="65" y="20" width="190" height="10" rx="5" fill="rgba(255,255,255,0.3)"/>
+              <defs>
+                <linearGradient id="resGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%"   stop-color="#fff" stop-opacity=".3"/>
+                  <stop offset="100%" stop-color="#000" stop-opacity=".12"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+
+          <!-- Band selectors -->
+          <div class="band-selectors">
+            <div class="band-slot">
+              <span class="band-slot-lbl">1st Digit</span>
+              <select class="band-select" id="b1" onchange="updateBands()">
+                <option value="black">Black (0)</option>
+                <option value="brown" selected>Brown (1)</option>
+                <option value="red">Red (2)</option>
+                <option value="orange">Orange (3)</option>
+                <option value="yellow">Yellow (4)</option>
+                <option value="green">Green (5)</option>
+                <option value="blue">Blue (6)</option>
+                <option value="violet">Violet (7)</option>
+                <option value="gray">Gray (8)</option>
+                <option value="white">White (9)</option>
+              </select>
+              <div class="band-indicator" id="bi1"></div>
+            </div>
+            <div class="band-slot">
+              <span class="band-slot-lbl">2nd Digit</span>
+              <select class="band-select" id="b2" onchange="updateBands()">
+                <option value="black" selected>Black (0)</option>
+                <option value="brown">Brown (1)</option>
+                <option value="red">Red (2)</option>
+                <option value="orange">Orange (3)</option>
+                <option value="yellow">Yellow (4)</option>
+                <option value="green">Green (5)</option>
+                <option value="blue">Blue (6)</option>
+                <option value="violet">Violet (7)</option>
+                <option value="gray">Gray (8)</option>
+                <option value="white">White (9)</option>
+              </select>
+              <div class="band-indicator" id="bi2"></div>
+            </div>
+            <div class="band-slot">
+              <span class="band-slot-lbl">3rd Digit</span>
+              <select class="band-select" id="b3" onchange="updateBands()">
+                <option value="black" selected>Black (0)</option>
+                <option value="brown">Brown (1)</option>
+                <option value="red">Red (2)</option>
+                <option value="orange">Orange (3)</option>
+                <option value="yellow">Yellow (4)</option>
+                <option value="green">Green (5)</option>
+                <option value="blue">Blue (6)</option>
+                <option value="violet">Violet (7)</option>
+                <option value="gray">Gray (8)</option>
+                <option value="white">White (9)</option>
+              </select>
+              <div class="band-indicator" id="bi3"></div>
+            </div>
+            <div class="band-slot">
+              <span class="band-slot-lbl">Multiplier</span>
+              <select class="band-select" id="b4" onchange="updateBands()">
+                <option value="black">Black (×1Ω)</option>
+                <option value="brown" selected>Brown (×10Ω)</option>
+                <option value="red">Red (×100Ω)</option>
+                <option value="orange">Orange (×1kΩ)</option>
+                <option value="yellow">Yellow (×10kΩ)</option>
+                <option value="green">Green (×100kΩ)</option>
+                <option value="blue">Blue (×1MΩ)</option>
+                <option value="violet">Violet (×10MΩ)</option>
+                <option value="gray">Gray (×100MΩ)</option>
+                <option value="white">White (×1GΩ)</option>
+                <option value="gold">Gold (×0.1Ω)</option>
+                <option value="silver">Silver (×0.01Ω)</option>
+              </select>
+              <div class="band-indicator" id="bi4"></div>
+            </div>
+            <div class="band-slot">
+              <span class="band-slot-lbl">Tolerance</span>
+              <select class="band-select" id="b5" onchange="updateBands()">
+                <option value="brown">Brown (±1%)</option>
+                <option value="red">Red (±2%)</option>
+                <option value="green">Green (±0.5%)</option>
+                <option value="blue">Blue (±0.25%)</option>
+                <option value="violet">Violet (±0.1%)</option>
+                <option value="gray">Gray (±0.05%)</option>
+                <option value="gold" selected>Gold (±5%)</option>
+                <option value="silver">Silver (±10%)</option>
+              </select>
+              <div class="band-indicator" id="bi5"></div>
+            </div>
+          </div>
+
+          <div class="res-display">
+            <span class="res-value" id="resValue">1.00 kΩ ± 5%</span>
+            <span class="res-range" id="resRange">Range: 950 Ω — 1.05 kΩ</span>
+          </div>
+        </div>
+
+        <!-- Knowledge panel -->
+        <div class="glass-card">
+          <div class="card-label">Knowledge — Resistor</div>
+          <div class="know-block">
+            <div class="know-title">What is a Resistor?</div>
+            <p class="know-text">A passive two-terminal component that opposes current flow. The ratio of voltage to current defines its resistance. Used for current limiting, voltage division, and biasing active components.</p>
+          </div>
+          <div class="formula-box">V = I × R &nbsp;&nbsp;|&nbsp;&nbsp; P = I² × R</div>
+          <div class="know-block">
+            <div class="know-title">Reading 5-Band Color Codes</div>
+            <ul class="know-list">
+              <li>Bands 1–3 are digits, Band 4 is multiplier, Band 5 is tolerance</li>
+              <li>Read left to right; gold/silver band is always on the right</li>
+              <li>Tolerance shows how much the actual value may deviate</li>
+              <li>Power rating (¼W, ½W, 1W) limits maximum safe heat dissipation</li>
+              <li>Series: R_total = R₁ + R₂ &nbsp; Parallel: 1/R = 1/R₁ + 1/R₂</li>
+            </ul>
+          </div>
+          <div class="two-col-sym">
+            <div class="sym-wrap">
+              <svg viewBox="0 0 110 44" width="100%">
+                <line x1="8" y1="22" x2="28" y2="22" stroke="#334155" stroke-width="2"/>
+                <polyline points="28,22 33,10 43,34 53,10 63,34 73,10 82,22" fill="none" stroke="#334155" stroke-width="2" stroke-linejoin="round"/>
+                <line x1="82" y1="22" x2="102" y2="22" stroke="#334155" stroke-width="2"/>
+                <text x="55" y="42" font-family="monospace" font-size="7" fill="#94a3b8" text-anchor="middle">American (ANSI)</text>
+              </svg>
+            </div>
+            <div class="sym-wrap">
+              <svg viewBox="0 0 110 44" width="100%">
+                <line x1="8" y1="22" x2="28" y2="22" stroke="#334155" stroke-width="2"/>
+                <rect x="28" y="14" width="54" height="16" rx="2" fill="none" stroke="#334155" stroke-width="2"/>
+                <line x1="82" y1="22" x2="102" y2="22" stroke="#334155" stroke-width="2"/>
+                <text x="55" y="42" font-family="monospace" font-size="7" fill="#94a3b8" text-anchor="middle">European (IEC)</text>
+              </svg>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
+
+      <!-- Color code table -->
+      <div class="glass-card" style="margin-top:1.25rem">
+        <div class="card-label">Resistor Color Code Reference Table</div>
+        <div style="overflow-x:auto">
+          <table class="color-tbl">
+            <thead>
+              <tr>
+                <th>Color</th><th>1st Band</th><th>2nd Band</th><th>3rd Band</th>
+                <th>Multiplier</th><th>Tolerance</th><th>Temp. Coeff.</th>
+              </tr>
+            </thead>
+            <tbody id="colorTblBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div><!-- /resistor -->
+
+    <!-- ══════════════════════ CAPACITOR ══════════════════════ -->
+    <div id="tab-capacitor" class="tab-panel">
+      <div class="two-col">
+        <div class="glass-card">
+          <div class="card-label">Interactive Capacitor Tester</div>
+          <div class="cap-svg-wrap">
+            <svg viewBox="0 0 200 160" width="180" id="capSVG">
+              <rect x="60" y="20" width="80" height="110" rx="8" fill="#1A56DB"/>
+              <rect x="60" y="20" width="80" height="20" rx="4" fill="rgba(255,255,255,.15)"/>
+              <rect id="capPolStripe" x="110" y="22" width="26" height="106" rx="4" fill="rgba(0,0,0,.25)"/>
+              <text id="capPolText" x="123" y="80" font-family="monospace" font-size="16" fill="#fff" text-anchor="middle" font-weight="bold">−</text>
+              <line x1="85" y1="130" x2="85" y2="155" stroke="#94a3b8" stroke-width="3" stroke-linecap="round"/>
+              <line x1="115" y1="130" x2="115" y2="160" stroke="#94a3b8" stroke-width="3" stroke-linecap="round"/>
+              <clipPath id="capClip"><rect x="62" y="22" width="44" height="106" rx="4"/></clipPath>
+              <rect id="capChargeRect" x="62" y="128" width="44" height="0" fill="rgba(16,185,129,0.55)" clip-path="url(#capClip)"/>
+              <text id="capVLabel" x="82" y="80" font-family="monospace" font-size="10" fill="#fff" text-anchor="middle" font-weight="bold">0V</text>
+            </svg>
+          </div>
+          <div class="controls-stack">
+            <div class="ctrl-row">
+              <span class="ctrl-label">Rated Voltage</span>
+              <input type="range" id="capRated" min="1" max="100" value="16" oninput="updateCap()">
+              <span class="ctrl-val" id="capRatedVal">16V</span>
+            </div>
+            <div class="ctrl-row">
+              <span class="ctrl-label">Applied Voltage</span>
+              <input type="range" id="capApplied" min="0" max="120" value="5" oninput="updateCap()">
+              <span class="ctrl-val" id="capAppliedVal">5V</span>
+            </div>
+            <div class="ctrl-row">
+              <span class="ctrl-label">Capacitance (µF)</span>
+              <input type="number" class="num-input" id="capVal" value="100" min="0.001" step="1" oninput="updateCap()">
+              <span class="ctrl-unit">µF</span>
+            </div>
+          </div>
+          <div class="toggle-wrap" id="capPolToggle" onclick="toggleCapPolarity()">
+            <div class="toggle-track" id="capPolTrack"><div class="toggle-thumb"></div></div>
+            <span class="toggle-label" id="capPolLbl">Correct Polarity (+ to +)</span>
+          </div>
+          <div class="reading-grid">
+            <div class="reading-card"><span class="reading-val" id="capChargePC">31%</span><div class="reading-lbl">Charge Level</div></div>
+            <div class="reading-card"><span class="reading-val" id="capEnergy">0.002 mJ</span><div class="reading-lbl">Stored Energy (½CV²)</div></div>
+          </div>
+          <div id="capStatusBox" class="status-box ok">✓ Safe — Voltage within rated limit</div>
+          <button class="btn-primary full-w" id="capChargeBtn" onclick="chargeCapacitor()">⚡ Charge Capacitor</button>
+        </div>
+        <div class="glass-card">
+          <div class="card-label">Knowledge — Capacitor</div>
+          <div class="know-block">
+            <div class="know-title">What is a Capacitor?</div>
+            <p class="know-text">A passive component that stores electrical energy in an electric field between two conductive plates separated by a dielectric. Charges when connected to voltage, discharges when disconnected.</p>
+          </div>
+          <div class="formula-box">Q = C × V &nbsp;&nbsp;|&nbsp;&nbsp; E = ½ C V²</div>
+          <div class="know-block">
+            <div class="know-title">Key Properties</div>
+            <ul class="know-list">
+              <li>Measured in Farads — typical: µF (10⁻⁶), nF (10⁻⁹), pF (10⁻¹²)</li>
+              <li>Electrolytic: polarized, stripe = negative side. Larger values, lower frequency</li>
+              <li>Ceramic/Film: non-polarized, excellent for high-frequency decoupling</li>
+              <li>Blocks DC at steady state, passes AC signals freely</li>
+              <li>Time constant: τ = RC determines charge/discharge speed</li>
+              <li>Exceeding rated voltage causes dielectric breakdown — explosion risk!</li>
+            </ul>
+          </div>
+          <div class="two-col-sym">
+            <div class="sym-wrap">
+              <svg viewBox="0 0 100 44" width="100%">
+                <line x1="8" y1="22" x2="42" y2="22" stroke="#334155" stroke-width="2"/>
+                <line x1="42" y1="10" x2="42" y2="34" stroke="#334155" stroke-width="2.5"/>
+                <line x1="58" y1="10" x2="58" y2="34" stroke="#334155" stroke-width="2.5"/>
+                <line x1="58" y1="22" x2="92" y2="22" stroke="#334155" stroke-width="2"/>
+                <text x="22" y="38" font-family="monospace" font-size="8" fill="#1A56DB">+</text>
+                <text x="50" y="42" font-family="monospace" font-size="6" fill="#94a3b8" text-anchor="middle">Non-Polar</text>
+              </svg>
+            </div>
+            <div class="sym-wrap">
+              <svg viewBox="0 0 100 44" width="100%">
+                <line x1="8" y1="22" x2="42" y2="22" stroke="#334155" stroke-width="2"/>
+                <line x1="42" y1="10" x2="42" y2="34" stroke="#334155" stroke-width="2.5"/>
+                <path d="M58,10 Q65,22 58,34" fill="none" stroke="#334155" stroke-width="2.5"/>
+                <line x1="58" y1="22" x2="92" y2="22" stroke="#334155" stroke-width="2"/>
+                <text x="50" y="42" font-family="monospace" font-size="6" fill="#94a3b8" text-anchor="middle">Electrolytic</text>
+              </svg>
+            </div>
+          </div>
+          <div class="status-box err" style="margin-top:.75rem">⚠ Always verify polarity before connecting electrolytic capacitors. Reverse polarity causes dangerous pressure build-up.</div>
+        </div>
+      </div>
+    </div><!-- /capacitor -->
+
+    <!-- ══════════════════════ INDUCTOR ══════════════════════ -->
+    <div id="tab-inductor" class="tab-panel">
+      <div class="two-col">
+        <div class="glass-card">
+          <div class="card-label">Inductor — Magnetic Field Visualizer</div>
+          <div class="mag-field-wrap">
+            <svg viewBox="0 0 300 180" width="100%">
+              <ellipse class="mag-ring3" cx="150" cy="90" rx="75" ry="55" fill="none" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="6,4"/>
+              <ellipse class="mag-ring2" cx="150" cy="90" rx="52" ry="38" fill="none" stroke="#60a5fa" stroke-width="1.5" stroke-dasharray="6,4"/>
+              <ellipse class="mag-ring"  cx="150" cy="90" rx="32" ry="24" fill="none" stroke="#93c5fd" stroke-width="1.5" stroke-dasharray="6,4"/>
+              <rect x="95" y="78" width="110" height="24" rx="4" fill="#1e293b"/>
+              <path d="M100,90 Q108,78 116,90 Q124,102 132,90 Q140,78 148,90 Q156,102 164,90 Q172,78 180,90 Q188,102 196,90"
+                    fill="none" stroke="#b45309" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="60"  y1="90" x2="95"  y2="90" stroke="#94a3b8" stroke-width="3"/>
+              <line x1="205" y1="90" x2="240" y2="90" stroke="#94a3b8" stroke-width="3"/>
+              <text x="150" y="30"  font-family="monospace" font-size="9" fill="#3b82f6" text-anchor="middle" opacity="0.7">⊕ N Pole</text>
+              <text x="150" y="163" font-family="monospace" font-size="9" fill="#3b82f6" text-anchor="middle" opacity="0.7">⊖ S Pole</text>
+              <text x="60"  y="108" font-family="monospace" font-size="9" fill="#64748b" text-anchor="middle">A</text>
+              <text x="240" y="108" font-family="monospace" font-size="9" fill="#64748b" text-anchor="middle">B</text>
+              <text id="indCoreLbl" x="150" y="115" font-family="monospace" font-size="8" fill="#94a3b8" text-anchor="middle">Air Core</text>
+            </svg>
+          </div>
+          <div class="controls-stack">
+            <div class="ctrl-row">
+              <span class="ctrl-label">Inductance (mH)</span>
+              <input type="range" id="indVal" min="0.1" max="1000" value="10" step="0.1" oninput="updateInductor()">
+              <span class="ctrl-val" id="indValDisp">10 mH</span>
+            </div>
+            <div class="ctrl-row">
+              <span class="ctrl-label">Current (mA)</span>
+              <input type="range" id="indCurr" min="0" max="500" value="100" oninput="updateInductor()">
+              <span class="ctrl-val" id="indCurrDisp">100 mA</span>
+            </div>
+            <div class="ctrl-row">
+              <span class="ctrl-label">Core Type</span>
+              <select class="band-select" id="indCore" onchange="updateInductor()" style="flex:1">
+                <option value="1">Air Core (µᵣ = 1)</option>
+                <option value="200">Ferrite Core (µᵣ ≈ 200)</option>
+                <option value="5000">Iron Core (µᵣ ≈ 5000)</option>
+              </select>
+            </div>
+          </div>
+          <div class="reading-grid">
+            <div class="reading-card"><span class="reading-val" id="indEnergy">0.05 µJ</span><div class="reading-lbl">Stored Energy (½LI²)</div></div>
+            <div class="reading-card"><span class="reading-val" id="indReact">62.8 Ω</span><div class="reading-lbl">Reactance @ 1 kHz (XL)</div></div>
+          </div>
+        </div>
+        <div class="glass-card">
+          <div class="card-label">Knowledge — Inductor</div>
+          <div class="know-block">
+            <div class="know-title">What is an Inductor?</div>
+            <p class="know-text">A passive component that stores energy in a magnetic field when current flows through it. Resists changes in current (Lenz's Law). Consists of a coil of wire, often wound around a magnetic core to increase inductance.</p>
+          </div>
+          <div class="formula-box">V = L × (dI/dt) &nbsp;&nbsp;|&nbsp;&nbsp; XL = 2πfL</div>
+          <div class="know-block">
+            <div class="know-title">Key Properties</div>
+            <ul class="know-list">
+              <li>Measured in Henrys (H); practical: mH (10⁻³), µH (10⁻⁶)</li>
+              <li>Short circuit to DC steady-state; blocks high-frequency AC</li>
+              <li>Reactance (XL) increases with frequency — opposite of capacitor</li>
+              <li>Iron/ferrite core multiplies inductance by µᵣ (permeability)</li>
+              <li>Used in: power supply filters, RF chokes, LC oscillators, transformers</li>
+              <li>Mutual inductance between two coils is the principle of transformers</li>
+            </ul>
+          </div>
+          <div class="sym-wrap" style="margin-top:.75rem">
+            <svg viewBox="0 0 160 50" width="100%">
+              <line x1="8"   y1="25" x2="28"  y2="25" stroke="#334155" stroke-width="2"/>
+              <path d="M28,25 A8,8 0 1,1 44,25 A8,8 0 1,1 60,25 A8,8 0 1,1 76,25 A8,8 0 1,1 92,25 A8,8 0 1,1 108,25 A8,8 0 1,1 124,25"
+                    fill="none" stroke="#334155" stroke-width="2"/>
+              <line x1="124" y1="25" x2="152" y2="25" stroke="#334155" stroke-width="2"/>
+              <text x="80" y="46" font-family="monospace" font-size="7" fill="#94a3b8" text-anchor="middle">IEC Schematic Symbol</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div><!-- /inductor -->
+
+    <!-- ══════════════════════ DIODE ══════════════════════ -->
+    <div id="tab-diode" class="tab-panel">
+      <div class="two-col">
+        <div class="glass-card">
+          <div class="card-label">PN Junction Diode — Bias Simulator</div>
+          <div class="diode-visual" id="diodeVis">
+            <div class="flow-track" id="diodeFlow">
+              <div class="particle"></div>
+              <div class="particle"></div>
+              <div class="particle"></div>
+            </div>
+            <svg viewBox="0 0 280 90" width="100%">
+              <line x1="20"  y1="45" x2="90"  y2="45" stroke="#94a3b8" stroke-width="3"/>
+              <rect x="90"  y="28" width="100" height="34" rx="5" fill="#2d3748"/>
+              <rect x="90"  y="28" width="100" height="34" rx="5" fill="url(#diodeGrad)" opacity="0.5"/>
+              <rect x="175" y="28" width="10"  height="34" rx="2" fill="#94a3b8"/>
+              <polygon points="115,36 115,54 140,45" fill="none" stroke="#e2e8f0" stroke-width="1.5"/>
+              <line x1="140" y1="34" x2="140" y2="56" stroke="#e2e8f0" stroke-width="2"/>
+              <line x1="190" y1="45" x2="260" y2="45" stroke="#94a3b8" stroke-width="3"/>
+              <text x="55"  y="70" font-family="monospace" font-size="9" fill="#64748b" text-anchor="middle">Anode (+)</text>
+              <text x="225" y="70" font-family="monospace" font-size="9" fill="#64748b" text-anchor="middle">Cathode (−)</text>
+              <text x="105" y="20" font-family="monospace" font-size="8" fill="#94a3b8">P</text>
+              <text x="172" y="20" font-family="monospace" font-size="8" fill="#94a3b8">N</text>
+              <defs>
+                <linearGradient id="diodeGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%"   stop-color="#fff" stop-opacity=".2"/>
+                  <stop offset="100%" stop-color="#000" stop-opacity=".1"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <div class="bias-btns">
+            <div class="bias-btn active-fwd" id="btnFwd" onclick="setBias('forward')">⚡ Forward Bias</div>
+            <div class="bias-btn" id="btnRev" onclick="setBias('reverse')">🚫 Reverse Bias</div>
+          </div>
+          <div class="controls-stack" style="margin-top:.75rem">
+            <div class="ctrl-row">
+              <span class="ctrl-label">Supply Voltage</span>
+              <input type="range" id="diodeVin" min="0" max="20" value="5" step="0.1" oninput="updateDiode()">
+              <span class="ctrl-val" id="diodeVinVal">5.0V</span>
+            </div>
+            <div class="ctrl-row">
+              <span class="ctrl-label">Diode Type</span>
+              <select class="band-select" id="diodeType" onchange="updateDiode()" style="flex:1">
+                <option value="0.7">Silicon (Vf = 0.7V)</option>
+                <option value="0.3">Germanium (Vf = 0.3V)</option>
+                <option value="0.2">Schottky (Vf = 0.2V)</option>
+                <option value="2.0">LED Red (Vf ≈ 2.0V)</option>
+              </select>
+            </div>
+          </div>
+          <div class="reading-grid">
+            <div class="reading-card"><span class="reading-val" id="diodeVf">0.7V</span><div class="reading-lbl">Voltage Drop (Vf)</div></div>
+            <div class="reading-card"><span class="reading-val" id="diodeVout">4.3V</span><div class="reading-lbl">Output Voltage</div></div>
+          </div>
+          <div id="diodeStatus" class="status-box ok">⚡ Forward Biased — Current flows freely</div>
+        </div>
+        <div class="glass-card">
+          <div class="card-label">Knowledge — PN Junction Diode</div>
+          <div class="know-block">
+            <div class="know-title">What is a Diode?</div>
+            <p class="know-text">A semiconductor device with a P-N junction that allows current to flow in one direction only. When forward biased (anode + &gt; cathode −), current flows; when reverse biased, only negligible leakage current passes.</p>
+          </div>
+          <div class="formula-box">I = Is(e^(V/VT) − 1) &nbsp; [Shockley Equation]</div>
+          <div class="know-block">
+            <div class="know-title">Types of Diodes</div>
+            <ul class="know-list">
+              <li><strong>Rectifier Diode:</strong> Converts AC to DC — core of power supplies</li>
+              <li><strong>Zener Diode:</strong> Voltage regulation via controlled reverse breakdown</li>
+              <li><strong>Schottky Diode:</strong> Very fast switching, low forward voltage (~0.2V)</li>
+              <li><strong>LED:</strong> Emits light when forward biased (see LED tab)</li>
+              <li><strong>Photodiode:</strong> Generates current proportional to incident light</li>
+              <li><strong>Varactor:</strong> Variable capacitance diode used in RF tuning circuits</li>
+            </ul>
+          </div>
+          <div class="sym-wrap" style="margin-top:.75rem">
+            <svg viewBox="0 0 160 50" width="100%">
+              <line x1="10"  y1="25" x2="55"  y2="25" stroke="#334155" stroke-width="2"/>
+              <polygon points="55,12 55,38 85,25" fill="rgba(26,86,219,.15)" stroke="#334155" stroke-width="2"/>
+              <line x1="85"  y1="12" x2="85"  y2="38" stroke="#334155" stroke-width="2"/>
+              <line x1="85"  y1="25" x2="150" y2="25" stroke="#334155" stroke-width="2"/>
+              <text x="40"  y="46" font-family="monospace" font-size="7" fill="#1A56DB">A+</text>
+              <text x="88"  y="46" font-family="monospace" font-size="7" fill="#64748b">K−</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div><!-- /diode -->
+
+    <!-- ══════════════════════ LED ══════════════════════ -->
+    <div id="tab-led" class="tab-panel">
+      <div class="two-col">
+        <div class="glass-card">
+          <div class="card-label">LED — Interactive Color &amp; Power Tester</div>
+          <div class="led-stage" id="ledStage">
+            <div class="led-glow-bg" id="ledGlowBg"></div>
+            <svg id="ledSVG" viewBox="0 0 120 160" width="120">
+              <ellipse cx="60" cy="70" rx="35" ry="38" id="ledBodyEllipse" fill="#ef4444"/>
+              <ellipse cx="60" cy="70" rx="35" ry="38" fill="url(#ledGrad)" opacity="0.5"/>
+              <rect x="25" y="100" width="70" height="10" rx="2" id="ledBase" fill="#cc2222"/>
+              <ellipse cx="48" cy="58" rx="10" ry="8" fill="rgba(255,255,255,0.4)"/>
+              <line x1="48" y1="110" x2="48" y2="155" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="72" y1="110" x2="72" y2="148" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
+              <text x="43" y="158" font-family="monospace" font-size="8" fill="#94a3b8" text-anchor="middle">+</text>
+              <text x="72" y="152" font-family="monospace" font-size="8" fill="#94a3b8" text-anchor="middle">−</text>
+              <g id="ledRays" opacity="0" style="transition:opacity .4s">
+                <line x1="35" y1="35" x2="22" y2="18" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="60" y1="28" x2="60" y2="10"  stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="85" y1="35" x2="98" y2="18"  stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="25" y1="55" x2="8"  y2="50"  stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="95" y1="55" x2="112" y2="50" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"/>
+              </g>
+              <defs>
+                <radialGradient id="ledGrad" cx="40%" cy="35%">
+                  <stop offset="0%"   stop-color="#fff" stop-opacity=".45"/>
+                  <stop offset="100%" stop-color="#000" stop-opacity=".15"/>
+                </radialGradient>
+              </defs>
+            </svg>
+            <div class="led-power-indicator" id="ledPowerInd">● ON</div>
+          </div>
+          <div class="led-palette" id="ledPalette"></div>
+          <div class="led-controls">
+            <button class="btn-toggle" id="ledPowerBtn" onclick="toggleLED()">⚡ Power OFF</button>
+            <span class="status-badge s-err" id="ledStatusBadge">LED OFF</span>
+          </div>
+          <div class="reading-grid">
+            <div class="reading-card"><span class="reading-val" id="ledVf">1.6–2.0V</span><div class="reading-lbl">Forward Voltage</div></div>
+            <div class="reading-card"><span class="reading-val" id="ledWave">610–760 nm</span><div class="reading-lbl">Wavelength</div></div>
+          </div>
+        </div>
+        <div class="glass-card">
+          <div class="card-label">Knowledge — LED</div>
+          <div class="know-block">
+            <div class="know-title">How does an LED work?</div>
+            <p class="know-text">A Light Emitting Diode converts electrical energy directly into light via electroluminescence. When electrons recombine with holes across the P-N junction, they release energy as photons. The photon color depends on the semiconductor bandgap energy.</p>
+          </div>
+          <div class="formula-box">E = hf = hc/λ &nbsp;&nbsp; (Photon Energy)</div>
+          <div class="know-block">
+            <div class="know-title">Circuit Rules</div>
+            <ul class="know-list">
+              <li>Longer lead = Anode (+), Shorter lead = Cathode (−)</li>
+              <li>Always use current-limiting resistor: R = (Vs − Vf) / If</li>
+              <li>Typical current: 10–20 mA for standard indicator LEDs</li>
+              <li>Color determines forward voltage drop (see material table below)</li>
+              <li>White LEDs use a blue InGaN chip + yellow YAG phosphor coating</li>
+            </ul>
+          </div>
+          <div class="sym-wrap">
+            <svg viewBox="0 0 160 55" width="100%">
+              <line x1="10" y1="28" x2="52"  y2="28" stroke="#334155" stroke-width="2"/>
+              <polygon points="52,14 52,42 80,28" fill="rgba(239,68,68,.2)" stroke="#334155" stroke-width="2"/>
+              <line x1="80" y1="14" x2="80"  y2="42" stroke="#334155" stroke-width="2"/>
+              <line x1="80" y1="28" x2="150" y2="28" stroke="#334155" stroke-width="2"/>
+              <line x1="62" y1="14" x2="52"  y2="4"  stroke="#eab308" stroke-width="1.5" marker-end="url(#ledArr)"/>
+              <line x1="72" y1="14" x2="62"  y2="4"  stroke="#eab308" stroke-width="1.5" marker-end="url(#ledArr)"/>
+              <defs><marker id="ledArr" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5Z" fill="#eab308"/></marker></defs>
+              <text x="38" y="52" font-family="monospace" font-size="7" fill="#1A56DB">A+</text>
+              <text x="83" y="52" font-family="monospace" font-size="7" fill="#64748b">K−</text>
+            </svg>
+          </div>
+          <div class="status-box info" style="margin-top:.75rem">💡 Active LED: <span id="ledMaterialInfo">AlGaAs, GaAsP — Red, 610–760 nm</span></div>
+        </div>
+      </div>
+
+      <!-- LED Material Table -->
+      <div class="glass-card" style="margin-top:1.25rem">
+        <div class="card-label">LED Color — Material Composition &amp; Specifications</div>
+        <div style="overflow-x:auto">
+          <table class="color-tbl">
+            <thead>
+              <tr><th>Color</th><th>Wavelength (nm)</th><th>Forward Voltage (Vf)</th><th>Semiconductor Material</th></tr>
+            </thead>
+            <tbody id="ledTblBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div><!-- /led -->
+
+    <!-- ══════════════════════ MULTIMETER ══════════════════════ -->
+    <div id="tab-multimeter" class="tab-panel">
+      <div class="two-col">
+        <div class="glass-card">
+          <div class="card-label">Digital Multimeter — Interactive Simulator</div>
+          <div class="meter-layout">
+            <!-- SVG meter -->
+            <div class="meter-svg-wrap">
+              <svg viewBox="0 0 200 320" width="200" id="meterSVG">
+                <rect x="8"   y="8"   width="184" height="304" rx="20" fill="#f59e0b"/>
+                <rect x="16"  y="16"  width="168" height="288" rx="16" fill="#1e293b"/>
+                <rect x="28"  y="28"  width="144" height="70"  rx="8"  fill="#9ca3af"/>
+                <rect x="32"  y="32"  width="136" height="62"  rx="6"  fill="#c8cfd0"/>
+                <rect x="34"  y="34"  width="132" height="56"  rx="4"  fill="#b8c8b0"/>
+                <text id="meterDispVal"  x="160" y="64" font-family="monospace" font-size="22" font-weight="bold" fill="#1a2a1a" text-anchor="end">0.000</text>
+                <text id="meterDispUnit" x="160" y="80" font-family="monospace" font-size="9"  fill="#3a5a3a" text-anchor="end">---</text>
+                <text id="meterDispMode" x="36"  y="48" font-family="monospace" font-size="7"  fill="#3a5a3a">OFF</text>
+                <text x="36"  y="80" font-family="monospace" font-size="6" fill="#7a9a7a">AUTO</text>
+                <circle cx="100" cy="188" r="70" fill="#2d3748"/>
+                <circle cx="100" cy="188" r="66" fill="#374151"/>
+                <text x="100" y="133" font-family="monospace" font-size="6.5" fill="#d1d5db" text-anchor="middle">DC V</text>
+                <text x="140" y="148" font-family="monospace" font-size="5.5" fill="#d1d5db" text-anchor="middle">~V</text>
+                <text x="162" y="178" font-family="monospace" font-size="5.5" fill="#fbbf24" text-anchor="middle">Hz</text>
+                <text x="160" y="208" font-family="monospace" font-size="5.5" fill="#fbbf24" text-anchor="middle">mA≅</text>
+                <text x="148" y="235" font-family="monospace" font-size="5.5" fill="#ef4444" text-anchor="middle" font-weight="bold">OFF</text>
+                <text x="100" y="248" font-family="monospace" font-size="5.5" fill="#d1d5db" text-anchor="middle">)) ►|</text>
+                <text x="55"  y="238" font-family="monospace" font-size="5.5" fill="#d1d5db" text-anchor="middle">Ω</text>
+                <text x="42"  y="210" font-family="monospace" font-size="5.5" fill="#d1d5db" text-anchor="middle">20kΩ</text>
+                <text x="40"  y="182" font-family="monospace" font-size="5.5" fill="#d1d5db" text-anchor="middle">200Ω</text>
+                <text x="55"  y="152" font-family="monospace" font-size="5.5" fill="#d1d5db" text-anchor="middle">DCV 2</text>
+                <circle cx="100" cy="188" r="28" fill="#111827"/>
+                <circle cx="100" cy="188" r="22" fill="#1f2937"/>
+                <circle cx="100" cy="188" r="6"  fill="#374151"/>
+                <line id="meterNeedle" x1="100" y1="188" x2="100" y2="162"
+                      stroke="#ef4444" stroke-width="2.5" stroke-linecap="round"
+                      style="transform-origin:100px 188px;transform:rotate(135deg);transition:transform .5s cubic-bezier(.34,1.56,.64,1)"/>
+                <circle cx="72"  cy="290" r="7" fill="#111" stroke="#4b5563" stroke-width="1.5"/>
+                <circle cx="100" cy="290" r="7" fill="#111" stroke="#4b5563" stroke-width="1.5"/>
+                <circle cx="128" cy="290" r="7" fill="#111" stroke="#4b5563" stroke-width="1.5"/>
+                <text x="72"  y="307" font-family="monospace" font-size="5.5" fill="#94a3b8" text-anchor="middle">COM</text>
+                <text x="100" y="307" font-family="monospace" font-size="5.5" fill="#ef4444"  text-anchor="middle">V/Ω</text>
+                <text x="128" y="307" font-family="monospace" font-size="5.5" fill="#fbbf24"  text-anchor="middle">mA/A</text>
+                <text x="156" y="270" font-family="serif" font-size="9" fill="#6b7280">CE</text>
+              </svg>
+            </div>
+
+            <!-- Meter controls -->
+            <div class="meter-right">
+              <div class="meter-display">
+                <span class="meter-mode-lbl" id="meterModeLbl">MODE: OFF</span>
+                <span class="meter-val" id="meterReadVal">---</span>
+                <span class="meter-unit" id="meterReadUnit"></span>
+              </div>
+
+              <div class="card-label" style="margin-bottom:.4rem">Probe Connections</div>
+              <select class="connect-select" id="meterConnRed" onchange="updateMeterReading()">
+                <option value="none">🔴 Red Probe → (nothing)</option>
+                <option value="bat_pos">🔴 Red → Battery + (9V)</option>
+                <option value="res_a">🔴 Red → Resistor terminal A</option>
+                <option value="cap_pos">🔴 Red → Capacitor + terminal</option>
+                <option value="diode_a">🔴 Red → Diode Anode (+)</option>
+                <option value="diode_k">🔴 Red → Diode Cathode (−)</option>
+                <option value="led_a">🔴 Red → LED Anode (+)</option>
+                <option value="short">🔴 Red → Short Circuit wire</option>
+              </select>
+              <select class="connect-select" id="meterConnBlk" onchange="updateMeterReading()">
+                <option value="none">⚫ Black Probe → (nothing)</option>
+                <option value="bat_neg">⚫ Black → Battery − (GND)</option>
+                <option value="res_b">⚫ Black → Resistor terminal B</option>
+                <option value="cap_neg">⚫ Black → Capacitor − terminal</option>
+                <option value="diode_a">⚫ Black → Diode Anode (+)</option>
+                <option value="diode_k">⚫ Black → Diode Cathode (−)</option>
+                <option value="short">⚫ Black → Short Circuit wire</option>
+              </select>
+
+              <div class="card-label" style="margin:.6rem 0 .35rem">Red Probe Jack</div>
+              <div class="probe-jacks">
+                <div class="probe-jack jack-com"  id="pjCOM"  onclick="selectJack('com')">COM</div>
+                <div class="probe-jack jack-vohm selected" id="pjVOhm" onclick="selectJack('vohm')">V / Ω / Hz</div>
+                <div class="probe-jack jack-amp"  id="pjAmp"  onclick="selectJack('amp')">mA / A</div>
+              </div>
+
+              <div class="card-label" style="margin:.6rem 0 .35rem">Measurement Mode (Dial)</div>
+              <div class="dial-grid">
+                <div class="dial-btn d-off" id="dial-off"  onclick="setDial('off')">OFF</div>
+                <div class="dial-btn" id="dial-dcv"  onclick="setDial('dcv')">DC Voltage</div>
+                <div class="dial-btn" id="dial-acv"  onclick="setDial('acv')">AC Voltage</div>
+                <div class="dial-btn" id="dial-ohm"  onclick="setDial('ohm')">Resistance Ω</div>
+                <div class="dial-btn" id="dial-dca"  onclick="setDial('dca')">DC Current</div>
+                <div class="dial-btn" id="dial-diode" onclick="setDial('diode')">Diode Test ►|</div>
+                <div class="dial-btn" id="dial-cont" onclick="setDial('cont')">Continuity ))</div>
+                <div class="dial-btn" id="dial-hz"   onclick="setDial('hz')">Frequency Hz</div>
+                <div class="dial-btn" id="dial-cap"  onclick="setDial('cap')">Capacitance</div>
+              </div>
+
+              <div id="meterError" class="status-box err" style="display:none;margin-top:.75rem"></div>
+              <div id="meterInfo"  class="status-box info" style="margin-top:.75rem">
+                💡 Select a dial mode, connect red probe to V/Ω jack, then choose what to measure.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-card">
+          <div class="card-label">Knowledge — Digital Multimeter</div>
+          <div class="know-block">
+            <div class="know-title">What is a Multimeter?</div>
+            <p class="know-text">A multi-function electronic test instrument combining voltmeter, ammeter, and ohmmeter in a single device. Modern digital multimeters (DMM) display readings on an LCD and include auto-ranging for the correct measurement scale.</p>
+          </div>
+          <div class="know-block">
+            <div class="know-title">Terminal Connections</div>
+            <ul class="know-list">
+              <li><strong>COM:</strong> Always connect black probe here (common ground reference)</li>
+              <li><strong>V/Ω/Hz:</strong> Red probe for voltage, resistance, frequency, diode, capacitance</li>
+              <li><strong>mA/A:</strong> Red probe ONLY when measuring current — never for voltage!</li>
+            </ul>
+          </div>
+          <div class="know-block">
+            <div class="know-title">How to Measure</div>
+            <ul class="know-list">
+              <li><strong>Voltage:</strong> Connect in PARALLEL across the component being tested</li>
+              <li><strong>Current:</strong> Connect in SERIES — you must break the circuit</li>
+              <li><strong>Resistance:</strong> Measure with component de-energized (power OFF)</li>
+              <li><strong>Diode test:</strong> Forward shows ~0.6–0.7V; reverse shows "OL"</li>
+              <li><strong>Continuity:</strong> Beeps when resistance is below ~50Ω</li>
+            </ul>
+          </div>
+          <div class="status-box err">⚠ <strong>Never</strong> measure resistance/continuity on a live (powered) circuit — this will damage the meter!</div>
+          <div class="status-box warn" style="margin-top:.5rem">⚠ Never put red probe in <strong>mA/A jack</strong> then measure voltage — internal fuse will blow!</div>
+        </div>
+      </div>
+    </div><!-- /multimeter -->
+
+    <!-- ══════════════════════ BREADBOARD ══════════════════════ -->
+    <div id="tab-breadboard" class="tab-panel">
+      <div class="two-col">
+        <div class="glass-card">
+          <div class="card-label">Interactive Breadboard — Click holes to place components</div>
+          <div class="bb-toolbar" id="bbToolbar">
+            <div class="bb-tool active" id="tool-wire-red" onclick="selectBBTool('wire-red')">
+              <div class="bb-tool-dot" style="background:#dc2626"></div>Wire (+)
+            </div>
+            <div class="bb-tool" id="tool-wire-blk" onclick="selectBBTool('wire-blk')">
+              <div class="bb-tool-dot" style="background:#1a1a1a"></div>Wire (GND)
+            </div>
+            <div class="bb-tool" id="tool-wire-yel" onclick="selectBBTool('wire-yel')">
+              <div class="bb-tool-dot" style="background:#d97706"></div>Wire (Signal)
+            </div>
+            <div class="bb-tool" id="tool-wire-grn" onclick="selectBBTool('wire-grn')">
+              <div class="bb-tool-dot" style="background:#16a34a"></div>Wire (Data)
+            </div>
+            <div class="bb-tool" id="tool-led" onclick="selectBBTool('led')">
+              <div class="bb-tool-dot" style="background:#a855f7"></div>LED
+            </div>
+            <div class="bb-tool" id="tool-res" onclick="selectBBTool('res')">
+              <div class="bb-tool-dot" style="background:#b45309"></div>Resistor
+            </div>
+            <div class="bb-tool" id="tool-erase" onclick="selectBBTool('erase')">🗑 Erase</div>
+            <button class="bb-tool" onclick="loadDemoCircuit()" style="background:rgba(26,86,219,.1);color:var(--blue);border-color:rgba(26,86,219,.3)">⚡ Demo Circuit</button>
+            <button class="bb-tool" onclick="clearBoard()" style="color:var(--rose);border-color:rgba(244,63,94,.2)">✕ Clear</button>
+          </div>
+          <div class="breadboard" id="breadboard">
+            <div class="bb-numbers" id="bbNumbers"></div>
+            <div class="bb-row" id="bb-rail-top-plus"></div>
+            <div style="margin-left:26px"><div class="bb-rail-bar bb-rail-plus"></div></div>
+            <div class="bb-row" id="bb-rail-top-minus"></div>
+            <div class="bb-gap"></div>
+            <div id="bb-rows-top"></div>
+            <div style="margin-left:26px"><div class="bb-divider"><div class="bb-div-seg"></div></div></div>
+            <div id="bb-rows-bot"></div>
+            <div class="bb-gap"></div>
+            <div style="margin-left:26px"><div class="bb-rail-bar bb-rail-minus"></div></div>
+            <div class="bb-row" id="bb-rail-bot-minus"></div>
+            <div style="margin-left:26px"><div class="bb-rail-bar bb-rail-plus"></div></div>
+            <div class="bb-row" id="bb-rail-bot-plus"></div>
+          </div>
+          <div class="status-box info" id="bbInfoBox" style="margin-top:1rem;font-family:var(--font-mono);font-size:.72rem;line-height:1.7">
+            <strong>How Breadboard Works:</strong><br>
+            🔴 Red rails (+) — All holes connected horizontally (power line)<br>
+            🔵 Blue rails (−) — All holes connected horizontally (ground line)<br>
+            🟢 Rows A–E &amp; F–J — Holes in same row &amp; column are internally connected vertically<br>
+            📌 Click a hole with a selected tool to place a component or wire
+          </div>
+        </div>
+
+        <div class="glass-card">
+          <div class="card-label">Knowledge — Breadboard</div>
+          <div class="know-block">
+            <div class="know-title">What is a Breadboard?</div>
+            <p class="know-text">A solderless prototyping board with spring-clip contacts inside each hole. Component leads are inserted to make electrical contact without soldering — perfect for testing circuits before committing to a PCB design.</p>
+          </div>
+          <div class="know-block">
+            <div class="know-title">Internal Connection Layout</div>
+            <ul class="know-list">
+              <li>Power rails (top &amp; bottom) run <strong>horizontally</strong> the full board length</li>
+              <li>Component rows run <strong>vertically</strong> — 5 holes per group (A–E or F–J)</li>
+              <li>The center gap divides rows — IC chips straddle it for dual access</li>
+              <li>Maximum current per rail: typically 1–3A depending on board quality</li>
+            </ul>
+          </div>
+          <div class="know-block">
+            <div class="know-title">Pro Tips</div>
+            <ul class="know-list">
+              <li>Color-code wires: Red = VCC, Black = GND, others = signals</li>
+              <li>Keep wires short and close to the board surface for clarity</li>
+              <li>Place ICs straddling the center gap for full pin access</li>
+              <li>Add 100nF bypass capacitors near IC power pins to reduce noise</li>
+              <li>Use continuity mode on multimeter to verify connections</li>
+            </ul>
+          </div>
+          <div class="status-box info">
+            <strong>Demo Circuit:</strong> Battery (+9V) → 470Ω Resistor → LED Anode → LED Cathode → GND<br>
+            R = (9V − 2V) / 20mA = 350Ω → nearest E24 value: <strong>470Ω</strong>
+          </div>
+        </div>
+      </div>
+    </div><!-- /breadboard -->
+
+  </div><!-- /page -->
 
   <script defer src="js/nav-shared.js"></script>
   <script defer src="js/exp1_components.js"></script>
 
 </body>
-
 </html>
